@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Thymeleaf Page</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<header>
+    <h1 th:text="'Hello, ' + ${name} + '!'">Hello, World!</h1>
+</header>
+<main>
+    <section class="content">
+        <p>Welcome to the beautiful Thymeleaf page with custom styles and JavaScript effects.</p>
+        <button id="colorButton">Change Background Color</button>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 Your Company</p>
+</footer>
+<script src="/js/scripts.js"></script>
+</body>
+</html>

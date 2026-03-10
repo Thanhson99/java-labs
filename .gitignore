@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Java / JVM
+*.class
+*.log
+hs_err_pid*
+
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+
+# VS Code
+.vscode/
+
+# Environment files
+.env
+.env.*
