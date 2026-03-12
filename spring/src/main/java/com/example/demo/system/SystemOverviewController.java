@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 /**
- * Small diagnostics endpoint that explains the learning architecture.
+ * Exposes runtime diagnostics used by the public dashboard and the admin console.
  */
 @RestController
 @RequestMapping("/api/system")
@@ -74,6 +74,11 @@ public class SystemOverviewController {
         this.refreshTokenStore = refreshTokenStore;
     }
 
+    /**
+     * Returns protected runtime detail intended for authenticated admin users.
+     *
+     * @return deep runtime summary for administration and learning
+     */
     @GetMapping(value = "/overview", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> overview() {
         HikariDataSource primary = (HikariDataSource) primaryDataSource;
@@ -115,6 +120,11 @@ public class SystemOverviewController {
         );
     }
 
+    /**
+     * Returns a public-safe runtime summary for the landing page dashboard.
+     *
+     * @return compact runtime summary without protected operational detail
+     */
     @GetMapping(value = "/dashboard", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> dashboard() {
         HikariDataSource primary = (HikariDataSource) primaryDataSource;
@@ -165,6 +175,12 @@ public class SystemOverviewController {
         );
     }
 
+    /**
+     * Converts a JDBC URL into a short engine label used in the dashboard.
+     *
+     * @param jdbcUrl JDBC connection URL
+     * @return user-friendly database engine label
+     */
     private String jdbcEngine(String jdbcUrl) {
         if (jdbcUrl == null || jdbcUrl.isBlank()) {
             return "unknown";

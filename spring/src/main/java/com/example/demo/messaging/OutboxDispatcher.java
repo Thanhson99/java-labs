@@ -27,6 +27,9 @@ public class OutboxDispatcher {
         this.applicationMetrics = applicationMetrics;
     }
 
+    /**
+     * Polls the durable outbox and dispatches any rows that are ready to publish.
+     */
     @Scheduled(fixedDelayString = "${app.messaging.outbox.poll-delay-millis:3000}")
     public void dispatchPendingEvents() {
         List<OutboxEventRecord> batch;
@@ -41,6 +44,11 @@ public class OutboxDispatcher {
         }
     }
 
+    /**
+     * Dispatches one outbox row and transitions it to the next state.
+     *
+     * @param record persistent outbox row selected for dispatch
+     */
     public void dispatch(OutboxEventRecord record) {
         try {
             if ("USER_REGISTERED".equals(record.eventType())) {

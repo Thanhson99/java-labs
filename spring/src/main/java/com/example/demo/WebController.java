@@ -6,6 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Serves the public landing page and the lightweight admin console page.
+ */
 @Controller
 public class WebController {
 
@@ -19,13 +22,26 @@ public class WebController {
         this.serverPort = serverPort;
     }
 
+    /**
+     * Renders the public learning dashboard.
+     *
+     * @param name  name rendered in the hero section
+     * @param model MVC model populated for the Thymeleaf template
+     * @return the public home template name
+     */
     @GetMapping("/")
-    public String greet(@RequestParam(value = "name", defaultValue = "ThanhSon99") String name, Model model) {
+    public String homePage(@RequestParam(value = "name", defaultValue = "ThanhSon99") String name, Model model) {
         populateCommonModel(model);
         model.addAttribute("name", name);
         return "index";
     }
 
+    /**
+     * Renders the browser-based admin console shell.
+     *
+     * @param model MVC model populated for the Thymeleaf template
+     * @return the admin template name
+     */
     @GetMapping("/admin")
     public String adminConsole(Model model) {
         populateCommonModel(model);
@@ -33,6 +49,11 @@ public class WebController {
         return "admin";
     }
 
+    /**
+     * Adds shared runtime metadata used by multiple HTML pages.
+     *
+     * @param model MVC model to enrich
+     */
     private void populateCommonModel(Model model) {
         model.addAttribute("applicationName", applicationName);
         model.addAttribute("serverPort", serverPort);

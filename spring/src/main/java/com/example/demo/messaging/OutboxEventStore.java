@@ -32,6 +32,11 @@ public class OutboxEventStore {
         this.clock = clock;
     }
 
+    /**
+     * Persists a new registration event so transport publishing can happen after commit.
+     *
+     * @param event immutable domain event payload
+     */
     public void enqueueUserRegistered(UserRegisteredEvent event) {
         primaryJdbcTemplate.update("""
                         insert into outbox_events(
@@ -55,6 +60,12 @@ public class OutboxEventStore {
                 Timestamp.from(clock.instant()));
     }
 
+    /**
+     * Loads the next batch of dispatchable outbox rows.
+     *
+     * @param batchSize maximum number of rows to return
+     * @return pending outbox rows ordered by oldest first
+     */
     public List<OutboxEventRecord> fetchReadyBatch(int batchSize) {
         return primaryJdbcTemplate.query("""
                         select id, aggregate_type, aggregate_id, event_type, payload, status,
@@ -69,6 +80,11 @@ public class OutboxEventStore {
                 batchSize);
     }
 
+    /**
+     * Marks an outbox row as published after successful transport delivery.
+     *
+     * @param outboxId outbox row identifier
+     */
     public void markPublished(long outboxId) {
         primaryJdbcTemplate.update("""
                         update outbox_events
@@ -81,6 +97,13 @@ public class OutboxEventStore {
                 outboxId);
     }
 
+    /**
+     * Reschedules a row for another dispatch attempt.
+     *
+     * @param outboxId         outbox row identifier
+     * @param errorMessage     latest delivery error
+     * @param retryDelayMillis delay before the next attempt
+     */
     public void reschedule(long outboxId, String errorMessage, long retryDelayMillis) {
         primaryJdbcTemplate.update("""
                         update outbox_events
@@ -94,6 +117,12 @@ public class OutboxEventStore {
                 outboxId);
     }
 
+    /**
+     * Moves a row to the dead-letter state after attempts are exhausted.
+     *
+     * @param outboxId      outbox row identifier
+     * @param errorMessage  terminal delivery error
+     */
     public void markDeadLetter(long outboxId, String errorMessage) {
         primaryJdbcTemplate.update("""
                         update outbox_events
@@ -106,6 +135,9 @@ public class OutboxEventStore {
                 outboxId);
     }
 
+    /**
+     * @return number of rows currently waiting in the pending state
+     */
     public int countPending() {
         Integer count = primaryJdbcTemplate.queryForObject(
                 "select count(*) from outbox_events where status = 'PENDING'",
@@ -113,6 +145,9 @@ public class OutboxEventStore {
         return count == null ? 0 : count;
     }
 
+    /**
+     * @return number of rows currently in the dead-letter state
+     */
     public int countDeadLetter() {
         Integer count = primaryJdbcTemplate.queryForObject(
                 "select count(*) from outbox_events where status = 'DEAD_LETTER'",
@@ -120,6 +155,9 @@ public class OutboxEventStore {
         return count == null ? 0 : count;
     }
 
+    /**
+     * @return number of rows already published successfully
+     */
     public int countPublished() {
         Integer count = primaryJdbcTemplate.queryForObject(
                 "select count(*) from outbox_events where status = 'PUBLISHED'",
@@ -127,6 +165,12 @@ public class OutboxEventStore {
         return count == null ? 0 : count;
     }
 
+    /**
+     * Loads recent outbox rows for administration and debugging screens.
+     *
+     * @param limit maximum number of rows to return
+     * @return recent outbox rows ordered by newest first
+     */
     public List<OutboxEventRecord> listRecent(int limit) {
         return primaryJdbcTemplate.query("""
                         select id, aggregate_type, aggregate_id, event_type, payload, status,
@@ -139,6 +183,12 @@ public class OutboxEventStore {
                 limit);
     }
 
+    /**
+     * Requeues a dead-letter row so the dispatcher can try again.
+     *
+     * @param outboxId dead-letter row identifier
+     * @return {@code true} if the row was requeued, otherwise {@code false}
+     */
     public boolean replayDeadLetter(long outboxId) {
         int updated = primaryJdbcTemplate.update("""
                         update outbox_events
@@ -154,6 +204,12 @@ public class OutboxEventStore {
         return updated > 0;
     }
 
+    /**
+     * Deserializes a persisted registration payload back into its domain event.
+     *
+     * @param payload serialized JSON payload from the outbox table
+     * @return domain event instance
+     */
     public UserRegisteredEvent deserializeUserRegistered(String payload) {
         try {
             return objectMapper.readValue(payload, UserRegisteredEvent.class);
