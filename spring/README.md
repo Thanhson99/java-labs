@@ -8,9 +8,10 @@ This module now teaches a small but realistic backend shape.
 - Request validation with `@Valid`
 - Primary database with Spring Data JPA and H2
 - Flyway migrations for the primary database schema
-- Secondary analytics database with `JdbcTemplate` and H2
+- Secondary analytics database with `JdbcTemplate` and SQL-based schema initialization
 - Rate limiting with an in-memory fixed-window limiter
 - JWT authentication with role-based authorization
+- Refresh token rotation for issuing new access tokens
 - Transaction rollback demo on the primary database
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
@@ -20,6 +21,7 @@ This module now teaches a small but realistic backend shape.
 
 - `POST /api/users/register`
 - `POST /api/users/register-demo?failAfterAudit=true`
+- `POST /api/auth/refresh`
 - `GET /api/users/{userId}`
 - `GET /api/system/overview`
 - `GET /hello?name=Spring`
@@ -34,22 +36,31 @@ TOKEN=$(curl -s -X POST http://localhost:8089/api/auth/token \
   -d '{
     "username": "student",
     "password": "student123"
-  }' | jq -r '.accessToken')
+  }')
+
+ACCESS_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.accessToken')
+REFRESH_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.refreshToken')
 
 curl -X POST http://localhost:8089/api/users/register \
-  -H "Authorization: Bearer $TOKEN" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H 'X-Caller-Key: demo-key' \
   -d '{
     "userId": "u-1",
     "email": "alice@example.com",
     "region": "APAC"
   }'
+
+curl -X POST http://localhost:8089/api/auth/refresh \
+  -H 'Content-Type: application/json' \
+  -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
 ```
 
 Demo credentials:
 
 - `student` / `student123` -> role `USER`
 - `admin` / `admin123` -> roles `ADMIN`, `USER`
+
+Refresh tokens are opaque in-memory tokens intended for learning token rotation. They are single-use and expire based on `app.security.auth.refresh-expiration-seconds`.
 
 Protected endpoints:
 

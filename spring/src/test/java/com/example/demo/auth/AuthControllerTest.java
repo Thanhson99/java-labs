@@ -32,6 +32,39 @@ class AuthControllerTest {
                                 """))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
-                .andExpect(jsonPath("$.accessToken", not(isEmptyOrNullString())));
+                .andExpect(jsonPath("$.accessToken", not(isEmptyOrNullString())))
+                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())));
+    }
+
+    @Test
+    void refreshEndpointRotatesRefreshTokenAndReturnsNewAccessToken() throws Exception {
+        String refreshToken = mockMvc.perform(post("/api/auth/token")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "username": "student",
+                                  "password": "student123"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        String token = new com.fasterxml.jackson.databind.ObjectMapper()
+                .readTree(refreshToken)
+                .get("refreshToken")
+                .asText();
+
+        mockMvc.perform(post("/api/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "refreshToken": "%s"
+                                }
+                                """.formatted(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken", not(isEmptyOrNullString())))
+                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())));
     }
 }

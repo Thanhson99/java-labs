@@ -63,10 +63,11 @@ The Spring module now includes:
 - request validation
 - H2 primary database with Spring Data JPA
 - Flyway migrations for the primary database
-- secondary H2 analytics database with `JdbcTemplate`
+- secondary H2 analytics database with `JdbcTemplate` and SQL-based schema init
 - transaction rollback demo on the primary database
 - in-memory rate limiting
 - JWT authentication with role-based authorization
+- refresh token rotation
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
 - Testcontainers integration tests against real Postgres
@@ -124,6 +125,7 @@ Useful Spring endpoints:
 ```text
 GET  /hello?name=Spring
 POST /api/auth/token
+POST /api/auth/refresh
 POST /api/users/register
 POST /api/users/register-demo?failAfterAudit=true
 GET  /api/users/{userId}
@@ -149,13 +151,20 @@ Example:
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:8089/api/auth/token \
   -H 'Content-Type: application/json' \
-  -d '{"username":"student","password":"student123"}' | jq -r '.accessToken')
+  -d '{"username":"student","password":"student123"}')
+
+ACCESS_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.accessToken')
+REFRESH_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.refreshToken')
 
 curl -X POST http://localhost:8089/api/users/register \
-  -H "Authorization: Bearer $TOKEN" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H 'Content-Type: application/json' \
   -H 'X-Caller-Key: demo-key' \
   -d '{"userId":"u-1","email":"alice@example.com","region":"APAC"}'
+
+curl -X POST http://localhost:8089/api/auth/refresh \
+  -H 'Content-Type: application/json' \
+  -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
 ```
 
 Run the Postgres version:

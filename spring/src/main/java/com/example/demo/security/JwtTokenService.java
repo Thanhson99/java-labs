@@ -46,6 +46,7 @@ public class JwtTokenService {
 
     public Claims parseToken(String token) {
         return Jwts.parser()
+                .clock(() -> Date.from(clock.instant()))
                 .verifyWith(signingKey())
                 .build()
                 .parseSignedClaims(token)
