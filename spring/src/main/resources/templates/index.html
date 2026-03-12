@@ -4,29 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spring Learning Service</title>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-<header>
-    <h1 th:text="'Hello, ' + ${name} + '!'">Hello, Spring Learner!</h1>
-</header>
-<main>
-    <section class="content">
-        <p>This Spring Boot module now demonstrates REST APIs, validation, H2, rate limiting, service boundaries, and a secondary analytics database.</p>
-        <p>Try the endpoints below while the app is running:</p>
-        <ul>
-            <li><code>GET /hello?name=Spring</code></li>
-            <li><code>POST /api/users/register</code></li>
-            <li><code>GET /api/users/{userId}</code></li>
-            <li><code>GET /api/system/overview</code></li>
-            <li><code>GET /h2-console</code></li>
-        </ul>
-        <button id="colorButton">Change Background Color</button>
-    </section>
-</main>
-<footer>
-    <p>&copy; 2026 Java Labs</p>
-</footer>
+<div class="page-shell">
+    <header class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Java Labs / Spring Boot</p>
+            <h1 th:text="'Hello, ' + ${name} + '.'">Hello, Spring Learner.</h1>
+            <p class="lede">
+                This page is the frontend entry for the learning backend. It highlights the APIs,
+                security model, databases, and messaging flow you are studying from code.
+            </p>
+            <div class="hero-actions">
+                <a class="primary-action" href="/hello?name=Spring">Try Hello Endpoint</a>
+                <button id="copyCurlButton" type="button">Copy Login Curl</button>
+            </div>
+        </div>
+        <aside class="runtime-card">
+            <p class="runtime-label">Runtime Snapshot</p>
+            <dl>
+                <div>
+                    <dt>App</dt>
+                    <dd th:text="${applicationName}">spring</dd>
+                </div>
+                <div>
+                    <dt>Port</dt>
+                    <dd th:text="${serverPort}">8089</dd>
+                </div>
+                <div>
+                    <dt>Stack</dt>
+                    <dd>Spring MVC, Security, JPA, Flyway</dd>
+                </div>
+                <div>
+                    <dt>Messaging</dt>
+                    <dd>Kafka + RabbitMQ</dd>
+                </div>
+            </dl>
+        </aside>
+    </header>
+
+    <main class="content-grid">
+        <section class="panel">
+            <h2>What This Backend Teaches</h2>
+            <div class="card-grid">
+                <article class="info-card">
+                    <h3>Security</h3>
+                    <p>JWT access tokens, refresh rotation, logout, logout-all, reuse detection.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Data</h3>
+                    <p>Primary user database, analytics database, Flyway migrations, transaction rollback.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Messaging</h3>
+                    <p>Registration events published to Kafka and RabbitMQ with shared consumer processing.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Testing</h3>
+                    <p>Controller tests, service tests, Testcontainers for PostgreSQL integration.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Useful Endpoints</h2>
+            <ul class="endpoint-list">
+                <li><span>GET</span><code>/hello?name=Spring</code></li>
+                <li><span>POST</span><code>/api/auth/token</code></li>
+                <li><span>POST</span><code>/api/auth/refresh</code></li>
+                <li><span>POST</span><code>/api/auth/logout</code></li>
+                <li><span>POST</span><code>/api/auth/logout-all</code></li>
+                <li><span>POST</span><code>/api/users/register</code></li>
+                <li><span>GET</span><code>/api/system/overview</code></li>
+                <li><span>GET</span><code>/h2-console</code></li>
+            </ul>
+        </section>
+
+        <section class="panel">
+            <h2>Suggested Learning Path</h2>
+            <ol class="path-list">
+                <li>Open the root page and inspect the template, CSS, and script.</li>
+                <li>Read `RegistrationController` and `RegistrationService`.</li>
+                <li>Request a token, then call protected endpoints.</li>
+                <li>Read the auth and messaging tests after changing one behavior.</li>
+            </ol>
+        </section>
+
+        <section class="panel code-panel">
+            <div class="panel-heading">
+                <h2>Quick Login Curl</h2>
+                <button id="toggleSnippet" type="button">Hide Snippet</button>
+            </div>
+            <pre id="curlSnippet"><code>curl -s -X POST http://localhost:<span th:text="${serverPort}">8089</span>/api/auth/token \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"student","password":"student123"}'</code></pre>
+        </section>
+    </main>
+</div>
 <script src="/js/scripts.js"></script>
 </body>
 </html>

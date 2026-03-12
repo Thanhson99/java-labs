@@ -13,16 +13,23 @@ if ! command -v rg >/dev/null 2>&1; then
   exit 1
 fi
 
-PATTERN='(api[_-]?key|secret|token|password|passwd|private[_-]?key|BEGIN [A-Z ]*PRIVATE KEY|aws_access_key_id|aws_secret_access_key|x-api-key|authorization:[[:space:]]*bearer|jdbc:[^[:space:]]+://)'
+PATTERN='([A-Za-z0-9_]*(secret|token|password|passwd|api[_-]?key|private[_-]?key)[A-Za-z0-9_]*[[:space:]]*[:=][[:space:]]*["'"'"'"][^"'"'"''"'"'[:space:]]{8,}["'"'"'"]|BEGIN [A-Z ]*PRIVATE KEY|authorization:[[:space:]]*bearer[[:space:]]+[A-Za-z0-9._-]{10,}|jdbc:[^[:space:]]+://[^[:space:]]+:[^[:space:]]+@)'
 
 if git grep -nI -E "$PATTERN" -- \
   . \
   ':(exclude)README.md' \
+  ':(exclude).env.example' \
+  ':(exclude).env.*.example' \
+  ':(exclude)**/.env.example' \
+  ':(exclude)**/.env.*.example' \
+  ':(exclude)basic/mvnw' \
+  ':(exclude)basic/mvnw.cmd' \
   ':(exclude).gitignore' \
   ':(exclude)**/.gitignore' \
   ':(exclude)check-secrets.sh' \
   ':(exclude)spring/mvnw' \
-  ':(exclude)spring/mvnw.cmd'; then
+  ':(exclude)spring/mvnw.cmd' \
+  ':(exclude)**/src/test/**'; then
   echo
   echo "Potentially sensitive content found. Review before pushing."
   exit 1

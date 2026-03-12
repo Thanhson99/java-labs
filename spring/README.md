@@ -155,6 +155,12 @@ Default behavior:
 - RabbitMQ publishing is disabled
 - the app still runs and tests without local brokers
 
+Local configuration:
+
+- use [`.env.example`](/Users/hopee/Downloads/java-labs/.env.example) for repository-wide placeholders
+- use [`spring/.env.example`](/Users/hopee/Downloads/java-labs/spring/.env.example) when you want Docker Compose and Spring to share the same local settings
+- do not commit `.env` files with real credentials
+
 Enable both transports for local study:
 
 ```bash

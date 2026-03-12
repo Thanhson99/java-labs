@@ -1,16 +1,35 @@
-// scripts.js
-document.addEventListener('DOMContentLoaded', function() {
-    const button = document.getElementById('colorButton');
-    button.addEventListener('click', function() {
-        document.body.style.backgroundColor = getRandomColor();
-    });
-});
+document.addEventListener("DOMContentLoaded", () => {
+    const copyButton = document.getElementById("copyCurlButton");
+    const toggleButton = document.getElementById("toggleSnippet");
+    const snippet = document.getElementById("curlSnippet");
 
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+    if (copyButton && snippet) {
+        copyButton.addEventListener("click", async () => {
+            const text = snippet.innerText.trim();
+            try {
+                await navigator.clipboard.writeText(text);
+                copyButton.textContent = "Copied";
+                copyButton.classList.add("copied");
+                window.setTimeout(() => {
+                    copyButton.textContent = "Copy Login Curl";
+                    copyButton.classList.remove("copied");
+                }, 1200);
+            } catch (error) {
+                copyButton.textContent = "Clipboard Blocked";
+            }
+        });
     }
-    return color;
-}
+
+    if (toggleButton && snippet) {
+        toggleButton.addEventListener("click", () => {
+            const hidden = snippet.hasAttribute("hidden");
+            if (hidden) {
+                snippet.removeAttribute("hidden");
+                toggleButton.textContent = "Hide Snippet";
+            } else {
+                snippet.setAttribute("hidden", "hidden");
+                toggleButton.textContent = "Show Snippet";
+            }
+        });
+    }
+});

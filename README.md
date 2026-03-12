@@ -195,6 +195,15 @@ docker compose up -d
 SPRING_PROFILES_ACTIVE=postgres ./mvnw spring-boot:run
 ```
 
+For local secrets and runtime settings, start from the example files:
+
+```bash
+cp .env.example .env
+cp spring/.env.example spring/.env
+```
+
+Then replace placeholder values such as `change-me` and `replace-with-32-plus-char-secret`.
+
 Enable both messaging transports while you study event-driven flows:
 
 ```bash
@@ -223,6 +232,7 @@ cd spring
 Before pushing:
 
 - keep real secrets in local-only files such as `.env`, `application-local.properties`, or `application-secret.properties`
+- start from `.env.example` or `spring/.env.example`, then change the placeholder values locally
 - never hardcode API keys, passwords, tokens, private keys, or JDBC credentials in source files
 - use the root `.gitignore` to keep local config and certificate files out of Git
 - run the secret scan from the repository root:
