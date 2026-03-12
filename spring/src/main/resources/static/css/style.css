@@ -224,6 +224,18 @@ h3 {
     flex-wrap: wrap;
 }
 
+.inline-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.refresh-note {
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
 .hero-actions {
     margin-top: 26px;
 }

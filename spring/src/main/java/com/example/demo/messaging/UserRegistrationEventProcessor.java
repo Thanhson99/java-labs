@@ -30,6 +30,9 @@ public class UserRegistrationEventProcessor {
      * @param event immutable event payload
      */
     public void process(String transport, UserRegisteredEvent event) {
+        if (event.userId().startsWith("poison-")) {
+            throw new IllegalStateException("simulated consumer failure for " + event.userId());
+        }
         logger.info("Consumed {} registration event for user {}", transport, event.userId());
         analyticsEventStore.record(
                 "USER_REGISTERED_CONSUMED_" + transport.toUpperCase(),

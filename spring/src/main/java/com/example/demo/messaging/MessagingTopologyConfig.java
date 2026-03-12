@@ -4,6 +4,7 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,6 +31,10 @@ public class MessagingTopologyConfig {
                 TopicBuilder.name(properties.kafka().topic())
                         .partitions(1)
                         .replicas(1)
+                        .build(),
+                TopicBuilder.name(properties.kafka().deadLetterTopic())
+                        .partitions(1)
+                        .replicas(1)
                         .build()
         );
     }
@@ -43,7 +48,10 @@ public class MessagingTopologyConfig {
     @Bean
     @ConditionalOnProperty(prefix = "app.messaging.rabbitmq", name = "enabled", havingValue = "true")
     Queue registrationQueue(RegistrationMessagingProperties properties) {
-        return new Queue(properties.rabbitmq().queue(), true);
+        return QueueBuilder.durable(properties.rabbitmq().queue())
+                .deadLetterExchange(properties.rabbitmq().deadLetterExchange())
+                .deadLetterRoutingKey(properties.rabbitmq().deadLetterRoutingKey())
+                .build();
     }
 
     @Bean
@@ -55,5 +63,28 @@ public class MessagingTopologyConfig {
         return BindingBuilder.bind(registrationQueue)
                 .to(registrationExchange)
                 .with(properties.rabbitmq().routingKey());
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "app.messaging.rabbitmq", name = "enabled", havingValue = "true")
+    TopicExchange registrationDeadLetterExchange(RegistrationMessagingProperties properties) {
+        return new TopicExchange(properties.rabbitmq().deadLetterExchange(), true, false);
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "app.messaging.rabbitmq", name = "enabled", havingValue = "true")
+    Queue registrationDeadLetterQueue(RegistrationMessagingProperties properties) {
+        return QueueBuilder.durable(properties.rabbitmq().deadLetterQueue()).build();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "app.messaging.rabbitmq", name = "enabled", havingValue = "true")
+    Binding registrationDeadLetterBinding(
+            Queue registrationDeadLetterQueue,
+            TopicExchange registrationDeadLetterExchange,
+            RegistrationMessagingProperties properties) {
+        return BindingBuilder.bind(registrationDeadLetterQueue)
+                .to(registrationDeadLetterExchange)
+                .with(properties.rabbitmq().deadLetterRoutingKey());
     }
 }

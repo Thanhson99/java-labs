@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.analytics.AnalyticsDataSourceProperties;
+import com.example.demo.messaging.OutboxProperties;
 import com.example.demo.messaging.RegistrationMessagingProperties;
 import com.example.demo.ratelimit.RegistrationRateLimitProperties;
 import com.zaxxer.hikari.HikariDataSource;
@@ -24,7 +25,8 @@ import java.time.Clock;
 @EnableConfigurationProperties({
         AnalyticsDataSourceProperties.class,
         RegistrationRateLimitProperties.class,
-        RegistrationMessagingProperties.class
+        RegistrationMessagingProperties.class,
+        OutboxProperties.class
 })
 public class AppBeansConfig {
 

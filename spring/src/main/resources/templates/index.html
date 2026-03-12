@@ -120,6 +120,11 @@
                     <span id="dashboardRegistrationHint">Success, failure, rate limit, and timing.</span>
                 </article>
                 <article class="metric-card">
+                    <p class="metric-label">Outbox</p>
+                    <strong id="dashboardOutbox">Loading...</strong>
+                    <span id="dashboardOutboxHint">Pending, published, and dead-letter counts.</span>
+                </article>
+                <article class="metric-card">
                     <p class="metric-label">Admin Detail</p>
                     <strong id="dashboardAdminState">Login as admin</strong>
                     <span id="dashboardAdminHint">Then call <code>/api/system/overview</code> from the playground.</span>
@@ -244,7 +249,10 @@
         <section class="panel code-panel">
             <div class="panel-heading">
                 <h2>Quick Login Curl</h2>
-                <button id="toggleSnippet" type="button">Hide Snippet</button>
+                <div class="inline-actions">
+                    <span class="refresh-note" id="dashboardLastRefresh">Live refresh pending...</span>
+                    <button id="toggleSnippet" type="button">Hide Snippet</button>
+                </div>
             </div>
             <pre id="curlSnippet"><code>curl -s -X POST http://localhost:<span th:text="${serverPort}">8089</span>/api/auth/token \
   -H 'Content-Type: application/json' \

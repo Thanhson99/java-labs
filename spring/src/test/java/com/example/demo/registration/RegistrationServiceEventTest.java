@@ -2,8 +2,8 @@ package com.example.demo.registration;
 
 import com.example.demo.analytics.AnalyticsEventStore;
 import com.example.demo.audit.RegistrationAuditStore;
+import com.example.demo.messaging.OutboxEventStore;
 import com.example.demo.messaging.UserRegisteredEvent;
-import com.example.demo.messaging.UserRegistrationEventPublisher;
 import com.example.demo.notification.NotificationGateway;
 import com.example.demo.observability.ApplicationMetrics;
 import com.example.demo.profile.Region;
@@ -31,7 +31,7 @@ class RegistrationServiceEventTest {
         AnalyticsEventStore analyticsEventStore = mock(AnalyticsEventStore.class);
         RegistrationAuditStore registrationAuditStore = mock(RegistrationAuditStore.class);
         FixedWindowRateLimiter rateLimiter = mock(FixedWindowRateLimiter.class);
-        UserRegistrationEventPublisher eventPublisher = mock(UserRegistrationEventPublisher.class);
+        OutboxEventStore outboxEventStore = mock(OutboxEventStore.class);
         Clock clock = Clock.fixed(Instant.parse("2026-03-12T00:00:00Z"), ZoneOffset.UTC);
         ApplicationMetrics applicationMetrics = new ApplicationMetrics(new SimpleMeterRegistry());
         RegistrationService registrationService = new RegistrationService(
@@ -40,7 +40,7 @@ class RegistrationServiceEventTest {
                 analyticsEventStore,
                 registrationAuditStore,
                 rateLimiter,
-                eventPublisher,
+                outboxEventStore,
                 clock,
                 applicationMetrics
         );
@@ -52,7 +52,7 @@ class RegistrationServiceEventTest {
 
         registrationService.register("test-client", request);
 
-        verify(eventPublisher).publish(new UserRegisteredEvent(
+        verify(outboxEventStore).enqueueUserRegistered(new UserRegisteredEvent(
                 "u-40",
                 "u40@example.com",
                 "APAC",

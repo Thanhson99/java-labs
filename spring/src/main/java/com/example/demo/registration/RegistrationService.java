@@ -2,6 +2,7 @@ package com.example.demo.registration;
 
 import com.example.demo.analytics.AnalyticsEventStore;
 import com.example.demo.messaging.UserRegisteredEvent;
+import com.example.demo.messaging.OutboxEventStore;
 import com.example.demo.messaging.UserRegistrationEventPublisher;
 import com.example.demo.observability.ApplicationMetrics;
 import com.example.demo.audit.RegistrationAuditStore;
@@ -27,7 +28,7 @@ public class RegistrationService {
     private final AnalyticsEventStore analyticsEventStore;
     private final RegistrationAuditStore registrationAuditStore;
     private final FixedWindowRateLimiter rateLimiter;
-    private final UserRegistrationEventPublisher eventPublisher;
+    private final OutboxEventStore outboxEventStore;
     private final Clock clock;
     private final ApplicationMetrics applicationMetrics;
 
@@ -37,7 +38,7 @@ public class RegistrationService {
             AnalyticsEventStore analyticsEventStore,
             RegistrationAuditStore registrationAuditStore,
             FixedWindowRateLimiter rateLimiter,
-            UserRegistrationEventPublisher eventPublisher,
+            OutboxEventStore outboxEventStore,
             Clock clock,
             ApplicationMetrics applicationMetrics) {
         this.userProfileRepository = userProfileRepository;
@@ -45,7 +46,7 @@ public class RegistrationService {
         this.analyticsEventStore = analyticsEventStore;
         this.registrationAuditStore = registrationAuditStore;
         this.rateLimiter = rateLimiter;
-        this.eventPublisher = eventPublisher;
+        this.outboxEventStore = outboxEventStore;
         this.clock = clock;
         this.applicationMetrics = applicationMetrics;
     }
@@ -95,7 +96,7 @@ public class RegistrationService {
 
             analyticsEventStore.record("USER_REGISTERED", saved.getUserId(), saved.getRegion().name());
             notificationGateway.sendWelcome(saved);
-            eventPublisher.publish(new UserRegisteredEvent(
+            outboxEventStore.enqueueUserRegistered(new UserRegisteredEvent(
                     saved.getUserId(),
                     saved.getEmail(),
                     saved.getRegion().name(),

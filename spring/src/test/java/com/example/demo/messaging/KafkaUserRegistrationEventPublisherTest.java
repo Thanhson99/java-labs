@@ -15,8 +15,8 @@ class KafkaUserRegistrationEventPublisherTest {
         @SuppressWarnings("unchecked")
         KafkaTemplate<String, UserRegisteredEvent> kafkaTemplate = mock(KafkaTemplate.class);
         RegistrationMessagingProperties properties = new RegistrationMessagingProperties(
-                new RegistrationMessagingProperties.Kafka(true, "user-registered.v1"),
-                new RegistrationMessagingProperties.Rabbitmq(false, "ignored", "ignored", "ignored")
+                new RegistrationMessagingProperties.Kafka(true, "user-registered.v1", "user-registered.v1.dlt"),
+                new RegistrationMessagingProperties.Rabbitmq(false, "ignored", "ignored", "ignored", "ignored", "ignored", "ignored")
         );
         KafkaUserRegistrationEventPublisher publisher = new KafkaUserRegistrationEventPublisher(kafkaTemplate, properties);
         UserRegisteredEvent event = new UserRegisteredEvent(

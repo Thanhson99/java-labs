@@ -14,11 +14,14 @@ class RabbitUserRegistrationEventPublisherTest {
     void publishSendsEventToConfiguredExchangeAndRoutingKey() {
         RabbitTemplate rabbitTemplate = mock(RabbitTemplate.class);
         RegistrationMessagingProperties properties = new RegistrationMessagingProperties(
-                new RegistrationMessagingProperties.Kafka(false, "ignored"),
+                new RegistrationMessagingProperties.Kafka(false, "ignored", "ignored"),
                 new RegistrationMessagingProperties.Rabbitmq(true,
                         "user.registration.exchange",
                         "user.registration.queue",
-                        "user.registered")
+                        "user.registered",
+                        "user.registration.dlx",
+                        "user.registration.dlq",
+                        "user.registered.dead")
         );
         RabbitUserRegistrationEventPublisher publisher = new RabbitUserRegistrationEventPublisher(rabbitTemplate, properties);
         UserRegisteredEvent event = new UserRegisteredEvent(

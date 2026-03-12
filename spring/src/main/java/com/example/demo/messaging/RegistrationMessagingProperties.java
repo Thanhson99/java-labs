@@ -13,12 +13,18 @@ public record RegistrationMessagingProperties(
     /**
      * Kafka-specific learning configuration.
      */
-    public record Kafka(boolean enabled, String topic) {
+    public record Kafka(boolean enabled, String topic, String deadLetterTopic) {
     }
 
     /**
      * RabbitMQ-specific learning configuration.
      */
-    public record Rabbitmq(boolean enabled, String exchange, String queue, String routingKey) {
+    public record Rabbitmq(boolean enabled,
+                           String exchange,
+                           String queue,
+                           String routingKey,
+                           String deadLetterExchange,
+                           String deadLetterQueue,
+                           String deadLetterRoutingKey) {
     }
 }

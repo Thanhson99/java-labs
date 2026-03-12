@@ -18,6 +18,8 @@ This module now teaches a small but realistic backend shape.
 - Transaction rollback demo on the primary database
 - Event-driven registration with both Kafka and RabbitMQ publishers
 - Kafka and RabbitMQ consumers with a shared event processor
+- Outbox pattern for durable event publication after DB commit
+- Kafka dead-letter topic and RabbitMQ dead-letter queue/retry flow
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
 - Actuator health and metrics endpoints
@@ -206,6 +208,7 @@ It gives you:
 
 - a quick summary of the backend architecture
 - public runtime and observability cards
+- live auto-refresh every 10 seconds
 - important endpoints
 - a copyable login curl
 - a browser-side playground for:
@@ -228,3 +231,22 @@ Business metrics currently track:
 - logout and logout-all actions
 - registration success, failure, rate limiting, and average duration
 - published registration events by transport
+
+## Outbox And Dead-Letter Flow
+
+The registration service now writes `USER_REGISTERED` into a primary-database outbox table inside the same transaction as the user write.
+
+Then a scheduled dispatcher:
+
+- reads pending outbox rows
+- publishes them to enabled transports
+- marks rows as `PUBLISHED`
+- retries failed rows
+- moves exhausted rows to `DEAD_LETTER`
+
+Listener-side failure handling now teaches two different broker styles:
+
+- Kafka retries and then republishes to `user-registered.v1.dlt`
+- RabbitMQ retries and then republishes to `user.registration.dlq`
+
+To simulate a consumer-side poison message during study, publish a registration event whose `userId` starts with `poison-`.

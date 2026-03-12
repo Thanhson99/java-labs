@@ -4,6 +4,7 @@ import com.example.demo.analytics.AnalyticsEventStore;
 import com.example.demo.analytics.AnalyticsDataSourceProperties;
 import com.example.demo.messaging.RegistrationMessagingProperties;
 import com.example.demo.messaging.EventConsumptionTracker;
+import com.example.demo.messaging.OutboxEventStore;
 import com.example.demo.messaging.UserRegistrationEventPublisher;
 import com.example.demo.observability.ApplicationMetrics;
 import com.example.demo.ratelimit.FixedWindowRateLimiter;
@@ -38,6 +39,7 @@ public class SystemOverviewController {
     private final EventConsumptionTracker eventConsumptionTracker;
     private final String applicationName;
     private final ApplicationMetrics applicationMetrics;
+    private final OutboxEventStore outboxEventStore;
 
     public SystemOverviewController(
             @Qualifier("dataSource") DataSource primaryDataSource,
@@ -51,7 +53,8 @@ public class SystemOverviewController {
             EventConsumptionTracker eventConsumptionTracker,
             @Value("${spring.datasource.hikari.maximum-pool-size:10}") int configuredPrimaryMaxPoolSize,
             @Value("${spring.application.name:spring}") String applicationName,
-            ApplicationMetrics applicationMetrics) {
+            ApplicationMetrics applicationMetrics,
+            OutboxEventStore outboxEventStore) {
         this.primaryDataSource = primaryDataSource;
         this.analyticsDataSource = analyticsDataSource;
         this.rateLimitProperties = rateLimitProperties;
@@ -64,6 +67,7 @@ public class SystemOverviewController {
         this.configuredPrimaryMaxPoolSize = configuredPrimaryMaxPoolSize;
         this.applicationName = applicationName;
         this.applicationMetrics = applicationMetrics;
+        this.outboxEventStore = outboxEventStore;
     }
 
     @GetMapping(value = "/overview", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,16 +91,18 @@ public class SystemOverviewController {
                         "windowMillis", rateLimitProperties.windowMillis(),
                         "demoRemainingForDefaultCaller", rateLimiter.remainingRequests("demo-caller")
                 ),
-                "messaging", Map.of(
-                        "kafkaEnabled", messagingProperties.kafka().enabled(),
-                        "rabbitmqEnabled", messagingProperties.rabbitmq().enabled(),
-                        "kafkaTopic", messagingProperties.kafka().topic(),
-                        "rabbitmqExchange", messagingProperties.rabbitmq().exchange(),
-                        "rabbitmqQueue", messagingProperties.rabbitmq().queue(),
-                        "rabbitmqRoutingKey", messagingProperties.rabbitmq().routingKey(),
-                        "enabledTransports", eventPublisher.enabledTransports(),
-                        "consumedCounts", eventConsumptionTracker.consumedCounts(),
-                        "lastConsumedUserIds", eventConsumptionTracker.lastConsumedUserIds()
+                "messaging", Map.ofEntries(
+                        Map.entry("kafkaEnabled", messagingProperties.kafka().enabled()),
+                        Map.entry("rabbitmqEnabled", messagingProperties.rabbitmq().enabled()),
+                        Map.entry("kafkaTopic", messagingProperties.kafka().topic()),
+                        Map.entry("kafkaDltTopic", messagingProperties.kafka().deadLetterTopic()),
+                        Map.entry("rabbitmqExchange", messagingProperties.rabbitmq().exchange()),
+                        Map.entry("rabbitmqQueue", messagingProperties.rabbitmq().queue()),
+                        Map.entry("rabbitmqDeadLetterQueue", messagingProperties.rabbitmq().deadLetterQueue()),
+                        Map.entry("rabbitmqRoutingKey", messagingProperties.rabbitmq().routingKey()),
+                        Map.entry("enabledTransports", eventPublisher.enabledTransports()),
+                        Map.entry("consumedCounts", eventConsumptionTracker.consumedCounts()),
+                        Map.entry("lastConsumedUserIds", eventConsumptionTracker.lastConsumedUserIds())
                 ),
                 "architecture", "single Spring Boot app with primary user DB, secondary analytics DB, and service boundaries that mirror a microservice design"
         );
@@ -129,7 +135,16 @@ public class SystemOverviewController {
                 "messaging", Map.of(
                         "kafkaEnabled", messagingProperties.kafka().enabled(),
                         "rabbitmqEnabled", messagingProperties.rabbitmq().enabled(),
-                        "activeTransports", eventPublisher.enabledTransports()
+                        "activeTransports", eventPublisher.enabledTransports(),
+                        "deadLetterPaths", java.util.List.of(
+                                "Kafka -> " + messagingProperties.kafka().deadLetterTopic(),
+                                "RabbitMQ -> " + messagingProperties.rabbitmq().deadLetterQueue()
+                        )
+                ),
+                "outbox", Map.of(
+                        "pending", outboxEventStore.countPending(),
+                        "published", outboxEventStore.countPublished(),
+                        "deadLetter", outboxEventStore.countDeadLetter()
                 ),
                 "observability", Map.of(
                         "healthEndpoint", "/actuator/health",

@@ -20,7 +20,7 @@ public class WebController {
     }
 
     @GetMapping("/")
-    public String greet(@RequestParam(value = "name", defaultValue = "test") String name, Model model) {
+    public String greet(@RequestParam(value = "name", defaultValue = "ThanhSon99") String name, Model model) {
         model.addAttribute("name", name);
         model.addAttribute("applicationName", applicationName);
         model.addAttribute("serverPort", serverPort);

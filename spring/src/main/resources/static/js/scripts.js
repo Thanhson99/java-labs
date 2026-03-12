@@ -23,8 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const dashboardAuthHint = document.getElementById("dashboardAuthHint");
     const dashboardRegistrationMetrics = document.getElementById("dashboardRegistrationMetrics");
     const dashboardRegistrationHint = document.getElementById("dashboardRegistrationHint");
+    const dashboardOutbox = document.getElementById("dashboardOutbox");
+    const dashboardOutboxHint = document.getElementById("dashboardOutboxHint");
     const dashboardAdminState = document.getElementById("dashboardAdminState");
     const dashboardAdminHint = document.getElementById("dashboardAdminHint");
+    const dashboardLastRefresh = document.getElementById("dashboardLastRefresh");
     let accessToken = "";
 
     if (copyButton && snippet) {
@@ -83,6 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (element) {
             element.textContent = value;
         }
+    };
+
+    const markRefreshTime = () => {
+        const now = new Date();
+        setText(dashboardLastRefresh, `Last refresh: ${now.toLocaleTimeString()}`);
     };
 
     const loadDashboard = async () => {
@@ -153,6 +161,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 dashboardRegistrationHint,
                 `failure: ${registration.failure ?? 0} | avg: ${Number(registration.averageDurationMs ?? 0).toFixed(2)} ms`
             );
+
+            const outbox = data.outbox || {};
+            setText(
+                dashboardOutbox,
+                `${outbox.pending ?? 0} pending | ${outbox.published ?? 0} published`
+            );
+            setText(
+                dashboardOutboxHint,
+                `dead-letter: ${outbox.deadLetter ?? 0} | ${data.messaging?.deadLetterPaths?.join(" | ") || "No DLQ paths"}`
+            );
+            markRefreshTime();
         } catch (error) {
             setText(dashboardAppName, "Dashboard unavailable");
             setText(dashboardArchitecture, String(error));
@@ -177,6 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadDashboard();
     loadHealth();
+    window.setInterval(() => {
+        loadDashboard();
+        loadHealth();
+    }, 10000);
 
     if (helloForm) {
         helloForm.addEventListener("submit", async (event) => {

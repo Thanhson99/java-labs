@@ -24,6 +24,9 @@ public class ApplicationMetrics {
     private final Counter registrationSuccessCounter;
     private final Counter registrationRateLimitedCounter;
     private final Counter registrationFailureCounter;
+    private final Counter outboxPublishedCounter;
+    private final Counter outboxRetryCounter;
+    private final Counter outboxDeadLetterCounter;
     private final Timer registrationTimer;
     private final ConcurrentHashMap<String, Counter> publishedEventCounters = new ConcurrentHashMap<>();
 
@@ -36,6 +39,9 @@ public class ApplicationMetrics {
         this.registrationSuccessCounter = meterRegistry.counter("app.registration.success");
         this.registrationRateLimitedCounter = meterRegistry.counter("app.registration.rate_limited");
         this.registrationFailureCounter = meterRegistry.counter("app.registration.failure");
+        this.outboxPublishedCounter = meterRegistry.counter("app.outbox.published");
+        this.outboxRetryCounter = meterRegistry.counter("app.outbox.retry");
+        this.outboxDeadLetterCounter = meterRegistry.counter("app.outbox.dead_letter");
         this.registrationTimer = meterRegistry.timer("app.registration.duration");
     }
 
@@ -71,6 +77,18 @@ public class ApplicationMetrics {
         registrationTimer.record(duration);
     }
 
+    public void recordOutboxPublished() {
+        outboxPublishedCounter.increment();
+    }
+
+    public void recordOutboxRetry() {
+        outboxRetryCounter.increment();
+    }
+
+    public void recordOutboxDeadLetter() {
+        outboxDeadLetterCounter.increment();
+    }
+
     public void recordPublishedEvent(String transport) {
         publishedEventCounters.computeIfAbsent(
                         transport,
@@ -98,6 +116,11 @@ public class ApplicationMetrics {
                         "averageDurationMs", registrationTimer.count() == 0
                                 ? 0.0
                                 : registrationTimer.mean(java.util.concurrent.TimeUnit.MILLISECONDS)
+                ),
+                "outbox", Map.of(
+                        "published", outboxPublishedCounter.count(),
+                        "retry", outboxRetryCounter.count(),
+                        "deadLetter", outboxDeadLetterCounter.count()
                 ),
                 "messaging", Map.of(
                         "publishedByTransport", publishedByTransport
