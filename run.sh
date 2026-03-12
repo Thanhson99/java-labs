@@ -25,6 +25,7 @@ usage() {
 Usage:
   ./run.sh basic
   ./run.sh spring
+  ./run.sh notification-service
 
 Optional:
   JAVA_VERSION=17 ./run.sh spring
@@ -154,9 +155,31 @@ run_spring() {
   ./mvnw spring-boot:run
 }
 
+run_notification_service() {
+  local selected_port
+
+  use_java_version "$DEFAULT_JAVA_VERSION"
+  selected_port="$(find_available_port "${PORT:-8099}")"
+  export PORT="$selected_port"
+
+  cd "$ROOT_DIR/notification-service"
+  echo "Starting notification-service on http://localhost:$PORT/"
+  wait_and_open "http://localhost:$PORT/api/notifications/healthz" &
+  local helper_pid=$!
+
+  cleanup() {
+    kill "$helper_pid" >/dev/null 2>&1 || true
+  }
+
+  trap cleanup EXIT INT TERM
+  chmod +x ./mvnw
+  ./mvnw spring-boot:run
+}
+
 main() {
   load_env_file "$ROOT_DIR/.env"
   load_env_file "$ROOT_DIR/spring/.env"
+  load_env_file "$ROOT_DIR/notification-service/.env"
 
   if [[ $# -ne 1 ]]; then
     usage
@@ -169,6 +192,9 @@ main() {
       ;;
     spring)
       run_spring
+      ;;
+    notification-service)
+      run_notification_service
       ;;
     *)
       usage

@@ -109,6 +109,13 @@ Protected endpoints:
 
 This is still one deployable Spring Boot app, but the boundaries intentionally mirror what would often become multiple services in a larger system.
 
+The repository now also contains a separate [`notification-service`](/Users/hopee/Downloads/java-labs/notification-service/README.md) module so you can compare:
+
+- in-process consumers inside `spring/`
+- a standalone consumer service in `notification-service/`
+
+The standalone consumer keeps Kafka and RabbitMQ listeners disabled by default. Enable them through `notification-service/.env` when you want to study cross-service event flow.
+
 ## Running With Real Postgres
 
 Start the local infrastructure:

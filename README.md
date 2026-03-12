@@ -13,7 +13,8 @@ This repository is my practice workspace for learning **Java core** and **Spring
 ```text
 java-labs/
 ├── basic/    # Core Java practice
-└── spring/   # Spring Boot practice project
+├── spring/   # Main Spring Boot practice project
+└── notification-service/   # Extracted event consumer service
 ```
 
 ## Getting Started
@@ -232,6 +233,49 @@ Run Spring tests:
 ```bash
 cd spring
 ./mvnw test
+```
+
+### 3. Notification service module
+
+This module shows what happens after you split an event consumer into its own Spring Boot service.
+
+Run it:
+
+```bash
+cd notification-service
+./mvnw spring-boot:run
+```
+
+Or from the repository root:
+
+```bash
+./run.sh notification-service
+```
+
+The notification service script also loads:
+
+```text
+.env
+notification-service/.env
+```
+
+Default behavior:
+
+- listeners stay off until you explicitly enable them
+- this keeps startup and tests clean when Kafka or RabbitMQ are not running
+
+Enable both transports:
+
+```bash
+cp notification-service/.env.example notification-service/.env
+./run.sh notification-service
+```
+
+Useful endpoints:
+
+```text
+GET /api/notifications/healthz
+GET /api/notifications/inbox
 ```
 
 ## Git Safety

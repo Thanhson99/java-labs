@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("basic", "spring")]
+    [ValidateSet("basic", "spring", "notification-service")]
     [string]$Mode
 )
 
@@ -199,10 +199,50 @@ function Run-Spring {
     }
 }
 
+function Run-NotificationService {
+    Use-JavaVersion -DesiredMajor $DesiredJavaVersion
+    $SelectedPort = Get-FreePort -StartPort (if ($env:PORT) { [int]$env:PORT } else { 8099 })
+    $env:PORT = [string]$SelectedPort
+
+    Push-Location (Join-Path $RootDir "notification-service")
+    try {
+        Write-Host "Starting notification-service on http://localhost:$SelectedPort/"
+
+        $job = Start-Job -ArgumentList $SelectedPort -ScriptBlock {
+            param([int]$PortNumber)
+            $url = "http://localhost:$PortNumber/api/notifications/healthz"
+
+            for ($i = 0; $i -lt 60; $i++) {
+                try {
+                    Invoke-WebRequest -Uri $url -UseBasicParsing | Out-Null
+                    Start-Process ("http://localhost:$PortNumber/")
+                    return
+                }
+                catch {
+                    Start-Sleep -Seconds 1
+                }
+            }
+        }
+
+        try {
+            & .\mvnw.cmd spring-boot:run
+        }
+        finally {
+            Stop-Job $job -ErrorAction SilentlyContinue | Out-Null
+            Remove-Job $job -Force -ErrorAction SilentlyContinue | Out-Null
+        }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
 Import-EnvFile -Path (Join-Path $RootDir ".env")
 Import-EnvFile -Path (Join-Path $RootDir "spring\.env")
+Import-EnvFile -Path (Join-Path $RootDir "notification-service\.env")
 
 switch ($Mode) {
     "basic" { Run-Basic }
     "spring" { Run-Spring }
+    "notification-service" { Run-NotificationService }
 }
