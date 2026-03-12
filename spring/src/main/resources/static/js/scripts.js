@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("loginForm");
     const loadOverviewButton = document.getElementById("loadOverviewButton");
     const apiOutput = document.getElementById("apiOutput");
+    const tokenState = document.getElementById("tokenState");
     let accessToken = "";
 
     if (copyButton && snippet) {
@@ -49,6 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
         apiOutput.textContent = `${title}\n\n${body}`;
     };
 
+    const updateTokenState = (message, isReady) => {
+        if (!tokenState) {
+            return;
+        }
+
+        tokenState.textContent = message;
+        tokenState.parentElement?.classList.toggle("token-ready", Boolean(isReady));
+    };
+
+    updateTokenState("No access token loaded yet.", false);
+
     if (helloForm) {
         helloForm.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -84,13 +96,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 const data = await response.json();
                 if (!response.ok) {
+                    updateTokenState("Login failed. No valid access token is stored.", false);
                     writeOutput("POST /api/auth/token failed", data);
                     return;
                 }
 
                 accessToken = data.accessToken || "";
+                updateTokenState(
+                    accessToken
+                        ? "Access token loaded in memory. Protected requests are ready."
+                        : "Login finished but no access token was returned.",
+                    Boolean(accessToken)
+                );
                 writeOutput("POST /api/auth/token", data);
             } catch (error) {
+                updateTokenState("Login failed. No valid access token is stored.", false);
                 writeOutput("POST /api/auth/token failed", String(error));
             }
         });

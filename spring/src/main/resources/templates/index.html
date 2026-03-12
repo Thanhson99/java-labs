@@ -8,14 +8,32 @@
 </head>
 <body>
 <div class="page-shell">
+    <div class="atmosphere atmosphere-left"></div>
+    <div class="atmosphere atmosphere-right"></div>
     <header class="hero">
         <div class="hero-copy">
-            <p class="eyebrow">Java Labs / Spring Boot</p>
+            <p class="eyebrow">Java Labs / Spring Boot Control Room</p>
             <h1 th:text="'Hello, ' + ${name} + '.'">Hello, Spring Learner.</h1>
-            <p class="lede">
-                This page is the frontend entry for the learning backend. It highlights the APIs,
-                security model, databases, and messaging flow you are studying from code.
-            </p>
+            <p class="lede">A live learning dashboard for auth, data, transactions, and messaging. Use it to read the code, hit the endpoints, and observe how the backend behaves.</p>
+            <div class="hero-stripes" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="hero-metrics">
+                <article>
+                    <strong>JWT + Sessions</strong>
+                    <span>Access tokens, refresh rotation, reuse detection</span>
+                </article>
+                <article>
+                    <strong>Data Flow</strong>
+                    <span>JPA, Flyway, analytics DB, rollback demo</span>
+                </article>
+                <article>
+                    <strong>Event Mesh</strong>
+                    <span>Kafka and RabbitMQ producers and consumers</span>
+                </article>
+            </div>
             <div class="hero-actions">
                 <a class="primary-action" href="/hello?name=Spring">Try Hello Endpoint</a>
                 <button id="copyCurlButton" type="button">Copy Login Curl</button>
@@ -23,6 +41,12 @@
         </div>
         <aside class="runtime-card">
             <p class="runtime-label">Runtime Snapshot</p>
+            <div class="status-stack">
+                <span class="status-pill">Spring MVC</span>
+                <span class="status-pill">Security</span>
+                <span class="status-pill">JPA</span>
+                <span class="status-pill">Messaging</span>
+            </div>
             <dl>
                 <div>
                     <dt>App</dt>
@@ -41,10 +65,48 @@
                     <dd>Kafka + RabbitMQ</dd>
                 </div>
             </dl>
+            <div class="runtime-note">
+                <p>Best next read:</p>
+                <strong><code>RegistrationService</code> -> <code>UserRegistrationEventPublisher</code> -> consumer side</strong>
+            </div>
         </aside>
     </header>
 
     <main class="content-grid">
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>System Topology</h2>
+                <p class="panel-kicker">Read the app as a chain of responsibilities, not as isolated files.</p>
+            </div>
+            <div class="topology-grid">
+                <article class="topology-node">
+                    <span class="node-index">01</span>
+                    <h3>Client Edge</h3>
+                    <p>Browser, curl, or tests enter through public and protected HTTP endpoints.</p>
+                </article>
+                <article class="topology-node">
+                    <span class="node-index">02</span>
+                    <h3>Security Gate</h3>
+                    <p>JWT auth decides who can call user and system APIs.</p>
+                </article>
+                <article class="topology-node">
+                    <span class="node-index">03</span>
+                    <h3>Write Path</h3>
+                    <p>Service layer validates, writes to the main DB, and records audit state.</p>
+                </article>
+                <article class="topology-node">
+                    <span class="node-index">04</span>
+                    <h3>Event Fan-Out</h3>
+                    <p>Successful registration can publish to Kafka, RabbitMQ, or both.</p>
+                </article>
+                <article class="topology-node">
+                    <span class="node-index">05</span>
+                    <h3>Consumer Side</h3>
+                    <p>In-process listeners and the extracted notification service both consume the same event.</p>
+                </article>
+            </div>
+        </section>
+
         <section class="panel">
             <h2>What This Backend Teaches</h2>
             <div class="card-grid">
@@ -104,6 +166,11 @@
                 <div class="playground-actions">
                     <button id="loadOverviewButton" type="button">Call /api/system/overview</button>
                     <p class="helper-text">Requires an admin token. Change login to <code>admin / admin123</code> first.</p>
+                </div>
+
+                <div class="token-hint">
+                    <p>Token state</p>
+                    <strong id="tokenState">No access token loaded yet.</strong>
                 </div>
 
                 <pre id="apiOutput"><code>Responses will appear here.</code></pre>
