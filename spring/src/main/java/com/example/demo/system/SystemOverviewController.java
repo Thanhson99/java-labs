@@ -3,6 +3,7 @@ package com.example.demo.system;
 import com.example.demo.analytics.AnalyticsEventStore;
 import com.example.demo.analytics.AnalyticsDataSourceProperties;
 import com.example.demo.messaging.RegistrationMessagingProperties;
+import com.example.demo.messaging.EventConsumptionTracker;
 import com.example.demo.messaging.UserRegistrationEventPublisher;
 import com.example.demo.ratelimit.FixedWindowRateLimiter;
 import com.example.demo.ratelimit.RegistrationRateLimitProperties;
@@ -33,6 +34,7 @@ public class SystemOverviewController {
     private final int configuredPrimaryMaxPoolSize;
     private final RegistrationMessagingProperties messagingProperties;
     private final UserRegistrationEventPublisher eventPublisher;
+    private final EventConsumptionTracker eventConsumptionTracker;
 
     public SystemOverviewController(
             @Qualifier("dataSource") DataSource primaryDataSource,
@@ -43,6 +45,7 @@ public class SystemOverviewController {
             FixedWindowRateLimiter rateLimiter,
             RegistrationMessagingProperties messagingProperties,
             UserRegistrationEventPublisher eventPublisher,
+            EventConsumptionTracker eventConsumptionTracker,
             @Value("${spring.datasource.hikari.maximum-pool-size:10}") int configuredPrimaryMaxPoolSize) {
         this.primaryDataSource = primaryDataSource;
         this.analyticsDataSource = analyticsDataSource;
@@ -52,6 +55,7 @@ public class SystemOverviewController {
         this.rateLimiter = rateLimiter;
         this.messagingProperties = messagingProperties;
         this.eventPublisher = eventPublisher;
+        this.eventConsumptionTracker = eventConsumptionTracker;
         this.configuredPrimaryMaxPoolSize = configuredPrimaryMaxPoolSize;
     }
 
@@ -83,7 +87,9 @@ public class SystemOverviewController {
                         "rabbitmqExchange", messagingProperties.rabbitmq().exchange(),
                         "rabbitmqQueue", messagingProperties.rabbitmq().queue(),
                         "rabbitmqRoutingKey", messagingProperties.rabbitmq().routingKey(),
-                        "enabledTransports", eventPublisher.enabledTransports()
+                        "enabledTransports", eventPublisher.enabledTransports(),
+                        "consumedCounts", eventConsumptionTracker.consumedCounts(),
+                        "lastConsumedUserIds", eventConsumptionTracker.lastConsumedUserIds()
                 ),
                 "architecture", "single Spring Boot app with primary user DB, secondary analytics DB, and service boundaries that mirror a microservice design"
         );

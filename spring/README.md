@@ -17,6 +17,7 @@ This module now teaches a small but realistic backend shape.
 - Refresh token reuse detection and logout-all revocation
 - Transaction rollback demo on the primary database
 - Event-driven registration with both Kafka and RabbitMQ publishers
+- Kafka and RabbitMQ consumers with a shared event processor
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
 - Testcontainers integration test against real Postgres
@@ -136,6 +137,13 @@ The test suite also includes a Testcontainers-based integration test that boots 
 ## Kafka And RabbitMQ Learning
 
 The registration flow now emits the same `UserRegisteredEvent` through a fan-out publisher.
+
+Consumer side:
+
+- `KafkaUserRegistrationEventListener` receives Kafka messages
+- `RabbitUserRegistrationEventListener` receives RabbitMQ messages
+- `UserRegistrationEventProcessor` handles both transports through one shared path
+- `/api/system/overview` shows which transports are enabled and how many events each transport has consumed
 
 - Kafka is better for durable event streams, replay, partitions, and consumer groups.
 - RabbitMQ is better for traditional queueing, routing patterns, and work distribution.

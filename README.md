@@ -72,6 +72,7 @@ The Spring module now includes:
 - hashed refresh token storage with session metadata
 - refresh token reuse detection and logout-all revocation
 - event-driven registration with both Kafka and RabbitMQ publishers
+- Kafka and RabbitMQ consumers with a shared processing path
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
 - Testcontainers integration tests against real Postgres

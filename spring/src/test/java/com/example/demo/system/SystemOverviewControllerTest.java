@@ -38,6 +38,7 @@ class SystemOverviewControllerTest {
                 .andExpect(jsonPath("$.analyticsDatabase.jdbcUrl", containsString("analyticsdb")))
                 .andExpect(jsonPath("$.messaging.kafkaEnabled").value(false))
                 .andExpect(jsonPath("$.messaging.rabbitmqEnabled").value(false))
+                .andExpect(jsonPath("$.messaging.consumedCounts").exists())
                 .andExpect(jsonPath("$.architecture").exists());
     }
 
