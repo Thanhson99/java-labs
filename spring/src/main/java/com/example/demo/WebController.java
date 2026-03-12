@@ -21,9 +21,20 @@ public class WebController {
 
     @GetMapping("/")
     public String greet(@RequestParam(value = "name", defaultValue = "ThanhSon99") String name, Model model) {
+        populateCommonModel(model);
         model.addAttribute("name", name);
+        return "index";
+    }
+
+    @GetMapping("/admin")
+    public String adminConsole(Model model) {
+        populateCommonModel(model);
+        model.addAttribute("name", "ThanhSon99");
+        return "admin";
+    }
+
+    private void populateCommonModel(Model model) {
         model.addAttribute("applicationName", applicationName);
         model.addAttribute("serverPort", serverPort);
-        return "index";
     }
 }

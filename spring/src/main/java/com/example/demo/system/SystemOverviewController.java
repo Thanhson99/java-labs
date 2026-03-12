@@ -2,6 +2,7 @@ package com.example.demo.system;
 
 import com.example.demo.analytics.AnalyticsEventStore;
 import com.example.demo.analytics.AnalyticsDataSourceProperties;
+import com.example.demo.auth.RefreshTokenStore;
 import com.example.demo.messaging.RegistrationMessagingProperties;
 import com.example.demo.messaging.EventConsumptionTracker;
 import com.example.demo.messaging.OutboxEventStore;
@@ -40,6 +41,7 @@ public class SystemOverviewController {
     private final String applicationName;
     private final ApplicationMetrics applicationMetrics;
     private final OutboxEventStore outboxEventStore;
+    private final RefreshTokenStore refreshTokenStore;
 
     public SystemOverviewController(
             @Qualifier("dataSource") DataSource primaryDataSource,
@@ -54,7 +56,8 @@ public class SystemOverviewController {
             @Value("${spring.datasource.hikari.maximum-pool-size:10}") int configuredPrimaryMaxPoolSize,
             @Value("${spring.application.name:spring}") String applicationName,
             ApplicationMetrics applicationMetrics,
-            OutboxEventStore outboxEventStore) {
+            OutboxEventStore outboxEventStore,
+            RefreshTokenStore refreshTokenStore) {
         this.primaryDataSource = primaryDataSource;
         this.analyticsDataSource = analyticsDataSource;
         this.rateLimitProperties = rateLimitProperties;
@@ -68,6 +71,7 @@ public class SystemOverviewController {
         this.applicationName = applicationName;
         this.applicationMetrics = applicationMetrics;
         this.outboxEventStore = outboxEventStore;
+        this.refreshTokenStore = refreshTokenStore;
     }
 
     @GetMapping(value = "/overview", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,6 +107,9 @@ public class SystemOverviewController {
                         Map.entry("enabledTransports", eventPublisher.enabledTransports()),
                         Map.entry("consumedCounts", eventConsumptionTracker.consumedCounts()),
                         Map.entry("lastConsumedUserIds", eventConsumptionTracker.lastConsumedUserIds())
+                ),
+                "auth", Map.of(
+                        "activeRefreshSessions", refreshTokenStore.activeTokenCount()
                 ),
                 "architecture", "single Spring Boot app with primary user DB, secondary analytics DB, and service boundaries that mirror a microservice design"
         );
@@ -145,6 +152,9 @@ public class SystemOverviewController {
                         "pending", outboxEventStore.countPending(),
                         "published", outboxEventStore.countPublished(),
                         "deadLetter", outboxEventStore.countDeadLetter()
+                ),
+                "auth", Map.of(
+                        "activeRefreshSessions", refreshTokenStore.activeTokenCount()
                 ),
                 "observability", Map.of(
                         "healthEndpoint", "/actuator/health",

@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/hello", "/css/**", "/js/**", "/h2-console/**").permitAll()
+                        .requestMatchers("/", "/admin", "/hello", "/css/**", "/js/**", "/h2-console/**").permitAll()
                         .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/token").permitAll()
                         .requestMatchers("/api/system/dashboard", "/api/system/dashboard/**").permitAll()

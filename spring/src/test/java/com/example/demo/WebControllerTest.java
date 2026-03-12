@@ -1,0 +1,38 @@
+package com.example.demo;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class WebControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void homePageIsPublicAndShowsAdminLink() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Hello,")))
+                .andExpect(content().string(containsString("Switch To Admin")))
+                .andExpect(content().string(containsString("Admin Console")));
+    }
+
+    @Test
+    void adminPageIsPublicAndShowsAdminControls() throws Exception {
+        mockMvc.perform(get("/admin"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Admin Console")))
+                .andExpect(content().string(containsString("Load Admin Data")))
+                .andExpect(content().string(containsString("admin / admin123")));
+    }
+}

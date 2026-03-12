@@ -29,7 +29,13 @@ public class OutboxDispatcher {
 
     @Scheduled(fixedDelayString = "${app.messaging.outbox.poll-delay-millis:3000}")
     public void dispatchPendingEvents() {
-        List<OutboxEventRecord> batch = outboxEventStore.fetchReadyBatch(outboxProperties.batchSize());
+        List<OutboxEventRecord> batch;
+        try {
+            batch = outboxEventStore.fetchReadyBatch(outboxProperties.batchSize());
+        } catch (Exception exception) {
+            // Testcontainers can tear databases down before the scheduler stops.
+            return;
+        }
         for (OutboxEventRecord record : batch) {
             dispatch(record);
         }

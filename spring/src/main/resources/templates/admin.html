@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Admin Console</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="admin-page">
+<div class="page-shell">
+    <div class="atmosphere atmosphere-left"></div>
+    <div class="atmosphere atmosphere-right"></div>
+    <nav class="top-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link active" href="/admin">Admin Console</a>
+    </nav>
+
+    <header class="hero admin-hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Java Labs / Admin Operations View</p>
+            <h1 class="hero-title">
+                <span class="hero-title-line">Admin</span>
+                <span class="hero-title-name-wrap">
+                    <span class="hero-title-name">Console</span><span class="hero-title-dot">.</span>
+                </span>
+            </h1>
+            <p class="lede">Use this screen to inspect protected runtime detail, auth session activity, and outbox dead-letter rows. This is the view that makes the backend operational instead of only educational.</p>
+            <div class="hero-actions">
+                <a class="primary-action" href="/">Back To Home</a>
+                <button id="adminLoginButton" type="button">Login As Admin Demo</button>
+                <button id="adminLoadAllButton" type="button">Load Admin Data</button>
+            </div>
+        </div>
+        <aside class="runtime-card">
+            <p class="runtime-label">Runtime Snapshot</p>
+            <div class="status-stack">
+                <span class="status-pill">Admin View</span>
+                <span class="status-pill">JWT Protected</span>
+                <span class="status-pill">Outbox Replay</span>
+                <span class="status-pill">Session Stats</span>
+            </div>
+            <dl>
+                <div>
+                    <dt>App</dt>
+                    <dd th:text="${applicationName}">spring</dd>
+                </div>
+                <div>
+                    <dt>Port</dt>
+                    <dd th:text="${serverPort}">8089</dd>
+                </div>
+                <div>
+                    <dt>Default User</dt>
+                    <dd><code>admin / admin123</code></dd>
+                </div>
+                <div>
+                    <dt>Primary Jobs</dt>
+                    <dd>Inspect auth, runtime, and outbox state</dd>
+                </div>
+            </dl>
+        </aside>
+    </header>
+
+    <main class="content-grid">
+        <section class="panel">
+            <div class="panel-heading">
+                <h2>Admin Login</h2>
+                <p class="panel-kicker">Token is stored in <code>sessionStorage</code> for this browser tab.</p>
+            </div>
+            <div class="playground-stack">
+                <form id="adminLoginForm" class="playground-form">
+                    <label for="adminUsername">Admin credentials</label>
+                    <div class="input-grid">
+                        <input id="adminUsername" name="username" type="text" value="admin" />
+                        <input id="adminPassword" name="password" type="password" value="admin123" />
+                    </div>
+                    <button type="submit">Get Admin Token</button>
+                </form>
+
+                <div class="token-hint">
+                    <p>Token state</p>
+                    <strong id="adminTokenState">No admin token loaded yet.</strong>
+                </div>
+
+                <pre id="adminOutput"><code>Admin responses will appear here.</code></pre>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-heading">
+                <h2>Admin Summary</h2>
+                <p class="panel-kicker">Protected data from <code>/api/system/overview</code>.</p>
+            </div>
+            <div class="card-grid admin-card-grid">
+                <article class="info-card">
+                    <h3>Auth Sessions</h3>
+                    <p id="adminSessionCount">Load admin data.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Primary DB</h3>
+                    <p id="adminPrimaryDb">Load admin data.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Analytics DB</h3>
+                    <p id="adminAnalyticsDb">Load admin data.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Messaging Consumers</h3>
+                    <p id="adminConsumers">Load admin data.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Outbox Console</h2>
+                <p class="panel-kicker">Inspect and replay dead-letter rows from <code>/api/system/outbox</code>.</p>
+            </div>
+            <div class="outbox-admin">
+                <div class="outbox-summary">
+                    <article class="info-card">
+                        <h3>Pending</h3>
+                        <p id="adminOutboxPending">Load admin data.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Published</h3>
+                        <p id="adminOutboxPublished">Load admin data.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Dead Letter</h3>
+                        <p id="adminOutboxDeadLetter">Load admin data.</p>
+                    </article>
+                </div>
+                <div class="table-wrap">
+                    <table class="outbox-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Aggregate</th>
+                            <th>Status</th>
+                            <th>Attempts</th>
+                            <th>Available</th>
+                            <th>Error</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="adminOutboxTableBody">
+                        <tr>
+                            <td colspan="7">Login as admin and load data.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="/js/admin.js"></script>
+</body>
+</html>

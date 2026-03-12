@@ -85,7 +85,29 @@ document.addEventListener("DOMContentLoaded", () => {
         tokenState.parentElement?.classList.toggle("token-ready", Boolean(isReady));
     };
 
-    updateTokenState("No access token loaded yet.", false);
+    const storeToken = (token) => {
+        accessToken = token;
+        try {
+            window.sessionStorage.setItem("javaLabsAdminToken", token);
+        } catch (error) {
+            writeOutput("Token persistence warning", String(error));
+        }
+    };
+
+    const restoreToken = () => {
+        try {
+            accessToken = window.sessionStorage.getItem("javaLabsAdminToken") || "";
+        } catch (error) {
+            accessToken = "";
+        }
+
+        updateTokenState(
+            accessToken ? "Access token restored from session storage." : "No access token loaded yet.",
+            Boolean(accessToken)
+        );
+    };
+
+    restoreToken();
 
     const setText = (element, value) => {
         if (element) {
@@ -351,10 +373,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                accessToken = data.accessToken || "";
+                storeToken(data.accessToken || "");
                 updateTokenState(
                     accessToken
-                        ? "Access token loaded in memory. Protected requests are ready."
+                        ? "Access token loaded in session storage. Protected requests are ready."
                         : "Login finished but no access token was returned.",
                     Boolean(accessToken)
                 );

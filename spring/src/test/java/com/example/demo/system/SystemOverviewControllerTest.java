@@ -46,6 +46,7 @@ class SystemOverviewControllerTest {
                 .andExpect(jsonPath("$.registrationRateLimit.maxRequests").value(3))
                 .andExpect(jsonPath("$.messaging.kafkaEnabled").value(false))
                 .andExpect(jsonPath("$.messaging.rabbitmqEnabled").value(false))
+                .andExpect(jsonPath("$.auth.activeRefreshSessions").value(greaterThanOrEqualTo(0)))
                 .andExpect(jsonPath("$.observability.healthEndpoint").value("/actuator/health"))
                 .andExpect(jsonPath("$.observability.businessMetrics.auth.tokensIssued").value(greaterThanOrEqualTo(0.0)));
     }
@@ -68,6 +69,7 @@ class SystemOverviewControllerTest {
                 .andExpect(jsonPath("$.analyticsDatabase.jdbcUrl", containsString("analyticsdb")))
                 .andExpect(jsonPath("$.messaging.kafkaEnabled").value(false))
                 .andExpect(jsonPath("$.messaging.rabbitmqEnabled").value(false))
+                .andExpect(jsonPath("$.auth.activeRefreshSessions").value(greaterThanOrEqualTo(0)))
                 .andExpect(jsonPath("$.messaging.consumedCounts").exists())
                 .andExpect(jsonPath("$.architecture").exists());
     }
