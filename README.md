@@ -20,12 +20,18 @@ java-labs/
 
 ### 1. Basic Java module
 
-From the `basic` folder, compile and run:
+From the `basic` folder, run the learning app:
 
 ```bash
-cd basic/src
-javac Main.java
-java Main
+cd basic
+./mvnw -q -DskipTests compile
+java -cp target/classes com.example.javalabs.basic.LearningApp
+```
+
+Run the unit tests:
+
+```bash
+./mvnw test
 ```
 
 Or from the repository root:

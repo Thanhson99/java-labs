@@ -114,9 +114,10 @@ wait_and_open() {
 
 run_basic() {
   use_java_version "$DEFAULT_JAVA_VERSION"
-  cd "$ROOT_DIR/basic/src"
-  javac Main.java
-  java Main
+  cd "$ROOT_DIR/basic"
+  chmod +x ./mvnw
+  ./mvnw -q -DskipTests compile
+  java -cp target/classes com.example.javalabs.basic.LearningApp
 }
 
 run_spring() {

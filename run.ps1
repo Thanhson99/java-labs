@@ -121,10 +121,10 @@ function Get-FreePort {
 
 function Run-Basic {
     Use-JavaVersion -DesiredMajor $DesiredJavaVersion
-    Push-Location (Join-Path $RootDir "basic/src")
+    Push-Location (Join-Path $RootDir "basic")
     try {
-        javac Main.java
-        java Main
+        & .\mvnw.cmd -q -DskipTests compile
+        & java -cp target/classes com.example.javalabs.basic.LearningApp
     }
     finally {
         Pop-Location
