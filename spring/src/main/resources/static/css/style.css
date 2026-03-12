@@ -341,10 +341,15 @@ button:hover {
 }
 
 .topology-grid,
-.card-grid {
+.card-grid,
+.dashboard-grid {
     margin-top: 18px;
     display: grid;
     gap: 16px;
+}
+
+.dashboard-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .topology-grid {
@@ -356,8 +361,49 @@ button:hover {
 }
 
 .topology-node,
-.info-card {
+.info-card,
+.metric-card {
     padding: 18px;
+}
+
+.metric-card {
+    position: relative;
+    border-radius: 20px;
+    border: 1px solid rgba(135, 194, 255, 0.16);
+    background:
+        linear-gradient(180deg, rgba(8, 18, 31, 0.92), rgba(5, 12, 20, 0.92)),
+        linear-gradient(135deg, rgba(124, 224, 255, 0.06), transparent);
+}
+
+.metric-card::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(124, 224, 255, 0), rgba(124, 224, 255, 0.55), rgba(124, 224, 255, 0));
+}
+
+.metric-label {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.72rem;
+    color: var(--cyan);
+}
+
+.metric-card strong {
+    display: block;
+    margin-top: 16px;
+    font-size: 1.2rem;
+}
+
+.metric-card span {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    line-height: 1.6;
 }
 
 .node-index {
@@ -495,6 +541,7 @@ pre {
     .hero,
     .content-grid,
     .topology-grid,
+    .dashboard-grid,
     .hero-metrics,
     .card-grid,
     .input-grid,

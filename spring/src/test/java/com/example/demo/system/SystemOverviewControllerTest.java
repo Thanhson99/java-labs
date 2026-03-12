@@ -28,6 +28,18 @@ class SystemOverviewControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    void dashboardExposesPublicRuntimeSummary() throws Exception {
+        mockMvc.perform(get("/api/system/dashboard"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.application.name").value("spring"))
+                .andExpect(jsonPath("$.primaryDatabase.engine").value("H2"))
+                .andExpect(jsonPath("$.analyticsDatabase.engine").value("H2"))
+                .andExpect(jsonPath("$.registrationRateLimit.maxRequests").value(3))
+                .andExpect(jsonPath("$.messaging.kafkaEnabled").value(false))
+                .andExpect(jsonPath("$.messaging.rabbitmqEnabled").value(false));
+    }
+
+    @Test
     void overviewExposesArchitectureSummaryForAdmin() throws Exception {
         String token = fetchToken("admin", "admin123");
 

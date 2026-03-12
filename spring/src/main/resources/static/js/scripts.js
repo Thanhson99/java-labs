@@ -7,6 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const loadOverviewButton = document.getElementById("loadOverviewButton");
     const apiOutput = document.getElementById("apiOutput");
     const tokenState = document.getElementById("tokenState");
+    const dashboardAppName = document.getElementById("dashboardAppName");
+    const dashboardArchitecture = document.getElementById("dashboardArchitecture");
+    const dashboardPrimaryDb = document.getElementById("dashboardPrimaryDb");
+    const dashboardPrimaryPool = document.getElementById("dashboardPrimaryPool");
+    const dashboardAnalyticsDb = document.getElementById("dashboardAnalyticsDb");
+    const dashboardAnalyticsMeta = document.getElementById("dashboardAnalyticsMeta");
+    const dashboardRateLimit = document.getElementById("dashboardRateLimit");
+    const dashboardRateWindow = document.getElementById("dashboardRateWindow");
+    const dashboardMessaging = document.getElementById("dashboardMessaging");
+    const dashboardTransportState = document.getElementById("dashboardTransportState");
+    const dashboardAdminState = document.getElementById("dashboardAdminState");
+    const dashboardAdminHint = document.getElementById("dashboardAdminHint");
     let accessToken = "";
 
     if (copyButton && snippet) {
@@ -61,6 +73,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateTokenState("No access token loaded yet.", false);
 
+    const setText = (element, value) => {
+        if (element) {
+            element.textContent = value;
+        }
+    };
+
+    const loadDashboard = async () => {
+        try {
+            const response = await fetch("/api/system/dashboard");
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(JSON.stringify(data));
+            }
+
+            setText(dashboardAppName, data.application?.name || "spring");
+            setText(dashboardArchitecture, data.application?.architecture || "No architecture summary.");
+            setText(
+                dashboardPrimaryDb,
+                `${data.primaryDatabase?.engine || "Unknown"} primary database`
+            );
+            setText(
+                dashboardPrimaryPool,
+                `Pool size: ${data.primaryDatabase?.maximumPoolSize ?? "--"}`
+            );
+            setText(
+                dashboardAnalyticsDb,
+                `${data.analyticsDatabase?.engine || "Unknown"} analytics database`
+            );
+            setText(
+                dashboardAnalyticsMeta,
+                `Pool size: ${data.analyticsDatabase?.maximumPoolSize ?? "--"} | events: ${data.analyticsDatabase?.eventCount ?? "--"}`
+            );
+            setText(
+                dashboardRateLimit,
+                `${data.registrationRateLimit?.maxRequests ?? "--"} requests`
+            );
+            setText(
+                dashboardRateWindow,
+                `Window: ${data.registrationRateLimit?.windowMillis ?? "--"} ms`
+            );
+
+            const activeTransports = data.messaging?.activeTransports || [];
+            setText(
+                dashboardMessaging,
+                activeTransports.length > 0 ? activeTransports.join(" + ") : "Messaging disabled"
+            );
+            setText(
+                dashboardTransportState,
+                `Kafka: ${Boolean(data.messaging?.kafkaEnabled)} | RabbitMQ: ${Boolean(data.messaging?.rabbitmqEnabled)}`
+            );
+        } catch (error) {
+            setText(dashboardAppName, "Dashboard unavailable");
+            setText(dashboardArchitecture, String(error));
+        }
+    };
+
+    loadDashboard();
+
     if (helloForm) {
         helloForm.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -108,6 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         : "Login finished but no access token was returned.",
                     Boolean(accessToken)
                 );
+                setText(dashboardAdminState, "Token loaded");
+                setText(dashboardAdminHint, "Use the overview button to load admin-only runtime detail.");
                 writeOutput("POST /api/auth/token", data);
             } catch (error) {
                 updateTokenState("Login failed. No valid access token is stored.", false);
@@ -130,6 +203,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
                 const data = await response.json();
+                if (response.ok) {
+                    setText(dashboardAdminState, "Admin overview loaded");
+                    setText(
+                        dashboardAdminHint,
+                        `Consumers tracked: ${JSON.stringify(data.messaging?.consumedCounts || {})}`
+                    );
+                }
                 writeOutput("GET /api/system/overview", data);
             } catch (error) {
                 writeOutput("GET /api/system/overview failed", String(error));

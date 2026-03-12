@@ -35,6 +35,7 @@ public class SystemOverviewController {
     private final RegistrationMessagingProperties messagingProperties;
     private final UserRegistrationEventPublisher eventPublisher;
     private final EventConsumptionTracker eventConsumptionTracker;
+    private final String applicationName;
 
     public SystemOverviewController(
             @Qualifier("dataSource") DataSource primaryDataSource,
@@ -46,7 +47,8 @@ public class SystemOverviewController {
             RegistrationMessagingProperties messagingProperties,
             UserRegistrationEventPublisher eventPublisher,
             EventConsumptionTracker eventConsumptionTracker,
-            @Value("${spring.datasource.hikari.maximum-pool-size:10}") int configuredPrimaryMaxPoolSize) {
+            @Value("${spring.datasource.hikari.maximum-pool-size:10}") int configuredPrimaryMaxPoolSize,
+            @Value("${spring.application.name:spring}") String applicationName) {
         this.primaryDataSource = primaryDataSource;
         this.analyticsDataSource = analyticsDataSource;
         this.rateLimitProperties = rateLimitProperties;
@@ -57,6 +59,7 @@ public class SystemOverviewController {
         this.eventPublisher = eventPublisher;
         this.eventConsumptionTracker = eventConsumptionTracker;
         this.configuredPrimaryMaxPoolSize = configuredPrimaryMaxPoolSize;
+        this.applicationName = applicationName;
     }
 
     @GetMapping(value = "/overview", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -93,5 +96,50 @@ public class SystemOverviewController {
                 ),
                 "architecture", "single Spring Boot app with primary user DB, secondary analytics DB, and service boundaries that mirror a microservice design"
         );
+    }
+
+    @GetMapping(value = "/dashboard", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> dashboard() {
+        HikariDataSource primary = (HikariDataSource) primaryDataSource;
+        HikariDataSource analytics = (HikariDataSource) analyticsDataSource;
+
+        return Map.of(
+                "application", Map.of(
+                        "name", applicationName,
+                        "architecture", "monolith with microservice-style boundaries",
+                        "securityMode", "JWT access tokens with refresh rotation"
+                ),
+                "primaryDatabase", Map.of(
+                        "engine", jdbcEngine(primary.getJdbcUrl()),
+                        "maximumPoolSize", configuredPrimaryMaxPoolSize
+                ),
+                "analyticsDatabase", Map.of(
+                        "engine", jdbcEngine(analyticsDataSourceProperties.url()),
+                        "maximumPoolSize", analytics.getMaximumPoolSize(),
+                        "eventCount", analyticsEventStore.countEvents()
+                ),
+                "registrationRateLimit", Map.of(
+                        "maxRequests", rateLimitProperties.maxRequests(),
+                        "windowMillis", rateLimitProperties.windowMillis()
+                ),
+                "messaging", Map.of(
+                        "kafkaEnabled", messagingProperties.kafka().enabled(),
+                        "rabbitmqEnabled", messagingProperties.rabbitmq().enabled(),
+                        "activeTransports", eventPublisher.enabledTransports()
+                )
+        );
+    }
+
+    private String jdbcEngine(String jdbcUrl) {
+        if (jdbcUrl == null || jdbcUrl.isBlank()) {
+            return "unknown";
+        }
+        if (jdbcUrl.startsWith("jdbc:h2:")) {
+            return "H2";
+        }
+        if (jdbcUrl.startsWith("jdbc:postgresql:")) {
+            return "PostgreSQL";
+        }
+        return jdbcUrl;
     }
 }

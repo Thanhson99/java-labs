@@ -73,6 +73,45 @@
     </header>
 
     <main class="content-grid">
+        <section class="panel panel-wide dashboard-panel">
+            <div class="panel-heading">
+                <h2>Live Dashboard</h2>
+                <p class="panel-kicker">Public runtime summary loaded from <code>/api/system/dashboard</code>.</p>
+            </div>
+            <div class="dashboard-grid">
+                <article class="metric-card">
+                    <p class="metric-label">Application</p>
+                    <strong id="dashboardAppName">Loading...</strong>
+                    <span id="dashboardArchitecture">Waiting for runtime data.</span>
+                </article>
+                <article class="metric-card">
+                    <p class="metric-label">Primary Database</p>
+                    <strong id="dashboardPrimaryDb">Loading...</strong>
+                    <span id="dashboardPrimaryPool">Pool size: --</span>
+                </article>
+                <article class="metric-card">
+                    <p class="metric-label">Analytics Database</p>
+                    <strong id="dashboardAnalyticsDb">Loading...</strong>
+                    <span id="dashboardAnalyticsMeta">Pool size: --</span>
+                </article>
+                <article class="metric-card">
+                    <p class="metric-label">Rate Limit</p>
+                    <strong id="dashboardRateLimit">Loading...</strong>
+                    <span id="dashboardRateWindow">Window: --</span>
+                </article>
+                <article class="metric-card">
+                    <p class="metric-label">Messaging</p>
+                    <strong id="dashboardMessaging">Loading...</strong>
+                    <span id="dashboardTransportState">Waiting for runtime data.</span>
+                </article>
+                <article class="metric-card">
+                    <p class="metric-label">Admin Detail</p>
+                    <strong id="dashboardAdminState">Login as admin</strong>
+                    <span id="dashboardAdminHint">Then call <code>/api/system/overview</code> from the playground.</span>
+                </article>
+            </div>
+        </section>
+
         <section class="panel panel-wide">
             <div class="panel-heading">
                 <h2>System Topology</h2>

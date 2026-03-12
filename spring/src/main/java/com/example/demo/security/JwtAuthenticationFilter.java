@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return !path.startsWith("/api/") || path.startsWith("/api/auth/");
+        return !path.startsWith("/api/") || path.startsWith("/api/auth/") || path.startsWith("/api/system/dashboard");
     }
 
     @Override
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            writeUnauthorized(response, "missing bearer token");
+            filterChain.doFilter(request, response);
             return;
         }
 
