@@ -57,6 +57,15 @@ cd spring
 
 This module currently targets `Java 17`, which matches the local setup and Spring Boot 3 baseline.
 
+The Spring module now includes:
+
+- REST endpoints for user registration and profile lookup
+- request validation
+- H2 primary database with Spring Data JPA
+- secondary H2 analytics database with `JdbcTemplate`
+- in-memory rate limiting
+- a microservice-style service layer
+
 Or from the repository root:
 
 ```bash
@@ -103,6 +112,23 @@ Then open:
 ```text
 http://localhost:8089
 or the next free port chosen by the script
+```
+
+Useful Spring endpoints:
+
+```text
+GET  /hello?name=Spring
+POST /api/users/register
+GET  /api/users/{userId}
+GET  /api/system/overview
+GET  /h2-console
+```
+
+Run Spring tests:
+
+```bash
+cd spring
+./mvnw test
 ```
 
 ## Git Safety

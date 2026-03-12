@@ -1,23 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful Thymeleaf Page</title>
+    <title>Spring Learning Service</title>
     <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
 <header>
-    <h1 th:text="'Hello, ' + ${name} + '!'">Hello, World!</h1>
+    <h1 th:text="'Hello, ' + ${name} + '!'">Hello, Spring Learner!</h1>
 </header>
 <main>
     <section class="content">
-        <p>Welcome to the beautiful Thymeleaf page with custom styles and JavaScript effects.</p>
+        <p>This Spring Boot module now demonstrates REST APIs, validation, H2, rate limiting, service boundaries, and a secondary analytics database.</p>
+        <p>Try the endpoints below while the app is running:</p>
+        <ul>
+            <li><code>GET /hello?name=Spring</code></li>
+            <li><code>POST /api/users/register</code></li>
+            <li><code>GET /api/users/{userId}</code></li>
+            <li><code>GET /api/system/overview</code></li>
+            <li><code>GET /h2-console</code></li>
+        </ul>
         <button id="colorButton">Change Background Color</button>
     </section>
 </main>
 <footer>
-    <p>&copy; 2024 Your Company</p>
+    <p>&copy; 2026 Java Labs</p>
 </footer>
 <script src="/js/scripts.js"></script>
 </body>
