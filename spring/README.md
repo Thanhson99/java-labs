@@ -20,6 +20,8 @@ This module now teaches a small but realistic backend shape.
 - Kafka and RabbitMQ consumers with a shared event processor
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
+- Actuator health and metrics endpoints
+- Custom business metrics for auth, registration, and messaging
 - Testcontainers integration test against real Postgres
 
 ## Main Endpoints
@@ -31,8 +33,11 @@ This module now teaches a small but realistic backend shape.
 - `POST /api/auth/logout-all`
 - `GET /api/users/{userId}`
 - `GET /api/system/overview`
+- `GET /api/system/dashboard`
 - `GET /hello?name=Spring`
 - `GET /h2-console`
+- `GET /actuator/health`
+- `GET /actuator/info`
 - `POST /api/auth/token`
 
 ## Example Request
@@ -200,9 +205,26 @@ The root page `/` is now a small learning dashboard rather than a plain welcome 
 It gives you:
 
 - a quick summary of the backend architecture
+- public runtime and observability cards
 - important endpoints
 - a copyable login curl
 - a browser-side playground for:
   - `GET /hello`
   - `POST /api/auth/token`
   - `GET /api/system/overview`
+
+## Observability
+
+This module now exposes a basic observability path for study:
+
+- `GET /actuator/health` is public
+- `GET /actuator/info` is public
+- `GET /actuator/metrics` is available for `ADMIN`
+- `GET /api/system/dashboard` includes safe runtime and business-metric summaries for the home page
+
+Business metrics currently track:
+
+- auth token issuance and refresh flow
+- logout and logout-all actions
+- registration success, failure, rate limiting, and average duration
+- published registration events by transport

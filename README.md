@@ -74,6 +74,7 @@ The Spring module now includes:
 - refresh token reuse detection and logout-all revocation
 - event-driven registration with both Kafka and RabbitMQ publishers
 - Kafka and RabbitMQ consumers with a shared processing path
+- Actuator health and metrics plus custom business observability
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
 - Testcontainers integration tests against real Postgres
@@ -130,6 +131,7 @@ or the next free port chosen by the script
 The `/` page now includes:
 
 - a backend capability overview
+- live dashboard cards for runtime and observability
 - a quick login curl snippet
 - a small API playground for `/hello`, `/api/auth/token`, and `/api/system/overview`
 
@@ -144,7 +146,10 @@ POST /api/auth/logout-all
 POST /api/users/register
 POST /api/users/register-demo?failAfterAudit=true
 GET  /api/users/{userId}
+GET  /api/system/dashboard
 GET  /api/system/overview
+GET  /actuator/health
+GET  /actuator/info
 GET  /h2-console
 ```
 

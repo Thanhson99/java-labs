@@ -5,10 +5,12 @@ import com.example.demo.audit.RegistrationAuditStore;
 import com.example.demo.messaging.UserRegisteredEvent;
 import com.example.demo.messaging.UserRegistrationEventPublisher;
 import com.example.demo.notification.NotificationGateway;
+import com.example.demo.observability.ApplicationMetrics;
 import com.example.demo.profile.Region;
 import com.example.demo.profile.UserProfileEntity;
 import com.example.demo.profile.UserProfileRepository;
 import com.example.demo.ratelimit.FixedWindowRateLimiter;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
@@ -31,6 +33,7 @@ class RegistrationServiceEventTest {
         FixedWindowRateLimiter rateLimiter = mock(FixedWindowRateLimiter.class);
         UserRegistrationEventPublisher eventPublisher = mock(UserRegistrationEventPublisher.class);
         Clock clock = Clock.fixed(Instant.parse("2026-03-12T00:00:00Z"), ZoneOffset.UTC);
+        ApplicationMetrics applicationMetrics = new ApplicationMetrics(new SimpleMeterRegistry());
         RegistrationService registrationService = new RegistrationService(
                 userProfileRepository,
                 notificationGateway,
@@ -38,7 +41,8 @@ class RegistrationServiceEventTest {
                 registrationAuditStore,
                 rateLimiter,
                 eventPublisher,
-                clock
+                clock,
+                applicationMetrics
         );
         RegisterUserRequest request = new RegisterUserRequest("u-40", "u40@example.com", Region.APAC);
 

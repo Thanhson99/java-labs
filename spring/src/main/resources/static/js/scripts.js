@@ -17,6 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const dashboardRateWindow = document.getElementById("dashboardRateWindow");
     const dashboardMessaging = document.getElementById("dashboardMessaging");
     const dashboardTransportState = document.getElementById("dashboardTransportState");
+    const dashboardHealthStatus = document.getElementById("dashboardHealthStatus");
+    const dashboardHealthHint = document.getElementById("dashboardHealthHint");
+    const dashboardAuthMetrics = document.getElementById("dashboardAuthMetrics");
+    const dashboardAuthHint = document.getElementById("dashboardAuthHint");
+    const dashboardRegistrationMetrics = document.getElementById("dashboardRegistrationMetrics");
+    const dashboardRegistrationHint = document.getElementById("dashboardRegistrationHint");
     const dashboardAdminState = document.getElementById("dashboardAdminState");
     const dashboardAdminHint = document.getElementById("dashboardAdminHint");
     let accessToken = "";
@@ -89,7 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             setText(dashboardAppName, data.application?.name || "spring");
-            setText(dashboardArchitecture, data.application?.architecture || "No architecture summary.");
+            setText(
+                dashboardArchitecture,
+                `${data.application?.architecture || "No architecture summary."} | ${data.application?.securityMode || "No security summary."}`
+            );
             setText(
                 dashboardPrimaryDb,
                 `${data.primaryDatabase?.engine || "Unknown"} primary database`
@@ -124,13 +133,50 @@ document.addEventListener("DOMContentLoaded", () => {
                 dashboardTransportState,
                 `Kafka: ${Boolean(data.messaging?.kafkaEnabled)} | RabbitMQ: ${Boolean(data.messaging?.rabbitmqEnabled)}`
             );
+
+            const auth = data.observability?.businessMetrics?.auth || {};
+            setText(
+                dashboardAuthMetrics,
+                `${auth.tokensIssued ?? 0} tokens | ${auth.refreshSuccess ?? 0} refresh`
+            );
+            setText(
+                dashboardAuthHint,
+                `logout: ${auth.logoutSuccess ?? 0} | logout-all: ${auth.logoutAllSuccess ?? 0}`
+            );
+
+            const registration = data.observability?.businessMetrics?.registration || {};
+            setText(
+                dashboardRegistrationMetrics,
+                `${registration.success ?? 0} success | ${registration.rateLimited ?? 0} rate-limited`
+            );
+            setText(
+                dashboardRegistrationHint,
+                `failure: ${registration.failure ?? 0} | avg: ${Number(registration.averageDurationMs ?? 0).toFixed(2)} ms`
+            );
         } catch (error) {
             setText(dashboardAppName, "Dashboard unavailable");
             setText(dashboardArchitecture, String(error));
         }
     };
 
+    const loadHealth = async () => {
+        try {
+            const response = await fetch("/actuator/health");
+            const data = await response.json();
+
+            setText(dashboardHealthStatus, data.status || "UNKNOWN");
+            const details = data.components
+                ? Object.keys(data.components).join(", ")
+                : "No component details";
+            setText(dashboardHealthHint, `Components: ${details}`);
+        } catch (error) {
+            setText(dashboardHealthStatus, "Unavailable");
+            setText(dashboardHealthHint, String(error));
+        }
+    };
+
     loadDashboard();
+    loadHealth();
 
     if (helloForm) {
         helloForm.addEventListener("submit", async (event) => {

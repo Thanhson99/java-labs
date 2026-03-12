@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,7 +37,16 @@ class SystemOverviewControllerTest {
                 .andExpect(jsonPath("$.analyticsDatabase.engine").value("H2"))
                 .andExpect(jsonPath("$.registrationRateLimit.maxRequests").value(3))
                 .andExpect(jsonPath("$.messaging.kafkaEnabled").value(false))
-                .andExpect(jsonPath("$.messaging.rabbitmqEnabled").value(false));
+                .andExpect(jsonPath("$.messaging.rabbitmqEnabled").value(false))
+                .andExpect(jsonPath("$.observability.healthEndpoint").value("/actuator/health"))
+                .andExpect(jsonPath("$.observability.businessMetrics.auth.tokensIssued").value(greaterThanOrEqualTo(0.0)));
+    }
+
+    @Test
+    void actuatorHealthIsPublic() throws Exception {
+        mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.example.demo.analytics.AnalyticsDataSourceProperties;
 import com.example.demo.messaging.RegistrationMessagingProperties;
 import com.example.demo.messaging.EventConsumptionTracker;
 import com.example.demo.messaging.UserRegistrationEventPublisher;
+import com.example.demo.observability.ApplicationMetrics;
 import com.example.demo.ratelimit.FixedWindowRateLimiter;
 import com.example.demo.ratelimit.RegistrationRateLimitProperties;
 import com.zaxxer.hikari.HikariDataSource;
@@ -36,6 +37,7 @@ public class SystemOverviewController {
     private final UserRegistrationEventPublisher eventPublisher;
     private final EventConsumptionTracker eventConsumptionTracker;
     private final String applicationName;
+    private final ApplicationMetrics applicationMetrics;
 
     public SystemOverviewController(
             @Qualifier("dataSource") DataSource primaryDataSource,
@@ -48,7 +50,8 @@ public class SystemOverviewController {
             UserRegistrationEventPublisher eventPublisher,
             EventConsumptionTracker eventConsumptionTracker,
             @Value("${spring.datasource.hikari.maximum-pool-size:10}") int configuredPrimaryMaxPoolSize,
-            @Value("${spring.application.name:spring}") String applicationName) {
+            @Value("${spring.application.name:spring}") String applicationName,
+            ApplicationMetrics applicationMetrics) {
         this.primaryDataSource = primaryDataSource;
         this.analyticsDataSource = analyticsDataSource;
         this.rateLimitProperties = rateLimitProperties;
@@ -60,6 +63,7 @@ public class SystemOverviewController {
         this.eventConsumptionTracker = eventConsumptionTracker;
         this.configuredPrimaryMaxPoolSize = configuredPrimaryMaxPoolSize;
         this.applicationName = applicationName;
+        this.applicationMetrics = applicationMetrics;
     }
 
     @GetMapping(value = "/overview", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -126,6 +130,12 @@ public class SystemOverviewController {
                         "kafkaEnabled", messagingProperties.kafka().enabled(),
                         "rabbitmqEnabled", messagingProperties.rabbitmq().enabled(),
                         "activeTransports", eventPublisher.enabledTransports()
+                ),
+                "observability", Map.of(
+                        "healthEndpoint", "/actuator/health",
+                        "infoEndpoint", "/actuator/info",
+                        "metricsEndpoint", "/actuator/metrics",
+                        "businessMetrics", applicationMetrics.snapshot()
                 )
         );
     }

@@ -1,5 +1,6 @@
 package com.example.demo.auth;
 
+import com.example.demo.observability.ApplicationMetrics;
 import com.example.demo.security.JwtProperties;
 import com.example.demo.security.JwtTokenService;
 import jakarta.validation.Valid;
@@ -32,18 +33,21 @@ public class AuthController {
     private final JwtProperties jwtProperties;
     private final RefreshTokenStore refreshTokenStore;
     private final UserDetailsService userDetailsService;
+    private final ApplicationMetrics applicationMetrics;
 
     public AuthController(
             AuthenticationManager authenticationManager,
             JwtTokenService jwtTokenService,
             JwtProperties jwtProperties,
             RefreshTokenStore refreshTokenStore,
-            UserDetailsService userDetailsService) {
+            UserDetailsService userDetailsService,
+            ApplicationMetrics applicationMetrics) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenService = jwtTokenService;
         this.jwtProperties = jwtProperties;
         this.refreshTokenStore = refreshTokenStore;
         this.userDetailsService = userDetailsService;
+        this.applicationMetrics = applicationMetrics;
     }
 
     @PostMapping("/token")
@@ -53,6 +57,7 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        applicationMetrics.recordTokenIssued();
         return ResponseEntity.ok(issueTokenPair(userDetails, sessionLabel));
     }
 
@@ -63,6 +68,7 @@ public class AuthController {
         ConsumedRefreshToken consumed = refreshTokenStore.consumeToken(request.refreshToken())
                 .orElseThrow(() -> invalidRefreshToken(request.refreshToken()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(consumed.username());
+        applicationMetrics.recordRefreshSuccess();
         return ResponseEntity.ok(issueTokenPair(userDetails, sessionLabel));
     }
 
@@ -72,6 +78,7 @@ public class AuthController {
         if (!revoked) {
             throw invalidRefreshToken(request.refreshToken());
         }
+        applicationMetrics.recordLogoutSuccess();
         return ResponseEntity.ok(Map.of("message", "refresh token revoked"));
     }
 
@@ -80,6 +87,7 @@ public class AuthController {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
         int revokedCount = refreshTokenStore.revokeAllTokens(request.username());
+        applicationMetrics.recordLogoutAllSuccess();
         return ResponseEntity.ok(Map.of(
                 "message", "all refresh tokens revoked",
                 "revokedCount", Integer.toString(revokedCount)

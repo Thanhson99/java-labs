@@ -89,7 +89,7 @@ class RegistrationControllerTest {
     void protectedEndpointsRejectRequestsWithoutBearerToken() throws Exception {
         mockMvc.perform(get("/api/users/u-1"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.error").value("missing bearer token"));
+                .andExpect(jsonPath("$.error").value("authentication required"));
     }
 
     private String fetchToken(String username, String password) throws Exception {

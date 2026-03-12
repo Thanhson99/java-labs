@@ -1,5 +1,6 @@
 package com.example.demo.messaging;
 
+import com.example.demo.observability.ApplicationMetrics;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,12 @@ import java.util.List;
 public class UserRegistrationEventPublisher {
 
     private final List<UserRegistrationEventSink> sinks;
+    private final ApplicationMetrics applicationMetrics;
 
-    public UserRegistrationEventPublisher(List<UserRegistrationEventSink> sinks) {
+    public UserRegistrationEventPublisher(List<UserRegistrationEventSink> sinks,
+                                          ApplicationMetrics applicationMetrics) {
         this.sinks = List.copyOf(sinks);
+        this.applicationMetrics = applicationMetrics;
     }
 
     /**
@@ -24,6 +28,7 @@ public class UserRegistrationEventPublisher {
     public void publish(UserRegisteredEvent event) {
         for (UserRegistrationEventSink sink : sinks) {
             sink.publish(event);
+            applicationMetrics.recordPublishedEvent(sink.transportName());
         }
     }
 
