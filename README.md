@@ -64,6 +64,7 @@ The Spring module now includes:
 - H2 primary database with Spring Data JPA
 - secondary H2 analytics database with `JdbcTemplate`
 - in-memory rate limiting
+- API key authentication for `/api/**`
 - a microservice-style service layer
 
 Or from the repository root:

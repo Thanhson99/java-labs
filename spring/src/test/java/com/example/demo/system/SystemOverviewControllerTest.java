@@ -15,12 +15,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class SystemOverviewControllerTest {
 
+    private static final String API_KEY_HEADER = "X-API-Key";
+    private static final String API_KEY_VALUE = "dev-secret-key";
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     void overviewExposesArchitectureSummary() throws Exception {
-        mockMvc.perform(get("/api/system/overview"))
+        mockMvc.perform(get("/api/system/overview")
+                        .header(API_KEY_HEADER, API_KEY_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.primaryDatabase.maximumPoolSize").value(5))
                 .andExpect(jsonPath("$.analyticsDatabase.jdbcUrl", containsString("analyticsdb")))

@@ -9,6 +9,7 @@ This module now teaches a small but realistic backend shape.
 - Primary database with Spring Data JPA and H2
 - Secondary analytics database with `JdbcTemplate` and H2
 - Rate limiting with an in-memory fixed-window limiter
+- API key authentication for `/api/**` endpoints
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
 
@@ -25,6 +26,7 @@ This module now teaches a small but realistic backend shape.
 ```bash
 curl -X POST http://localhost:8089/api/users/register \
   -H 'Content-Type: application/json' \
+  -H 'X-API-Key: dev-secret-key' \
   -H 'X-Caller-Key: demo-key' \
   -d '{
     "userId": "u-1",
@@ -32,6 +34,11 @@ curl -X POST http://localhost:8089/api/users/register \
     "region": "APAC"
   }'
 ```
+
+The protected `/api/**` endpoints currently require:
+
+- header: `X-API-Key`
+- value: `dev-secret-key`
 
 ## Architecture Notes
 

@@ -15,6 +15,7 @@ The code is intentionally split into small classes so you can study one concept 
 - `InventoryItem` and `InventoryAnalytics`: maps, grouping, sorting, and filtering
 - `ExceptionPlayground`: validation and exception design
 - `FileReport`: file I/O with `Path` and `Files`
+- `JdbcExamples`: direct JDBC with SQL, prepared statements, and result-set mapping
 - `FixedWindowRateLimiter`: fixed-window throttling for API-like workloads
 - `SimpleConnectionPool` and `FakeDatabaseConnection`: connection reuse and pool limits
 - `UserProfileRepository` family: repository abstraction, in-memory database, and region-based routing
@@ -61,7 +62,16 @@ Package the module:
 8. `InventoryAnalytics`
 9. `ExceptionPlayground`
 10. `FileReport`
-11. `FixedWindowRateLimiter`
-12. `SimpleConnectionPool`
-13. `MultiDatabaseUserProfileRepository`
-14. `RegistrationService`
+11. `JdbcExamples`
+12. `FixedWindowRateLimiter`
+13. `SimpleConnectionPool`
+14. `MultiDatabaseUserProfileRepository`
+15. `RegistrationService`
+
+## JDBC Study Tip
+
+The JDBC example is best learned through the unit test because it runs against an in-memory H2 database:
+
+```bash
+./mvnw -Dtest=JdbcExamplesTest test
+```
