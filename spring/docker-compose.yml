@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  users-postgres:
+    image: postgres:16
+    container_name: java-labs-users-postgres
+    environment:
+      POSTGRES_DB: usersdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - users_postgres_data:/var/lib/postgresql/data
+
+  analytics-postgres:
+    image: postgres:16
+    container_name: java-labs-analytics-postgres
+    environment:
+      POSTGRES_DB: analyticsdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15433:5432"
+    volumes:
+      - analytics_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  users_postgres_data:
+  analytics_postgres_data:

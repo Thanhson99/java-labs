@@ -63,9 +63,11 @@ The Spring module now includes:
 - request validation
 - H2 primary database with Spring Data JPA
 - secondary H2 analytics database with `JdbcTemplate`
+- transaction rollback demo on the primary database
 - in-memory rate limiting
 - API key authentication for `/api/**`
 - a microservice-style service layer
+- optional Postgres profile with Docker Compose
 
 Or from the repository root:
 
@@ -120,9 +122,24 @@ Useful Spring endpoints:
 ```text
 GET  /hello?name=Spring
 POST /api/users/register
+POST /api/users/register-demo?failAfterAudit=true
 GET  /api/users/{userId}
 GET  /api/system/overview
 GET  /h2-console
+```
+
+Protected `/api/**` endpoints require:
+
+```text
+X-API-Key: dev-secret-key
+```
+
+Run the Postgres version:
+
+```bash
+cd spring
+docker compose up -d
+SPRING_PROFILES_ACTIVE=postgres ./mvnw spring-boot:run
 ```
 
 Run Spring tests:

@@ -37,6 +37,15 @@ public class RegistrationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+    @PostMapping("/register-demo")
+    public ResponseEntity<RegistrationResult> registerWithRollbackDemo(
+            @RequestHeader(name = "X-Caller-Key", defaultValue = "demo-caller") String callerKey,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "false") boolean failAfterAudit,
+            @Valid @RequestBody RegisterUserRequest request) {
+        RegistrationResult result = registrationService.registerWithRollbackDemo(callerKey, request, failAfterAudit);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserProfileResponse> getUser(@PathVariable String userId) {
         return userProfileRepository.findById(userId)
@@ -48,6 +57,12 @@ public class RegistrationController {
     @org.springframework.web.bind.annotation.ExceptionHandler(RateLimitExceededException.class)
     public ResponseEntity<Map<String, String>> handleRateLimit(RateLimitExceededException exception) {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .body(Map.of("error", exception.getMessage()));
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalState(IllegalStateException exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("error", exception.getMessage()));
     }
 }

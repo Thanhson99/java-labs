@@ -55,6 +55,12 @@ public class AppBeansConfig {
     }
 
     @Bean
+    @Qualifier("primaryJdbcTemplate")
+    JdbcTemplate primaryJdbcTemplate(@Qualifier("dataSource") DataSource primaryDataSource) {
+        return new JdbcTemplate(primaryDataSource);
+    }
+
+    @Bean
     JdbcTemplate analyticsJdbcTemplate(@Qualifier("analyticsDataSource") DataSource analyticsDataSource) {
         return new JdbcTemplate(analyticsDataSource);
     }
