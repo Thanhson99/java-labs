@@ -25,3 +25,30 @@ build/
 # Environment files
 .env
 .env.*
+!.env.example
+!.env.*.example
+
+# Local-only configuration
+.envrc
+.direnv/
+*.local
+*.local.*
+application-local.properties
+application-local.yml
+application-local.yaml
+application-secret.properties
+application-secret.yml
+application-secret.yaml
+
+# Secrets and credentials
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.crt
+*.csr
+*.der
+*.pfx
+secrets/
+credentials/
