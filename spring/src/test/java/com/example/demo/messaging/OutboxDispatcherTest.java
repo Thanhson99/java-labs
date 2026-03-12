@@ -31,7 +31,12 @@ class OutboxDispatcherTest {
                 "u-88",
                 "USER_REGISTERED",
                 "{\"userId\":\"u-88\"}",
-                0
+                "PENDING",
+                0,
+                Instant.parse("2026-03-12T00:00:00Z"),
+                Instant.parse("2026-03-12T00:00:00Z"),
+                null,
+                null
         );
         UserRegisteredEvent event = new UserRegisteredEvent(
                 "u-88",
@@ -67,7 +72,12 @@ class OutboxDispatcherTest {
                 "u-89",
                 "USER_REGISTERED",
                 "{\"userId\":\"u-89\"}",
-                2
+                "PENDING",
+                2,
+                Instant.parse("2026-03-12T00:00:00Z"),
+                Instant.parse("2026-03-12T00:00:00Z"),
+                null,
+                null
         );
         UserRegisteredEvent event = new UserRegisteredEvent(
                 "u-89",

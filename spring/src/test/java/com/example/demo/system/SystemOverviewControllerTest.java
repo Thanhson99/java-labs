@@ -1,5 +1,8 @@
 package com.example.demo.system;
 
+import com.example.demo.messaging.OutboxEventRecord;
+import com.example.demo.messaging.OutboxEventStore;
+import com.example.demo.messaging.UserRegisteredEvent;
 import com.example.demo.auth.TokenRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -8,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.Instant;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -27,6 +32,9 @@ class SystemOverviewControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private OutboxEventStore outboxEventStore;
 
     @Test
     void dashboardExposesPublicRuntimeSummary() throws Exception {
@@ -72,6 +80,45 @@ class SystemOverviewControllerTest {
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.error").value("forbidden"));
+    }
+
+    @Test
+    void outboxAdminEndpointsRequireAdminAndExposeRows() throws Exception {
+        outboxEventStore.enqueueUserRegistered(new UserRegisteredEvent(
+                "admin-check",
+                "admin-check@example.com",
+                "APAC",
+                Instant.parse("2026-03-12T00:00:00Z"),
+                "test-suite"
+        ));
+        String token = fetchToken("admin", "admin123");
+
+        mockMvc.perform(get("/api/system/outbox")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.summary.pending").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.rows[0].aggregateType").exists())
+                .andExpect(jsonPath("$.rows[0].status").exists());
+    }
+
+    @Test
+    void outboxReplayRequeuesDeadLetterRows() throws Exception {
+        outboxEventStore.enqueueUserRegistered(new UserRegisteredEvent(
+                "dead-letter-user",
+                "dead-letter@example.com",
+                "APAC",
+                Instant.parse("2026-03-12T00:00:00Z"),
+                "test-suite"
+        ));
+        OutboxEventRecord row = outboxEventStore.listRecent(1).get(0);
+        outboxEventStore.markDeadLetter(row.id(), "forced failure");
+        String token = fetchToken("admin", "admin123");
+
+        mockMvc.perform(post("/api/system/outbox/{outboxId}/replay", row.id())
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("requeued"))
+                .andExpect(jsonPath("$.outboxId").value(row.id()));
     }
 
     private String fetchToken(String username, String password) throws Exception {

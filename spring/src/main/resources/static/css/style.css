@@ -134,10 +134,34 @@ h3 {
 }
 
 h1 {
-    max-width: 10ch;
     font-size: clamp(2.8rem, 6vw, 5.6rem);
     line-height: 0.92;
-    text-wrap: balance;
+}
+
+.hero-title {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.06em;
+}
+
+.hero-title-line,
+.hero-title-name-wrap,
+.hero-title-name,
+.hero-title-dot {
+    display: block;
+}
+
+.hero-title-name-wrap {
+    white-space: nowrap;
+}
+
+.hero-title-name {
+    display: inline;
+}
+
+.hero-title-dot {
+    display: inline;
 }
 
 h2 {
@@ -466,6 +490,82 @@ button:hover {
     margin-top: 18px;
 }
 
+.outbox-admin,
+.outbox-summary {
+    display: grid;
+    gap: 16px;
+}
+
+.outbox-summary {
+    margin-top: 18px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.table-wrap {
+    overflow: auto;
+    margin-top: 4px;
+    border-radius: 20px;
+    border: 1px solid rgba(135, 194, 255, 0.12);
+    background: var(--panel-strong);
+}
+
+.outbox-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 820px;
+}
+
+.outbox-table th,
+.outbox-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(135, 194, 255, 0.08);
+    vertical-align: top;
+}
+
+.outbox-table th {
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+}
+
+.outbox-table td {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.outbox-table td strong {
+    color: var(--text);
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(124, 224, 255, 0.18);
+    background: rgba(124, 224, 255, 0.08);
+    color: var(--text);
+    font-size: 0.8rem;
+}
+
+.status-badge.dead-letter {
+    border-color: rgba(255, 125, 107, 0.3);
+    background: rgba(255, 125, 107, 0.12);
+    color: #ffd2cb;
+}
+
+.status-badge.published {
+    border-color: rgba(61, 214, 181, 0.24);
+    background: rgba(61, 214, 181, 0.12);
+    color: #bcffe8;
+}
+
+.table-action {
+    min-width: 108px;
+}
+
 .playground-form,
 .playground-actions {
     display: grid;
@@ -555,14 +655,11 @@ pre {
     .topology-grid,
     .dashboard-grid,
     .hero-metrics,
+    .outbox-summary,
     .card-grid,
     .input-grid,
     .input-row {
         grid-template-columns: 1fr;
-    }
-
-    h1 {
-        max-width: none;
     }
 }
 
@@ -589,5 +686,13 @@ pre {
         width: 100%;
         justify-content: center;
         text-align: center;
+    }
+
+    .hero-title-name {
+        overflow-wrap: anywhere;
+    }
+
+    .hero-title-name-wrap {
+        white-space: normal;
     }
 }

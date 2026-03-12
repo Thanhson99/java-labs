@@ -57,7 +57,8 @@ public class OutboxEventStore {
 
     public List<OutboxEventRecord> fetchReadyBatch(int batchSize) {
         return primaryJdbcTemplate.query("""
-                        select id, aggregate_type, aggregate_id, event_type, payload, attempts
+                        select id, aggregate_type, aggregate_id, event_type, payload, status,
+                               attempts, available_at, created_at, published_at, last_error
                         from outbox_events
                         where status = 'PENDING' and available_at <= ?
                         order by id
@@ -126,6 +127,33 @@ public class OutboxEventStore {
         return count == null ? 0 : count;
     }
 
+    public List<OutboxEventRecord> listRecent(int limit) {
+        return primaryJdbcTemplate.query("""
+                        select id, aggregate_type, aggregate_id, event_type, payload, status,
+                               attempts, available_at, created_at, published_at, last_error
+                        from outbox_events
+                        order by id desc
+                        limit ?
+                        """,
+                (rs, rowNum) -> mapRecord(rs),
+                limit);
+    }
+
+    public boolean replayDeadLetter(long outboxId) {
+        int updated = primaryJdbcTemplate.update("""
+                        update outbox_events
+                        set status = 'PENDING',
+                            attempts = 0,
+                            available_at = ?,
+                            published_at = null,
+                            last_error = null
+                        where id = ? and status = 'DEAD_LETTER'
+                        """,
+                Timestamp.from(clock.instant()),
+                outboxId);
+        return updated > 0;
+    }
+
     public UserRegisteredEvent deserializeUserRegistered(String payload) {
         try {
             return objectMapper.readValue(payload, UserRegisteredEvent.class);
@@ -149,8 +177,17 @@ public class OutboxEventStore {
                 resultSet.getString("aggregate_id"),
                 resultSet.getString("event_type"),
                 resultSet.getString("payload"),
-                resultSet.getInt("attempts")
+                resultSet.getString("status"),
+                resultSet.getInt("attempts"),
+                toInstant(resultSet.getTimestamp("available_at")),
+                toInstant(resultSet.getTimestamp("created_at")),
+                toInstant(resultSet.getTimestamp("published_at")),
+                resultSet.getString("last_error")
         );
+    }
+
+    private Instant toInstant(Timestamp timestamp) {
+        return timestamp == null ? null : timestamp.toInstant();
     }
 
     private String truncate(String value) {

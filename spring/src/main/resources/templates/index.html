@@ -13,7 +13,12 @@
     <header class="hero">
         <div class="hero-copy">
             <p class="eyebrow">Java Labs / Spring Boot Control Room</p>
-            <h1 th:text="'Hello, ' + ${name} + '.'">Hello, Spring Learner.</h1>
+            <h1 class="hero-title">
+                <span class="hero-title-line">Hello,</span>
+                <span class="hero-title-name-wrap">
+                    <span class="hero-title-name" th:text="${name}">Spring Learner</span><span class="hero-title-dot">.</span>
+                </span>
+            </h1>
             <p class="lede">A live learning dashboard for auth, data, transactions, and messaging. Use it to read the code, hit the endpoints, and observe how the backend behaves.</p>
             <div class="hero-stripes" aria-hidden="true">
                 <span></span>
@@ -224,6 +229,7 @@
 
                 <div class="playground-actions">
                     <button id="loadOverviewButton" type="button">Call /api/system/overview</button>
+                    <button id="loadOutboxButton" type="button">Load Admin Outbox</button>
                     <p class="helper-text">Requires an admin token. Change login to <code>admin / admin123</code> first.</p>
                 </div>
 
@@ -233,6 +239,49 @@
                 </div>
 
                 <pre id="apiOutput"><code>Responses will appear here.</code></pre>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Outbox Admin</h2>
+                <p class="panel-kicker">Admin-only outbox inspection and replay from <code>/api/system/outbox</code>.</p>
+            </div>
+            <div class="outbox-admin">
+                <div class="outbox-summary">
+                    <article class="info-card">
+                        <h3>Pending</h3>
+                        <p id="outboxPendingValue">Load admin outbox.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Published</h3>
+                        <p id="outboxPublishedValue">Load admin outbox.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Dead Letter</h3>
+                        <p id="outboxDeadLetterValue">Load admin outbox.</p>
+                    </article>
+                </div>
+                <div class="table-wrap">
+                    <table class="outbox-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Aggregate</th>
+                            <th>Status</th>
+                            <th>Attempts</th>
+                            <th>Available</th>
+                            <th>Error</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="outboxTableBody">
+                        <tr>
+                            <td colspan="7">Login as admin, then load the outbox.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 

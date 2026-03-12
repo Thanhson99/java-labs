@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const helloForm = document.getElementById("helloForm");
     const loginForm = document.getElementById("loginForm");
     const loadOverviewButton = document.getElementById("loadOverviewButton");
+    const loadOutboxButton = document.getElementById("loadOutboxButton");
     const apiOutput = document.getElementById("apiOutput");
     const tokenState = document.getElementById("tokenState");
     const dashboardAppName = document.getElementById("dashboardAppName");
@@ -28,6 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const dashboardAdminState = document.getElementById("dashboardAdminState");
     const dashboardAdminHint = document.getElementById("dashboardAdminHint");
     const dashboardLastRefresh = document.getElementById("dashboardLastRefresh");
+    const outboxPendingValue = document.getElementById("outboxPendingValue");
+    const outboxPublishedValue = document.getElementById("outboxPublishedValue");
+    const outboxDeadLetterValue = document.getElementById("outboxDeadLetterValue");
+    const outboxTableBody = document.getElementById("outboxTableBody");
     let accessToken = "";
 
     if (copyButton && snippet) {
@@ -91,6 +96,111 @@ document.addEventListener("DOMContentLoaded", () => {
     const markRefreshTime = () => {
         const now = new Date();
         setText(dashboardLastRefresh, `Last refresh: ${now.toLocaleTimeString()}`);
+    };
+
+    const escapeHtml = (value) => String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#39;");
+
+    const requireToken = () => {
+        if (accessToken) {
+            return true;
+        }
+
+        writeOutput("Missing token", "Login first to load protected endpoints.");
+        return false;
+    };
+
+    const renderOutboxRows = (rows) => {
+        if (!outboxTableBody) {
+            return;
+        }
+
+        if (!rows || rows.length === 0) {
+            outboxTableBody.innerHTML = "<tr><td colspan=\"7\">No outbox rows yet.</td></tr>";
+            return;
+        }
+
+        outboxTableBody.innerHTML = rows.map((row) => {
+            const statusClass = String(row.status || "").toLowerCase().replaceAll("_", "-");
+            const replayButton = row.status === "DEAD_LETTER"
+                ? `<button class="table-action" type="button" data-replay-id="${row.id}">Replay</button>`
+                : "<span class=\"helper-text\">No action</span>";
+            return `
+                <tr>
+                    <td><strong>${escapeHtml(row.id)}</strong></td>
+                    <td>${escapeHtml(row.aggregateType)}<br /><code>${escapeHtml(row.aggregateId)}</code></td>
+                    <td><span class="status-badge ${escapeHtml(statusClass)}">${escapeHtml(row.status)}</span></td>
+                    <td>${escapeHtml(row.attempts)}</td>
+                    <td>${escapeHtml(row.availableAt || "n/a")}</td>
+                    <td>${escapeHtml(row.lastError || "None")}</td>
+                    <td>${replayButton}</td>
+                </tr>
+            `;
+        }).join("");
+    };
+
+    const renderOutboxSummary = (summary) => {
+        setText(outboxPendingValue, `${summary?.pending ?? 0} rows ready or waiting`);
+        setText(outboxPublishedValue, `${summary?.published ?? 0} rows already dispatched`);
+        setText(outboxDeadLetterValue, `${summary?.deadLetter ?? 0} rows need replay or inspection`);
+    };
+
+    const loadOutbox = async () => {
+        if (!requireToken()) {
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/system/outbox", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(JSON.stringify(data));
+            }
+
+            renderOutboxSummary(data.summary);
+            renderOutboxRows(data.rows);
+            setText(dashboardAdminState, "Admin outbox loaded");
+            setText(
+                dashboardAdminHint,
+                `Rows: ${(data.rows || []).length} | dead-letter: ${data.summary?.deadLetter ?? 0}`
+            );
+            writeOutput("GET /api/system/outbox", data);
+        } catch (error) {
+            writeOutput("GET /api/system/outbox failed", String(error));
+        }
+    };
+
+    const replayOutboxRow = async (outboxId) => {
+        if (!requireToken()) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/system/outbox/${outboxId}/replay`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(JSON.stringify(data));
+            }
+
+            writeOutput(`POST /api/system/outbox/${outboxId}/replay`, data);
+            await loadOutbox();
+            await loadDashboard();
+        } catch (error) {
+            writeOutput(`POST /api/system/outbox/${outboxId}/replay failed`, String(error));
+        }
     };
 
     const loadDashboard = async () => {
@@ -260,8 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (loadOverviewButton) {
         loadOverviewButton.addEventListener("click", async () => {
-            if (!accessToken) {
-                writeOutput("Missing token", "Login first to load protected endpoints.");
+            if (!requireToken()) {
                 return;
             }
 
@@ -282,6 +391,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 writeOutput("GET /api/system/overview", data);
             } catch (error) {
                 writeOutput("GET /api/system/overview failed", String(error));
+            }
+        });
+    }
+
+    if (loadOutboxButton) {
+        loadOutboxButton.addEventListener("click", () => {
+            loadOutbox();
+        });
+    }
+
+    if (outboxTableBody) {
+        outboxTableBody.addEventListener("click", (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) {
+                return;
+            }
+
+            const replayId = target.dataset.replayId;
+            if (replayId) {
+                replayOutboxRow(replayId);
             }
         });
     }
