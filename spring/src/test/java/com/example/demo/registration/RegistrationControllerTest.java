@@ -1,6 +1,8 @@
 package com.example.demo.registration;
 
 import com.example.demo.analytics.AnalyticsEventStore;
+import com.example.demo.auth.TokenRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,20 +20,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class RegistrationControllerTest {
 
-    private static final String API_KEY_HEADER = "X-API-Key";
-    private static final String API_KEY_VALUE = "dev-secret-key";
-
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private AnalyticsEventStore analyticsEventStore;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     void registerEndpointCreatesUserAndWritesAnalyticsEvent() throws Exception {
+        String token = fetchToken("student", "student123");
+
         mockMvc.perform(post("/api/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(API_KEY_HEADER, API_KEY_VALUE)
+                        .header("Authorization", "Bearer " + token)
                         .header("X-Caller-Key", "test-client-create")
                         .content("""
                                 {
@@ -45,7 +49,7 @@ class RegistrationControllerTest {
                 .andExpect(jsonPath("$.userProfile.userId").value("u-1"));
 
         mockMvc.perform(get("/api/users/u-1")
-                        .header(API_KEY_HEADER, API_KEY_VALUE))
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("alice@example.com"));
 
@@ -54,6 +58,7 @@ class RegistrationControllerTest {
 
     @Test
     void registerEndpointReturnsTooManyRequestsWhenBudgetIsExceeded() throws Exception {
+        String token = fetchToken("student", "student123");
         String payloadTemplate = """
                 {
                   "userId": "%s",
@@ -65,7 +70,7 @@ class RegistrationControllerTest {
         for (int index = 1; index <= 3; index++) {
             mockMvc.perform(post("/api/users/register")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .header(API_KEY_HEADER, API_KEY_VALUE)
+                            .header("Authorization", "Bearer " + token)
                             .header("X-Caller-Key", "rate-limited-client")
                             .content(payloadTemplate.formatted("rate-" + index, "user" + index)))
                     .andExpect(status().isCreated());
@@ -73,7 +78,7 @@ class RegistrationControllerTest {
 
         mockMvc.perform(post("/api/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(API_KEY_HEADER, API_KEY_VALUE)
+                        .header("Authorization", "Bearer " + token)
                         .header("X-Caller-Key", "rate-limited-client")
                         .content(payloadTemplate.formatted("rate-4", "user4")))
                 .andExpect(status().isTooManyRequests())
@@ -81,9 +86,21 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void protectedEndpointsRejectRequestsWithoutApiKey() throws Exception {
+    void protectedEndpointsRejectRequestsWithoutBearerToken() throws Exception {
         mockMvc.perform(get("/api/users/u-1"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.error").value("invalid API key"));
+                .andExpect(jsonPath("$.error").value("missing bearer token"));
+    }
+
+    private String fetchToken(String username, String password) throws Exception {
+        String body = objectMapper.writeValueAsString(new TokenRequest(username, password));
+        String response = mockMvc.perform(post("/api/auth/token")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        return objectMapper.readTree(response).get("accessToken").asText();
     }
 }

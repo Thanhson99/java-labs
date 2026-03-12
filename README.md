@@ -62,12 +62,14 @@ The Spring module now includes:
 - REST endpoints for user registration and profile lookup
 - request validation
 - H2 primary database with Spring Data JPA
+- Flyway migrations for the primary database
 - secondary H2 analytics database with `JdbcTemplate`
 - transaction rollback demo on the primary database
 - in-memory rate limiting
-- API key authentication for `/api/**`
+- JWT authentication with role-based authorization
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
+- Testcontainers integration tests against real Postgres
 
 Or from the repository root:
 
@@ -121,6 +123,7 @@ Useful Spring endpoints:
 
 ```text
 GET  /hello?name=Spring
+POST /api/auth/token
 POST /api/users/register
 POST /api/users/register-demo?failAfterAudit=true
 GET  /api/users/{userId}
@@ -131,7 +134,28 @@ GET  /h2-console
 Protected `/api/**` endpoints require:
 
 ```text
-X-API-Key: dev-secret-key
+Authorization: Bearer <jwt>
+```
+
+Demo credentials:
+
+```text
+student / student123 -> USER
+admin / admin123 -> ADMIN, USER
+```
+
+Example:
+
+```bash
+TOKEN=$(curl -s -X POST http://localhost:8089/api/auth/token \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"student","password":"student123"}' | jq -r '.accessToken')
+
+curl -X POST http://localhost:8089/api/users/register \
+  -H "Authorization: Bearer $TOKEN" \
+  -H 'Content-Type: application/json' \
+  -H 'X-Caller-Key: demo-key' \
+  -d '{"userId":"u-1","email":"alice@example.com","region":"APAC"}'
 ```
 
 Run the Postgres version:

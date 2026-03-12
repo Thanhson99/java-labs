@@ -7,12 +7,14 @@ This module now teaches a small but realistic backend shape.
 - Spring MVC controllers
 - Request validation with `@Valid`
 - Primary database with Spring Data JPA and H2
+- Flyway migrations for the primary database schema
 - Secondary analytics database with `JdbcTemplate` and H2
 - Rate limiting with an in-memory fixed-window limiter
-- API key authentication for `/api/**` endpoints
+- JWT authentication with role-based authorization
 - Transaction rollback demo on the primary database
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
+- Testcontainers integration test against real Postgres
 
 ## Main Endpoints
 
@@ -22,13 +24,20 @@ This module now teaches a small but realistic backend shape.
 - `GET /api/system/overview`
 - `GET /hello?name=Spring`
 - `GET /h2-console`
+- `POST /api/auth/token`
 
 ## Example Request
 
 ```bash
-curl -X POST http://localhost:8089/api/users/register \
+TOKEN=$(curl -s -X POST http://localhost:8089/api/auth/token \
   -H 'Content-Type: application/json' \
-  -H 'X-API-Key: dev-secret-key' \
+  -d '{
+    "username": "student",
+    "password": "student123"
+  }' | jq -r '.accessToken')
+
+curl -X POST http://localhost:8089/api/users/register \
+  -H "Authorization: Bearer $TOKEN" \
   -H 'X-Caller-Key: demo-key' \
   -d '{
     "userId": "u-1",
@@ -37,10 +46,15 @@ curl -X POST http://localhost:8089/api/users/register \
   }'
 ```
 
-The protected `/api/**` endpoints currently require:
+Demo credentials:
 
-- header: `X-API-Key`
-- value: `dev-secret-key`
+- `student` / `student123` -> role `USER`
+- `admin` / `admin123` -> roles `ADMIN`, `USER`
+
+Protected endpoints:
+
+- `/api/users/**` -> `USER` or `ADMIN`
+- `/api/system/**` -> `ADMIN`
 
 ## Architecture Notes
 
@@ -73,3 +87,5 @@ This uses:
 
 - `usersdb` on `localhost:15432`
 - `analyticsdb` on `localhost:15433`
+
+The test suite also includes a Testcontainers-based integration test that boots two disposable Postgres containers and verifies the registration flow end to end.

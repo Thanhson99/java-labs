@@ -1,6 +1,8 @@
 package com.example.demo.registration;
 
 import com.example.demo.audit.RegistrationAuditStore;
+import com.example.demo.auth.TokenRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.demo.profile.UserProfileRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +29,17 @@ class RegistrationTransactionTest {
     @Autowired
     private RegistrationAuditStore registrationAuditStore;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     void rollbackDemoRemovesPrimaryWritesWhenFailureIsTriggered() throws Exception {
+        String token = fetchToken("admin", "admin123");
+
         mockMvc.perform(post("/api/users/register-demo")
                         .param("failAfterAudit", "true")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-Key", "dev-secret-key")
+                        .header("Authorization", "Bearer " + token)
                         .header("X-Caller-Key", "rollback-client")
                         .content("""
                                 {
@@ -46,5 +53,17 @@ class RegistrationTransactionTest {
 
         assertThat(userProfileRepository.findById("rollback-1")).isEmpty();
         assertThat(registrationAuditStore.countByUserId("rollback-1")).isZero();
+    }
+
+    private String fetchToken(String username, String password) throws Exception {
+        String body = objectMapper.writeValueAsString(new TokenRequest(username, password));
+        String response = mockMvc.perform(post("/api/auth/token")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        return objectMapper.readTree(response).get("accessToken").asText();
     }
 }
