@@ -197,6 +197,51 @@ button:hover {
     margin-top: 10px;
 }
 
+.playground-stack {
+    display: grid;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.playground-form,
+.playground-actions {
+    display: grid;
+    gap: 10px;
+}
+
+.playground-form label {
+    font-weight: 600;
+}
+
+.input-row,
+.input-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.input-row {
+    grid-template-columns: 1fr auto;
+}
+
+.input-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+input {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font: inherit;
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--ink);
+}
+
+.helper-text {
+    margin: 0;
+    color: var(--muted);
+}
+
 .endpoint-list span {
     display: inline-block;
     min-width: 48px;
@@ -220,6 +265,17 @@ pre {
     line-height: 1.6;
 }
 
+#apiOutput {
+    margin: 0;
+    padding: 18px;
+    min-height: 180px;
+    overflow: auto;
+    border-radius: 18px;
+    background: #171b19;
+    color: #f6efe3;
+    line-height: 1.55;
+}
+
 .copied {
     background: rgba(36, 65, 50, 0.14);
     color: var(--forest);
@@ -228,7 +284,9 @@ pre {
 @media (max-width: 900px) {
     .hero,
     .content-grid,
-    .card-grid {
+    .card-grid,
+    .input-grid,
+    .input-row {
         grid-template-columns: 1fr;
     }
 

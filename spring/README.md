@@ -160,6 +160,7 @@ Local configuration:
 - use [`.env.example`](/Users/hopee/Downloads/java-labs/.env.example) for repository-wide placeholders
 - use [`spring/.env.example`](/Users/hopee/Downloads/java-labs/spring/.env.example) when you want Docker Compose and Spring to share the same local settings
 - do not commit `.env` files with real credentials
+- `run.sh` and `run.ps1` automatically load `.env` and `spring/.env` when those files exist
 
 Enable both transports for local study:
 
@@ -184,3 +185,17 @@ Useful properties:
 - `SPRING_RABBITMQ_PORT=5672`
 
 Check `/api/system/overview` as `admin` to see which transports are enabled.
+
+## Browser Playground
+
+The root page `/` is now a small learning dashboard rather than a plain welcome page.
+
+It gives you:
+
+- a quick summary of the backend architecture
+- important endpoints
+- a copyable login curl
+- a browser-side playground for:
+  - `GET /hello`
+  - `POST /api/auth/token`
+  - `GET /api/system/overview`

@@ -84,6 +84,7 @@ Or from the repository root:
 ```
 
 The script will:
+- load `.env` and `spring/.env` when present
 - try to use the requested Java version (`17` by default)
 - start at port `8089`
 - automatically move to the next free port if that port is already in use
@@ -124,6 +125,12 @@ Then open:
 http://localhost:8089
 or the next free port chosen by the script
 ```
+
+The `/` page now includes:
+
+- a backend capability overview
+- a quick login curl snippet
+- a small API playground for `/hello`, `/api/auth/token`, and `/api/system/overview`
 
 Useful Spring endpoints:
 

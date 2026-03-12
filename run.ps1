@@ -9,6 +9,36 @@ $RootDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $DefaultPort = if ($env:PORT) { [int]$env:PORT } else { 8089 }
 $DesiredJavaVersion = if ($env:JAVA_VERSION) { $env:JAVA_VERSION } else { "17" }
 
+function Import-EnvFile {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    if (-not (Test-Path $Path)) {
+        return
+    }
+
+    Write-Host "Loading env from $Path"
+
+    Get-Content $Path | ForEach-Object {
+        $line = $_.Trim()
+        if (-not $line -or $line.StartsWith("#")) {
+            return
+        }
+
+        $parts = $line -split "=", 2
+        if ($parts.Count -ne 2) {
+            return
+        }
+
+        $name = $parts[0].Trim()
+        $value = $parts[1].Trim().Trim('"').Trim("'")
+        [System.Environment]::SetEnvironmentVariable($name, $value, "Process")
+        Set-Item -Path "Env:$name" -Value $value
+    }
+}
+
 function Get-JavaMajorVersion {
     param(
         [Parameter(Mandatory = $true)]
@@ -168,6 +198,9 @@ function Run-Spring {
         Pop-Location
     }
 }
+
+Import-EnvFile -Path (Join-Path $RootDir ".env")
+Import-EnvFile -Path (Join-Path $RootDir "spring\.env")
 
 switch ($Mode) {
     "basic" { Run-Basic }

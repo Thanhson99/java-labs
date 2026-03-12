@@ -82,6 +82,35 @@
         </section>
 
         <section class="panel">
+            <h2>API Playground</h2>
+            <div class="playground-stack">
+                <form id="helloForm" class="playground-form">
+                    <label for="helloName">Public hello request</label>
+                    <div class="input-row">
+                        <input id="helloName" name="helloName" type="text" value="Spring" />
+                        <button type="submit">Call /hello</button>
+                    </div>
+                </form>
+
+                <form id="loginForm" class="playground-form">
+                    <label for="username">JWT login</label>
+                    <div class="input-grid">
+                        <input id="username" name="username" type="text" value="student" />
+                        <input id="password" name="password" type="password" value="student123" />
+                    </div>
+                    <button type="submit">Get Access Token</button>
+                </form>
+
+                <div class="playground-actions">
+                    <button id="loadOverviewButton" type="button">Call /api/system/overview</button>
+                    <p class="helper-text">Requires an admin token. Change login to <code>admin / admin123</code> first.</p>
+                </div>
+
+                <pre id="apiOutput"><code>Responses will appear here.</code></pre>
+            </div>
+        </section>
+
+        <section class="panel">
             <h2>Suggested Learning Path</h2>
             <ol class="path-list">
                 <li>Open the root page and inspect the template, CSS, and script.</li>

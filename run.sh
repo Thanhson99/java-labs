@@ -6,6 +6,20 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_PORT=8089
 DEFAULT_JAVA_VERSION="${JAVA_VERSION:-17}"
 
+load_env_file() {
+  local env_file="$1"
+
+  if [[ ! -f "$env_file" ]]; then
+    return 0
+  fi
+
+  echo "Loading env from $env_file"
+  set -a
+  # shellcheck disable=SC1090
+  source "$env_file"
+  set +a
+}
+
 usage() {
   cat <<'EOF'
 Usage:
@@ -141,6 +155,9 @@ run_spring() {
 }
 
 main() {
+  load_env_file "$ROOT_DIR/.env"
+  load_env_file "$ROOT_DIR/spring/.env"
+
   if [[ $# -ne 1 ]]; then
     usage
     exit 1
