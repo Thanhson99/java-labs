@@ -1,6 +1,8 @@
 package com.example.demo.registration;
 
 import com.example.demo.analytics.AnalyticsEventStore;
+import com.example.demo.messaging.UserRegisteredEvent;
+import com.example.demo.messaging.UserRegistrationEventPublisher;
 import com.example.demo.audit.RegistrationAuditStore;
 import com.example.demo.notification.NotificationGateway;
 import com.example.demo.profile.UserProfileEntity;
@@ -8,6 +10,8 @@ import com.example.demo.profile.UserProfileRepository;
 import com.example.demo.ratelimit.FixedWindowRateLimiter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Clock;
 
 /**
  * Application service that coordinates rate limiting, persistence, analytics, and notifications.
@@ -20,18 +24,24 @@ public class RegistrationService {
     private final AnalyticsEventStore analyticsEventStore;
     private final RegistrationAuditStore registrationAuditStore;
     private final FixedWindowRateLimiter rateLimiter;
+    private final UserRegistrationEventPublisher eventPublisher;
+    private final Clock clock;
 
     public RegistrationService(
             UserProfileRepository userProfileRepository,
             NotificationGateway notificationGateway,
             AnalyticsEventStore analyticsEventStore,
             RegistrationAuditStore registrationAuditStore,
-            FixedWindowRateLimiter rateLimiter) {
+            FixedWindowRateLimiter rateLimiter,
+            UserRegistrationEventPublisher eventPublisher,
+            Clock clock) {
         this.userProfileRepository = userProfileRepository;
         this.notificationGateway = notificationGateway;
         this.analyticsEventStore = analyticsEventStore;
         this.registrationAuditStore = registrationAuditStore;
         this.rateLimiter = rateLimiter;
+        this.eventPublisher = eventPublisher;
+        this.clock = clock;
     }
 
     /**
@@ -75,6 +85,13 @@ public class RegistrationService {
 
         analyticsEventStore.record("USER_REGISTERED", saved.getUserId(), saved.getRegion().name());
         notificationGateway.sendWelcome(saved);
+        eventPublisher.publish(new UserRegisteredEvent(
+                saved.getUserId(),
+                saved.getEmail(),
+                saved.getRegion().name(),
+                clock.instant(),
+                "registration-service"
+        ));
 
         return new RegistrationResult(true, "user registered", UserProfileResponse.fromEntity(saved));
     }

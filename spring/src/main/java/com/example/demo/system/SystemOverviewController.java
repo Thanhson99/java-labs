@@ -2,6 +2,8 @@ package com.example.demo.system;
 
 import com.example.demo.analytics.AnalyticsEventStore;
 import com.example.demo.analytics.AnalyticsDataSourceProperties;
+import com.example.demo.messaging.RegistrationMessagingProperties;
+import com.example.demo.messaging.UserRegistrationEventPublisher;
 import com.example.demo.ratelimit.FixedWindowRateLimiter;
 import com.example.demo.ratelimit.RegistrationRateLimitProperties;
 import com.zaxxer.hikari.HikariDataSource;
@@ -29,6 +31,8 @@ public class SystemOverviewController {
     private final AnalyticsEventStore analyticsEventStore;
     private final FixedWindowRateLimiter rateLimiter;
     private final int configuredPrimaryMaxPoolSize;
+    private final RegistrationMessagingProperties messagingProperties;
+    private final UserRegistrationEventPublisher eventPublisher;
 
     public SystemOverviewController(
             @Qualifier("dataSource") DataSource primaryDataSource,
@@ -37,6 +41,8 @@ public class SystemOverviewController {
             AnalyticsDataSourceProperties analyticsDataSourceProperties,
             AnalyticsEventStore analyticsEventStore,
             FixedWindowRateLimiter rateLimiter,
+            RegistrationMessagingProperties messagingProperties,
+            UserRegistrationEventPublisher eventPublisher,
             @Value("${spring.datasource.hikari.maximum-pool-size:10}") int configuredPrimaryMaxPoolSize) {
         this.primaryDataSource = primaryDataSource;
         this.analyticsDataSource = analyticsDataSource;
@@ -44,6 +50,8 @@ public class SystemOverviewController {
         this.analyticsDataSourceProperties = analyticsDataSourceProperties;
         this.analyticsEventStore = analyticsEventStore;
         this.rateLimiter = rateLimiter;
+        this.messagingProperties = messagingProperties;
+        this.eventPublisher = eventPublisher;
         this.configuredPrimaryMaxPoolSize = configuredPrimaryMaxPoolSize;
     }
 
@@ -67,6 +75,15 @@ public class SystemOverviewController {
                         "maxRequests", rateLimitProperties.maxRequests(),
                         "windowMillis", rateLimitProperties.windowMillis(),
                         "demoRemainingForDefaultCaller", rateLimiter.remainingRequests("demo-caller")
+                ),
+                "messaging", Map.of(
+                        "kafkaEnabled", messagingProperties.kafka().enabled(),
+                        "rabbitmqEnabled", messagingProperties.rabbitmq().enabled(),
+                        "kafkaTopic", messagingProperties.kafka().topic(),
+                        "rabbitmqExchange", messagingProperties.rabbitmq().exchange(),
+                        "rabbitmqQueue", messagingProperties.rabbitmq().queue(),
+                        "rabbitmqRoutingKey", messagingProperties.rabbitmq().routingKey(),
+                        "enabledTransports", eventPublisher.enabledTransports()
                 ),
                 "architecture", "single Spring Boot app with primary user DB, secondary analytics DB, and service boundaries that mirror a microservice design"
         );

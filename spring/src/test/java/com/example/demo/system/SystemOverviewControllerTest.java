@@ -36,6 +36,8 @@ class SystemOverviewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.primaryDatabase.maximumPoolSize").value(5))
                 .andExpect(jsonPath("$.analyticsDatabase.jdbcUrl", containsString("analyticsdb")))
+                .andExpect(jsonPath("$.messaging.kafkaEnabled").value(false))
+                .andExpect(jsonPath("$.messaging.rabbitmqEnabled").value(false))
                 .andExpect(jsonPath("$.architecture").exists());
     }
 

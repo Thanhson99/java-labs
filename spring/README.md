@@ -16,6 +16,7 @@ This module now teaches a small but realistic backend shape.
 - Hashed refresh token storage with session metadata
 - Refresh token reuse detection and logout-all revocation
 - Transaction rollback demo on the primary database
+- Event-driven registration with both Kafka and RabbitMQ publishers
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
 - Testcontainers integration test against real Postgres
@@ -101,6 +102,7 @@ Protected endpoints:
 - `registration` package: API contract and orchestration service
 - `analytics` package: secondary database writes
 - `notification` package: downstream client boundary
+- `messaging` package: domain event fan-out to Kafka and RabbitMQ
 - `ratelimit` package: API throttling logic
 - `system` package: diagnostics endpoint for learning
 
@@ -108,7 +110,7 @@ This is still one deployable Spring Boot app, but the boundaries intentionally m
 
 ## Running With Real Postgres
 
-Start the two Postgres containers:
+Start the local infrastructure:
 
 ```bash
 cd spring
@@ -125,5 +127,46 @@ This uses:
 
 - `usersdb` on `localhost:15432`
 - `analyticsdb` on `localhost:15433`
+- Kafka on `localhost:19092`
+- RabbitMQ on `localhost:5672`
+- RabbitMQ management UI on `http://localhost:15672`
 
 The test suite also includes a Testcontainers-based integration test that boots two disposable Postgres containers and verifies the registration flow end to end.
+
+## Kafka And RabbitMQ Learning
+
+The registration flow now emits the same `UserRegisteredEvent` through a fan-out publisher.
+
+- Kafka is better for durable event streams, replay, partitions, and consumer groups.
+- RabbitMQ is better for traditional queueing, routing patterns, and work distribution.
+- This project includes both so you can compare the code paths directly.
+
+Default behavior:
+
+- Kafka publishing is disabled
+- RabbitMQ publishing is disabled
+- the app still runs and tests without local brokers
+
+Enable both transports for local study:
+
+```bash
+cd spring
+APP_MESSAGING_KAFKA_ENABLED=true \
+APP_MESSAGING_RABBITMQ_ENABLED=true \
+SPRING_PROFILES_ACTIVE=postgres \
+./mvnw spring-boot:run
+```
+
+Useful properties:
+
+- `APP_MESSAGING_KAFKA_ENABLED=true`
+- `APP_MESSAGING_KAFKA_TOPIC=user-registered.v1`
+- `SPRING_KAFKA_BOOTSTRAP_SERVERS=localhost:19092`
+- `APP_MESSAGING_RABBITMQ_ENABLED=true`
+- `APP_MESSAGING_RABBITMQ_EXCHANGE=user.registration.exchange`
+- `APP_MESSAGING_RABBITMQ_QUEUE=user.registration.queue`
+- `APP_MESSAGING_RABBITMQ_ROUTING_KEY=user.registered`
+- `SPRING_RABBITMQ_HOST=localhost`
+- `SPRING_RABBITMQ_PORT=5672`
+
+Check `/api/system/overview` as `admin` to see which transports are enabled.

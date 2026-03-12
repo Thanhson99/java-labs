@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.analytics.AnalyticsDataSourceProperties;
+import com.example.demo.messaging.RegistrationMessagingProperties;
 import com.example.demo.ratelimit.RegistrationRateLimitProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -20,7 +21,11 @@ import java.time.Clock;
  * Central application configuration for infrastructure beans.
  */
 @Configuration
-@EnableConfigurationProperties({AnalyticsDataSourceProperties.class, RegistrationRateLimitProperties.class})
+@EnableConfigurationProperties({
+        AnalyticsDataSourceProperties.class,
+        RegistrationRateLimitProperties.class,
+        RegistrationMessagingProperties.class
+})
 public class AppBeansConfig {
 
     @Bean

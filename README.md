@@ -71,6 +71,7 @@ The Spring module now includes:
 - database-backed refresh token persistence and logout revocation
 - hashed refresh token storage with session metadata
 - refresh token reuse detection and logout-all revocation
+- event-driven registration with both Kafka and RabbitMQ publishers
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
 - Testcontainers integration tests against real Postgres
@@ -192,6 +193,22 @@ cd spring
 docker compose up -d
 SPRING_PROFILES_ACTIVE=postgres ./mvnw spring-boot:run
 ```
+
+Enable both messaging transports while you study event-driven flows:
+
+```bash
+cd spring
+APP_MESSAGING_KAFKA_ENABLED=true \
+APP_MESSAGING_RABBITMQ_ENABLED=true \
+SPRING_PROFILES_ACTIVE=postgres \
+./mvnw spring-boot:run
+```
+
+Local broker ports from `spring/docker-compose.yml`:
+
+- Kafka: `localhost:19092`
+- RabbitMQ AMQP: `localhost:5672`
+- RabbitMQ UI: `http://localhost:15672`
 
 Run Spring tests:
 
