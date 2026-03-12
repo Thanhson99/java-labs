@@ -69,6 +69,7 @@ The Spring module now includes:
 - JWT authentication with role-based authorization
 - refresh token rotation
 - database-backed refresh token persistence and logout revocation
+- hashed refresh token storage with session metadata
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
 - Testcontainers integration tests against real Postgres
@@ -152,11 +153,13 @@ Example:
 
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:8089/api/auth/token \
+  -H 'X-Session-Label: laptop-browser' \
   -H 'Content-Type: application/json' \
   -d '{"username":"student","password":"student123"}')
 
 ACCESS_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.accessToken')
 REFRESH_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.refreshToken')
+SESSION_ID=$(printf '%s' "$TOKEN" | jq -r '.sessionId')
 
 curl -X POST http://localhost:8089/api/users/register \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
@@ -165,6 +168,7 @@ curl -X POST http://localhost:8089/api/users/register \
   -d '{"userId":"u-1","email":"alice@example.com","region":"APAC"}'
 
 curl -X POST http://localhost:8089/api/auth/refresh \
+  -H 'X-Session-Label: refreshed-laptop-browser' \
   -H 'Content-Type: application/json' \
   -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
 

@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,19 +47,23 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public ResponseEntity<TokenResponse> createToken(@Valid @RequestBody TokenRequest request) {
+    public ResponseEntity<TokenResponse> createToken(
+            @RequestHeader(name = "X-Session-Label", defaultValue = "default-session") String sessionLabel,
+            @Valid @RequestBody TokenRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(issueTokenPair(userDetails));
+        return ResponseEntity.ok(issueTokenPair(userDetails, sessionLabel));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
-        String username = refreshTokenStore.consumeToken(request.refreshToken())
+    public ResponseEntity<TokenResponse> refreshToken(
+            @RequestHeader(name = "X-Session-Label", defaultValue = "refreshed-session") String sessionLabel,
+            @Valid @RequestBody RefreshTokenRequest request) {
+        ConsumedRefreshToken consumed = refreshTokenStore.consumeToken(request.refreshToken())
                 .orElseThrow(() -> new BadCredentialsException("invalid refresh token"));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return ResponseEntity.ok(issueTokenPair(userDetails));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(consumed.username());
+        return ResponseEntity.ok(issueTokenPair(userDetails, sessionLabel));
     }
 
     @PostMapping("/logout")
@@ -76,9 +81,14 @@ public class AuthController {
                 .body(Map.of("error", exception.getMessage()));
     }
 
-    private TokenResponse issueTokenPair(UserDetails userDetails) {
+    private TokenResponse issueTokenPair(UserDetails userDetails, String sessionLabel) {
         String accessToken = jwtTokenService.issueToken(userDetails);
-        String refreshToken = refreshTokenStore.issueToken(userDetails.getUsername());
-        return new TokenResponse(accessToken, refreshToken, "Bearer", jwtProperties.expirationSeconds());
+        IssuedRefreshToken refreshToken = refreshTokenStore.issueToken(userDetails.getUsername(), sessionLabel);
+        return new TokenResponse(
+                accessToken,
+                refreshToken.token(),
+                refreshToken.sessionId(),
+                "Bearer",
+                jwtProperties.expirationSeconds());
     }
 }

@@ -29,10 +29,12 @@ class RefreshTokenStoreTest {
         jdbcTemplate.execute("drop table if exists refresh_tokens");
         jdbcTemplate.execute("""
                 create table refresh_tokens (
-                    token varchar(128) primary key,
+                    token_hash varchar(128) primary key,
                     username varchar(64) not null,
                     expires_at timestamp not null,
-                    created_at timestamp not null
+                    created_at timestamp not null,
+                    session_id varchar(64) not null,
+                    session_label varchar(128) not null
                 )
                 """);
         clock = new MutableClock(Instant.parse("2026-03-12T00:00:00Z"));
@@ -41,16 +43,18 @@ class RefreshTokenStoreTest {
 
     @Test
     void refreshTokenCanBeConsumedOnlyOnce() {
-        String token = refreshTokenStore.issueToken("student");
+        String token = refreshTokenStore.issueToken("student", "browser-laptop").token();
 
-        assertThat(refreshTokenStore.consumeToken(token)).contains("student");
+        assertThat(refreshTokenStore.consumeToken(token))
+                .map(ConsumedRefreshToken::username)
+                .contains("student");
         assertThat(refreshTokenStore.consumeToken(token)).isEmpty();
     }
 
     @Test
     void expiredRefreshTokenIsRejected() {
         RefreshTokenStore shortLivedStore = new RefreshTokenStore(clock, new AuthProperties(1), jdbcTemplate);
-        String token = shortLivedStore.issueToken("student");
+        String token = shortLivedStore.issueToken("student", "browser-laptop").token();
 
         clock.setInstant(clock.instant().plusSeconds(5));
 
@@ -60,7 +64,7 @@ class RefreshTokenStoreTest {
 
     @Test
     void revokeTokenDeletesItFromTheDatabase() {
-        String token = refreshTokenStore.issueToken("student");
+        String token = refreshTokenStore.issueToken("student", "browser-laptop").token();
 
         assertThat(refreshTokenStore.revokeToken(token)).isTrue();
         assertThat(refreshTokenStore.activeTokenCountForUser("student")).isZero();
@@ -68,18 +72,22 @@ class RefreshTokenStoreTest {
 
     @Test
     void activeCountTracksPersistedTokens() {
-        refreshTokenStore.issueToken("student");
-        refreshTokenStore.issueToken("student");
+        String firstToken = refreshTokenStore.issueToken("student", "browser-laptop").token();
+        refreshTokenStore.issueToken("student", "mobile-phone");
         jdbcTemplate.update(
-                "insert into refresh_tokens(token, username, expires_at, created_at) values (?, ?, ?, ?)",
-                "legacy-token",
+                "insert into refresh_tokens(token_hash, username, expires_at, created_at, session_id, session_label) values (?, ?, ?, ?, ?, ?)",
+                "hashed-admin-token",
                 "admin",
                 Timestamp.from(clock.instant().plusSeconds(60)),
-                Timestamp.from(clock.instant())
+                Timestamp.from(clock.instant()),
+                "admin-session",
+                "admin-laptop"
         );
 
         assertThat(refreshTokenStore.activeTokenCount()).isEqualTo(3);
         assertThat(refreshTokenStore.activeTokenCountForUser("student")).isEqualTo(2);
+        assertThat(refreshTokenStore.findStoredTokenHash(firstToken)).isPresent();
+        assertThat(refreshTokenStore.findStoredTokenHash(firstToken).orElseThrow()).isNotEqualTo(firstToken);
     }
 
     private static final class MutableClock extends Clock {

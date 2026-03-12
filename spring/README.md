@@ -13,6 +13,7 @@ This module now teaches a small but realistic backend shape.
 - JWT authentication with role-based authorization
 - Refresh token rotation for issuing new access tokens
 - Database-backed refresh token persistence and logout revocation
+- Hashed refresh token storage with session metadata
 - Transaction rollback demo on the primary database
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
@@ -34,6 +35,7 @@ This module now teaches a small but realistic backend shape.
 
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:8089/api/auth/token \
+  -H 'X-Session-Label: laptop-browser' \
   -H 'Content-Type: application/json' \
   -d '{
     "username": "student",
@@ -42,6 +44,7 @@ TOKEN=$(curl -s -X POST http://localhost:8089/api/auth/token \
 
 ACCESS_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.accessToken')
 REFRESH_TOKEN=$(printf '%s' "$TOKEN" | jq -r '.refreshToken')
+SESSION_ID=$(printf '%s' "$TOKEN" | jq -r '.sessionId')
 
 curl -X POST http://localhost:8089/api/users/register \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
@@ -53,6 +56,7 @@ curl -X POST http://localhost:8089/api/users/register \
   }'
 
 curl -X POST http://localhost:8089/api/auth/refresh \
+  -H 'X-Session-Label: refreshed-laptop-browser' \
   -H 'Content-Type: application/json' \
   -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
 
@@ -66,7 +70,13 @@ Demo credentials:
 - `student` / `student123` -> role `USER`
 - `admin` / `admin123` -> roles `ADMIN`, `USER`
 
-Refresh tokens are stored in the primary database, are single-use, and expire based on `app.security.auth.refresh-expiration-seconds`.
+Refresh tokens are stored in the primary database as SHA-256 hashes, are single-use, and expire based on `app.security.auth.refresh-expiration-seconds`.
+
+Each issued refresh token now belongs to a session and returns:
+
+- `sessionId`
+- the new raw `refreshToken` shown once to the client
+- an optional session label from the `X-Session-Label` header
 
 Protected endpoints:
 

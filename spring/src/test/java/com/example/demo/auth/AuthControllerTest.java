@@ -30,6 +30,7 @@ class AuthControllerTest {
     @Test
     void tokenEndpointReturnsJwtForValidCredentials() throws Exception {
         mockMvc.perform(post("/api/auth/token")
+                        .header("X-Session-Label", "student-browser")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -40,7 +41,8 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
                 .andExpect(jsonPath("$.accessToken", not(isEmptyOrNullString())))
-                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())));
+                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())))
+                .andExpect(jsonPath("$.sessionId", not(isEmptyOrNullString())));
     }
 
     @Test
@@ -48,6 +50,7 @@ class AuthControllerTest {
         String token = fetchRefreshToken();
 
         mockMvc.perform(post("/api/auth/refresh")
+                        .header("X-Session-Label", "student-refresh")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -56,7 +59,8 @@ class AuthControllerTest {
                                 """.formatted(token)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken", not(isEmptyOrNullString())))
-                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())));
+                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())))
+                .andExpect(jsonPath("$.sessionId", not(isEmptyOrNullString())));
     }
 
     @Test
@@ -90,6 +94,7 @@ class AuthControllerTest {
 
     private String fetchRefreshToken() throws Exception {
         String refreshToken = mockMvc.perform(post("/api/auth/token")
+                        .header("X-Session-Label", "student-browser")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
