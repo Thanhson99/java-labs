@@ -68,6 +68,7 @@ The Spring module now includes:
 - in-memory rate limiting
 - JWT authentication with role-based authorization
 - refresh token rotation
+- database-backed refresh token persistence and logout revocation
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
 - Testcontainers integration tests against real Postgres
@@ -126,6 +127,7 @@ Useful Spring endpoints:
 GET  /hello?name=Spring
 POST /api/auth/token
 POST /api/auth/refresh
+POST /api/auth/logout
 POST /api/users/register
 POST /api/users/register-demo?failAfterAudit=true
 GET  /api/users/{userId}
@@ -163,6 +165,10 @@ curl -X POST http://localhost:8089/api/users/register \
   -d '{"userId":"u-1","email":"alice@example.com","region":"APAC"}'
 
 curl -X POST http://localhost:8089/api/auth/refresh \
+  -H 'Content-Type: application/json' \
+  -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
+
+curl -X POST http://localhost:8089/api/auth/logout \
   -H 'Content-Type: application/json' \
   -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
 ```

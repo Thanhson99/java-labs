@@ -1,5 +1,6 @@
 package com.example.demo.auth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,12 @@ class AuthControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private RefreshTokenStore refreshTokenStore;
+
     @Test
     void tokenEndpointReturnsJwtForValidCredentials() throws Exception {
         mockMvc.perform(post("/api/auth/token")
@@ -38,6 +45,50 @@ class AuthControllerTest {
 
     @Test
     void refreshEndpointRotatesRefreshTokenAndReturnsNewAccessToken() throws Exception {
+        String token = fetchRefreshToken();
+
+        mockMvc.perform(post("/api/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "refreshToken": "%s"
+                                }
+                                """.formatted(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken", not(isEmptyOrNullString())))
+                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())));
+    }
+
+    @Test
+    void logoutEndpointRevokesRefreshToken() throws Exception {
+        int before = refreshTokenStore.activeTokenCountForUser("student");
+        String token = fetchRefreshToken();
+
+        mockMvc.perform(post("/api/auth/logout")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "refreshToken": "%s"
+                                }
+                                """.formatted(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("refresh token revoked"));
+
+        mockMvc.perform(post("/api/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "refreshToken": "%s"
+                                }
+                                """.formatted(token)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error").value("invalid refresh token"));
+
+        org.assertj.core.api.Assertions.assertThat(refreshTokenStore.activeTokenCountForUser("student"))
+                .isEqualTo(before);
+    }
+
+    private String fetchRefreshToken() throws Exception {
         String refreshToken = mockMvc.perform(post("/api/auth/token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -51,20 +102,8 @@ class AuthControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        String token = new com.fasterxml.jackson.databind.ObjectMapper()
-                .readTree(refreshToken)
+        return objectMapper.readTree(refreshToken)
                 .get("refreshToken")
                 .asText();
-
-        mockMvc.perform(post("/api/auth/refresh")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "refreshToken": "%s"
-                                }
-                                """.formatted(token)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken", not(isEmptyOrNullString())))
-                .andExpect(jsonPath("$.refreshToken", not(isEmptyOrNullString())));
     }
 }

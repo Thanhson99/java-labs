@@ -61,6 +61,15 @@ public class AuthController {
         return ResponseEntity.ok(issueTokenPair(userDetails));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(@Valid @RequestBody LogoutRequest request) {
+        boolean revoked = refreshTokenStore.revokeToken(request.refreshToken());
+        if (!revoked) {
+            throw new BadCredentialsException("invalid refresh token");
+        }
+        return ResponseEntity.ok(Map.of("message", "refresh token revoked"));
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String, String>> handleBadCredentials(BadCredentialsException exception) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

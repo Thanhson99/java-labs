@@ -12,6 +12,7 @@ This module now teaches a small but realistic backend shape.
 - Rate limiting with an in-memory fixed-window limiter
 - JWT authentication with role-based authorization
 - Refresh token rotation for issuing new access tokens
+- Database-backed refresh token persistence and logout revocation
 - Transaction rollback demo on the primary database
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
@@ -22,6 +23,7 @@ This module now teaches a small but realistic backend shape.
 - `POST /api/users/register`
 - `POST /api/users/register-demo?failAfterAudit=true`
 - `POST /api/auth/refresh`
+- `POST /api/auth/logout`
 - `GET /api/users/{userId}`
 - `GET /api/system/overview`
 - `GET /hello?name=Spring`
@@ -53,6 +55,10 @@ curl -X POST http://localhost:8089/api/users/register \
 curl -X POST http://localhost:8089/api/auth/refresh \
   -H 'Content-Type: application/json' \
   -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
+
+curl -X POST http://localhost:8089/api/auth/logout \
+  -H 'Content-Type: application/json' \
+  -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
 ```
 
 Demo credentials:
@@ -60,7 +66,7 @@ Demo credentials:
 - `student` / `student123` -> role `USER`
 - `admin` / `admin123` -> roles `ADMIN`, `USER`
 
-Refresh tokens are opaque in-memory tokens intended for learning token rotation. They are single-use and expire based on `app.security.auth.refresh-expiration-seconds`.
+Refresh tokens are stored in the primary database, are single-use, and expire based on `app.security.auth.refresh-expiration-seconds`.
 
 Protected endpoints:
 
