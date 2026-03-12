@@ -70,6 +70,7 @@ The Spring module now includes:
 - refresh token rotation
 - database-backed refresh token persistence and logout revocation
 - hashed refresh token storage with session metadata
+- refresh token reuse detection and logout-all revocation
 - a microservice-style service layer
 - optional Postgres profile with Docker Compose
 - Testcontainers integration tests against real Postgres
@@ -129,6 +130,7 @@ GET  /hello?name=Spring
 POST /api/auth/token
 POST /api/auth/refresh
 POST /api/auth/logout
+POST /api/auth/logout-all
 POST /api/users/register
 POST /api/users/register-demo?failAfterAudit=true
 GET  /api/users/{userId}
@@ -175,7 +177,13 @@ curl -X POST http://localhost:8089/api/auth/refresh \
 curl -X POST http://localhost:8089/api/auth/logout \
   -H 'Content-Type: application/json' \
   -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
+
+curl -X POST http://localhost:8089/api/auth/logout-all \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"student","password":"student123"}'
 ```
+
+If a consumed or revoked refresh token is reused, the API returns `refresh token reuse detected`.
 
 Run the Postgres version:
 

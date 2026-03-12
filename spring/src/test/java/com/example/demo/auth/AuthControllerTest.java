@@ -64,6 +64,31 @@ class AuthControllerTest {
     }
 
     @Test
+    void refreshEndpointRejectsReusedRefreshToken() throws Exception {
+        String token = fetchRefreshToken();
+
+        mockMvc.perform(post("/api/auth/refresh")
+                        .header("X-Session-Label", "student-refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "refreshToken": "%s"
+                                }
+                                """.formatted(token)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "refreshToken": "%s"
+                                }
+                                """.formatted(token)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error").value("refresh token reuse detected"));
+    }
+
+    @Test
     void logoutEndpointRevokesRefreshToken() throws Exception {
         int before = refreshTokenStore.activeTokenCountForUser("student");
         String token = fetchRefreshToken();
@@ -86,10 +111,32 @@ class AuthControllerTest {
                                 }
                                 """.formatted(token)))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.error").value("invalid refresh token"));
+                .andExpect(jsonPath("$.error").value("refresh token reuse detected"));
 
         org.assertj.core.api.Assertions.assertThat(refreshTokenStore.activeTokenCountForUser("student"))
                 .isEqualTo(before);
+    }
+
+    @Test
+    void logoutAllRevokesEveryActiveTokenForUser() throws Exception {
+        int existingTokens = refreshTokenStore.activeTokenCountForUser("student");
+        fetchRefreshToken();
+        fetchRefreshToken();
+
+        mockMvc.perform(post("/api/auth/logout-all")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "username": "student",
+                                  "password": "student123"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("all refresh tokens revoked"))
+                .andExpect(jsonPath("$.revokedCount").value(Integer.toString(existingTokens + 2)));
+
+        org.assertj.core.api.Assertions.assertThat(refreshTokenStore.activeTokenCountForUser("student"))
+                .isZero();
     }
 
     private String fetchRefreshToken() throws Exception {

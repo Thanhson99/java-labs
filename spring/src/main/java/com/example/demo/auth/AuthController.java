@@ -61,7 +61,7 @@ public class AuthController {
             @RequestHeader(name = "X-Session-Label", defaultValue = "refreshed-session") String sessionLabel,
             @Valid @RequestBody RefreshTokenRequest request) {
         ConsumedRefreshToken consumed = refreshTokenStore.consumeToken(request.refreshToken())
-                .orElseThrow(() -> new BadCredentialsException("invalid refresh token"));
+                .orElseThrow(() -> invalidRefreshToken(request.refreshToken()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(consumed.username());
         return ResponseEntity.ok(issueTokenPair(userDetails, sessionLabel));
     }
@@ -70,9 +70,20 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> logout(@Valid @RequestBody LogoutRequest request) {
         boolean revoked = refreshTokenStore.revokeToken(request.refreshToken());
         if (!revoked) {
-            throw new BadCredentialsException("invalid refresh token");
+            throw invalidRefreshToken(request.refreshToken());
         }
         return ResponseEntity.ok(Map.of("message", "refresh token revoked"));
+    }
+
+    @PostMapping("/logout-all")
+    public ResponseEntity<Map<String, String>> logoutAll(@Valid @RequestBody LogoutAllRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+        int revokedCount = refreshTokenStore.revokeAllTokens(request.username());
+        return ResponseEntity.ok(Map.of(
+                "message", "all refresh tokens revoked",
+                "revokedCount", Integer.toString(revokedCount)
+        ));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -90,5 +101,12 @@ public class AuthController {
                 refreshToken.sessionId(),
                 "Bearer",
                 jwtProperties.expirationSeconds());
+    }
+
+    private BadCredentialsException invalidRefreshToken(String refreshToken) {
+        if (refreshTokenStore.wasPreviouslyInvalidated(refreshToken)) {
+            return new BadCredentialsException("refresh token reuse detected");
+        }
+        return new BadCredentialsException("invalid refresh token");
     }
 }

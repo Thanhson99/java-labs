@@ -14,6 +14,7 @@ This module now teaches a small but realistic backend shape.
 - Refresh token rotation for issuing new access tokens
 - Database-backed refresh token persistence and logout revocation
 - Hashed refresh token storage with session metadata
+- Refresh token reuse detection and logout-all revocation
 - Transaction rollback demo on the primary database
 - Service boundaries that resemble a microservice-oriented design
 - Connection pooling through HikariCP
@@ -25,6 +26,7 @@ This module now teaches a small but realistic backend shape.
 - `POST /api/users/register-demo?failAfterAudit=true`
 - `POST /api/auth/refresh`
 - `POST /api/auth/logout`
+- `POST /api/auth/logout-all`
 - `GET /api/users/{userId}`
 - `GET /api/system/overview`
 - `GET /hello?name=Spring`
@@ -63,6 +65,13 @@ curl -X POST http://localhost:8089/api/auth/refresh \
 curl -X POST http://localhost:8089/api/auth/logout \
   -H 'Content-Type: application/json' \
   -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
+
+curl -X POST http://localhost:8089/api/auth/logout-all \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "username": "student",
+    "password": "student123"
+  }'
 ```
 
 Demo credentials:
@@ -71,6 +80,8 @@ Demo credentials:
 - `admin` / `admin123` -> roles `ADMIN`, `USER`
 
 Refresh tokens are stored in the primary database as SHA-256 hashes, are single-use, and expire based on `app.security.auth.refresh-expiration-seconds`.
+
+If a consumed or revoked refresh token is submitted again, the API now returns `refresh token reuse detected`.
 
 Each issued refresh token now belongs to a session and returns:
 

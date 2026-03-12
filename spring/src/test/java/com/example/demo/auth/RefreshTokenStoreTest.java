@@ -37,6 +37,17 @@ class RefreshTokenStoreTest {
                     session_label varchar(128) not null
                 )
                 """);
+        jdbcTemplate.execute("drop table if exists invalidated_refresh_tokens");
+        jdbcTemplate.execute("""
+                create table invalidated_refresh_tokens (
+                    token_hash varchar(128) primary key,
+                    username varchar(64) not null,
+                    session_id varchar(64) not null,
+                    session_label varchar(128) not null,
+                    invalidated_at timestamp not null,
+                    invalidation_reason varchar(32) not null
+                )
+                """);
         clock = new MutableClock(Instant.parse("2026-03-12T00:00:00Z"));
         refreshTokenStore = new RefreshTokenStore(clock, new AuthProperties(3600), jdbcTemplate);
     }
@@ -49,6 +60,8 @@ class RefreshTokenStoreTest {
                 .map(ConsumedRefreshToken::username)
                 .contains("student");
         assertThat(refreshTokenStore.consumeToken(token)).isEmpty();
+        assertThat(refreshTokenStore.wasPreviouslyInvalidated(token)).isTrue();
+        assertThat(refreshTokenStore.findInvalidationReason(token)).contains("CONSUMED");
     }
 
     @Test
@@ -68,6 +81,21 @@ class RefreshTokenStoreTest {
 
         assertThat(refreshTokenStore.revokeToken(token)).isTrue();
         assertThat(refreshTokenStore.activeTokenCountForUser("student")).isZero();
+        assertThat(refreshTokenStore.wasPreviouslyInvalidated(token)).isTrue();
+        assertThat(refreshTokenStore.findInvalidationReason(token)).contains("REVOKED");
+    }
+
+    @Test
+    void revokeAllTokensRemovesEveryActiveTokenForUser() {
+        String firstToken = refreshTokenStore.issueToken("student", "browser-laptop").token();
+        String secondToken = refreshTokenStore.issueToken("student", "mobile-phone").token();
+        refreshTokenStore.issueToken("admin", "admin-laptop");
+
+        assertThat(refreshTokenStore.revokeAllTokens("student")).isEqualTo(2);
+        assertThat(refreshTokenStore.activeTokenCountForUser("student")).isZero();
+        assertThat(refreshTokenStore.activeTokenCountForUser("admin")).isEqualTo(1);
+        assertThat(refreshTokenStore.findInvalidationReason(firstToken)).contains("REVOKED_ALL");
+        assertThat(refreshTokenStore.findInvalidationReason(secondToken)).contains("REVOKED_ALL");
     }
 
     @Test
