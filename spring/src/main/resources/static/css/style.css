@@ -674,6 +674,14 @@ button:hover {
     margin-bottom: 8px;
 }
 
+.roadmap-item p + p {
+    margin-top: 8px;
+}
+
+.cheat-card h3 code {
+    font-size: inherit;
+}
+
 .outbox-summary {
     margin-top: 18px;
     grid-template-columns: repeat(3, minmax(0, 1fr));

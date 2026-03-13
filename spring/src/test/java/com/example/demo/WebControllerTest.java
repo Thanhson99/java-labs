@@ -44,7 +44,10 @@ class WebControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Java Basics Cheat Sheet")))
                 .andExpect(content().string(containsString("Variables,")))
-                .andExpect(content().string(containsString("Method Anatomy")));
+                .andExpect(content().string(containsString("Method Anatomy")))
+                .andExpect(content().string(containsString("Collections And Streams")))
+                .andExpect(content().string(containsString("Spring MVC And REST")))
+                .andExpect(content().string(containsString("Testing Patterns")));
     }
 
     @Test
@@ -52,7 +55,9 @@ class WebControllerTest {
         mockMvc.perform(get("/roadmap"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Learning Roadmap")))
-                .andExpect(content().string(containsString("Milestones")))
+                .andExpect(content().string(containsString("Phase 1: Java Core")))
+                .andExpect(content().string(containsString("Phase 4: What To Build Next")))
+                .andExpect(content().string(containsString("Definition Of Done")))
                 .andExpect(content().string(containsString("Reset Roadmap Progress")));
     }
 }

@@ -90,6 +90,37 @@ String name = "ThanhSon99";</code></pre>
             </div>
         </section>
 
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Operators And Expressions</h2>
+                <p class="panel-kicker">The symbols that combine values and build conditions.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Arithmetic</h3>
+                    <pre><code>int total = price + tax;
+int rest = total - discount;
+int amount = count * size;</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Comparison</h3>
+                    <pre><code>score &gt; 50
+age &lt;= 18
+status.equals("READY")</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Boolean Logic</h3>
+                    <pre><code>isAdmin &amp;&amp; isActive
+isStudent || isAdmin
+!isExpired</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Ternary</h3>
+                    <pre><code>String label = score &gt;= 50 ? "pass" : "fail";</code></pre>
+                </article>
+            </div>
+        </section>
+
         <section class="panel">
             <h2>Primitive Types</h2>
             <div class="cheat-list">
@@ -112,6 +143,17 @@ String name = "ThanhSon99";</code></pre>
             </div>
         </section>
 
+        <section class="panel">
+            <h2>Variable Rules</h2>
+            <div class="cheat-list">
+                <div><strong><code>final</code></strong><span>value can be assigned once</span></div>
+                <div><strong><code>var</code></strong><span>local type inference, only for local variables</span></div>
+                <div><strong><code>this.field</code></strong><span>current object state</span></div>
+                <div><strong><code>static</code></strong><span>belongs to the class, not one object</span></div>
+                <div><strong><code>null</code></strong><span>no object reference is present</span></div>
+            </div>
+        </section>
+
         <section class="panel panel-wide">
             <div class="panel-heading">
                 <h2>Method Anatomy</h2>
@@ -129,6 +171,38 @@ String name = "ThanhSon99";</code></pre>
                     <li><code>Type parameterName</code>: input definition</li>
                     <li><code>return</code>: output value</li>
                 </ul>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Method Patterns</h2>
+                <p class="panel-kicker">These patterns appear constantly in backend code.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Void Method</h3>
+                    <pre><code>public void logAccess(String username) {
+    System.out.println(username);
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Overloaded Methods</h3>
+                    <pre><code>public String greet() { ... }
+public String greet(String name) { ... }</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Static Utility Method</h3>
+                    <pre><code>public static int max(int left, int right) {
+    return Math.max(left, right);
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Throws Clause</h3>
+                    <pre><code>public String read(Path path) throws IOException {
+    return Files.readString(path);
+}</code></pre>
+                </article>
             </div>
         </section>
 
@@ -168,6 +242,196 @@ String name = "ThanhSon99";</code></pre>
 
         <section class="panel panel-wide">
             <div class="panel-heading">
+                <h2>Collections And Streams</h2>
+                <p class="panel-kicker">A lot of Java business code is just transforming collections safely.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>List</h3>
+                    <pre><code>List&lt;String&gt; names = List.of("A", "B");
+names.get(0);</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Map</h3>
+                    <pre><code>Map&lt;String, Integer&gt; scores = Map.of("A", 90);
+scores.get("A");</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Stream Filter</h3>
+                    <pre><code>users.stream()
+    .filter(User::active)
+    .toList();</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Stream Map</h3>
+                    <pre><code>users.stream()
+    .map(User::email)
+    .toList();</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Classes, Records, Interfaces</h2>
+                <p class="panel-kicker">Know when you want state + behavior versus a lightweight data carrier.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Class</h3>
+                    <pre><code>public class BankAccount {
+    private BigDecimal balance;
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Record</h3>
+                    <pre><code>public record TokenRequest(String username, String password) {
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Interface</h3>
+                    <pre><code>public interface NotificationClient {
+    void send(String userId);
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Enum</h3>
+                    <pre><code>public enum DifficultyLevel {
+    BEGINNER, INTERMEDIATE, ADVANCED
+}</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Exceptions And Validation</h2>
+                <p class="panel-kicker">Backend code fails by design. Good code fails clearly.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Throw</h3>
+                    <pre><code>if (amount.signum() &lt; 0) {
+    throw new IllegalArgumentException("amount must be positive");
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Try / Catch</h3>
+                    <pre><code>try {
+    return objectMapper.readValue(json, User.class);
+} catch (JsonProcessingException exception) {
+    throw new IllegalArgumentException("invalid json", exception);
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Checked Exception</h3>
+                    <pre><code>Files.readString(path); // may throw IOException</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Unchecked Exception</h3>
+                    <pre><code>throw new IllegalStateException("user already exists");</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Spring MVC And REST</h2>
+                <p class="panel-kicker">This is the minimum controller vocabulary you need for Spring backend work.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Controller Method</h3>
+                    <pre><code>@GetMapping("/hello")
+public String hello(@RequestParam String name) {
+    return "Hello, " + name;
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>JSON Request Body</h3>
+                    <pre><code>@PostMapping("/api/users")
+public UserResponse create(@RequestBody CreateUserRequest request) {
+    ...
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Path Variable</h3>
+                    <pre><code>@GetMapping("/api/users/{userId}")
+public UserResponse find(@PathVariable String userId) {
+    ...
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Model + Template</h3>
+                    <pre><code>model.addAttribute("applicationName", applicationName);
+return "index";</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Dependency Injection And Beans</h2>
+                <p class="panel-kicker">Spring wires objects together so you do not construct the whole graph manually.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Constructor Injection</h3>
+                    <pre><code>public RegistrationService(UserProfileRepository repository) {
+    this.repository = repository;
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Component Stereotypes</h3>
+                    <pre><code>@Service
+@Component
+@RestController
+@Configuration</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Value Injection</h3>
+                    <pre><code>@Value("${server.port:8089}")
+private String serverPort;</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Configuration Properties</h3>
+                    <pre><code>@EnableConfigurationProperties(JwtProperties.class)</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Testing Patterns</h2>
+                <p class="panel-kicker">Learn to connect production code to its tests immediately.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Unit Test</h3>
+                    <pre><code>@Test
+void addsTwoNumbers() {
+    assertEquals(4, calculator.add(2, 2));
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>MockMvc</h3>
+                    <pre><code>mockMvc.perform(get("/hello"))
+    .andExpect(status().isOk());</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Mockito</h3>
+                    <pre><code>verify(outboxEventStore).markPublished(10L);</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Testcontainers</h3>
+                    <pre><code>@Container
+static PostgreSQLContainer&lt;?&gt; database = ...;</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
                 <h2>Common Java Patterns In This Repo</h2>
                 <p class="panel-kicker">These are the patterns you should connect to the codebase directly.</p>
             </div>
@@ -184,8 +448,26 @@ String name = "ThanhSon99";</code></pre>
 }</code></pre>
                 </article>
                 <article class="cheat-card">
+                    <h3>JdbcTemplate</h3>
+                    <pre><code>jdbcTemplate.update("insert into registration_audit(user_id, action) values (?, ?)",
+    userId,
+    "REGISTERED");</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Transactional Write</h3>
+                    <pre><code>@Transactional
+public RegistrationResult register(...) {
+    ...
+}</code></pre>
+                </article>
+                <article class="cheat-card">
                     <h3>Exception Handling</h3>
                     <pre><code>throw new IllegalStateException("user already exists");</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Scheduled Task</h3>
+                    <pre><code>@Scheduled(fixedDelayString = "${app.messaging.outbox.poll-delay-millis:3000}")
+public void dispatchPendingEvents() { ... }</code></pre>
                 </article>
                 <article class="cheat-card">
                     <h3>JavaDoc</h3>
@@ -193,6 +475,23 @@ String name = "ThanhSon99";</code></pre>
  * Returns the public dashboard payload.
  */</code></pre>
                 </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Suggested Reading Order In This Repo</h2>
+                <p class="panel-kicker">Use these as your first code stops after reading the cheat sheet.</p>
+            </div>
+            <div class="cheat-list">
+                <div><strong><code>basic/src/main/java/.../LearningApp.java</code></strong><span>entry point for Java basics</span></div>
+                <div><strong><code>RegistrationController</code></strong><span>web entry to the Spring write path</span></div>
+                <div><strong><code>RegistrationService</code></strong><span>business logic, transaction, and outbox enqueue</span></div>
+                <div><strong><code>OutboxEventStore</code></strong><span>durable event persistence</span></div>
+                <div><strong><code>OutboxDispatcher</code></strong><span>background publish loop</span></div>
+                <div><strong><code>SystemOverviewController</code></strong><span>runtime dashboard payloads</span></div>
+                <div><strong><code>WebControllerTest</code></strong><span>public pages and page routing</span></div>
+                <div><strong><code>PostgresContainerRegistrationTest</code></strong><span>real database integration path</span></div>
             </div>
         </section>
     </main>

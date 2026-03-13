@@ -36,7 +36,7 @@
             <p class="runtime-label">Roadmap Progress</p>
             <div class="progress-ring">
                 <strong id="roadmapPercent">0%</strong>
-                <span id="roadmapSummary">0 / 12 topics complete</span>
+                <span id="roadmapSummary">0 / 16 topics complete</span>
             </div>
             <div class="progress-bar-shell">
                 <div class="progress-bar-fill" id="roadmapProgressBar"></div>
@@ -51,8 +51,8 @@
     <main class="content-grid">
         <section class="panel panel-wide">
             <div class="panel-heading">
-                <h2>Milestones</h2>
-                <p class="panel-kicker">Each item is tied to code already present in this repo.</p>
+                <h2>Phase 1: Java Core</h2>
+                <p class="panel-kicker">You should finish this phase before trying to reason about Spring service flow.</p>
             </div>
             <div class="roadmap-list" id="roadmapList">
                 <article class="roadmap-item" data-key="java-variables">
@@ -62,7 +62,9 @@
                     </label>
                     <div>
                         <h3>Java variables, parameters, and methods</h3>
-                        <p>Start with syntax and signatures. Use the cheat sheet and the basic module entry points.</p>
+                        <p>Goal: read method signatures without hesitation.</p>
+                        <p>Read: <code>LearningApp</code>, cheat sheet sections for variables and methods.</p>
+                        <p>Done when: you can explain parameter vs argument and write a method from scratch.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="java-control-flow">
@@ -72,7 +74,9 @@
                     </label>
                     <div>
                         <h3>Control flow and loops</h3>
-                        <p>Learn <code>if</code>, <code>switch</code>, <code>for</code>, and <code>for-each</code>.</p>
+                        <p>Goal: understand how Java branches and repeats work.</p>
+                        <p>Read: control flow examples and loop-related tests in <code>basic/</code>.</p>
+                        <p>Done when: you can replace one loop style with another correctly.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="java-oop">
@@ -82,7 +86,9 @@
                     </label>
                     <div>
                         <h3>Classes, records, encapsulation, and OOP</h3>
-                        <p>Study domain classes and small immutable DTOs.</p>
+                        <p>Goal: know when to use class, record, enum, and interface.</p>
+                        <p>Read: <code>BankAccount</code>, <code>Student</code>, DTO records in Spring.</p>
+                        <p>Done when: you can design a small domain model without mixing every responsibility together.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="java-collections">
@@ -92,7 +98,9 @@
                     </label>
                     <div>
                         <h3>Collections, streams, and analytics logic</h3>
-                        <p>Read how data is grouped, sorted, and summarized in memory.</p>
+                        <p>Goal: transform in-memory data safely and clearly.</p>
+                        <p>Read: analytics helpers and tests using collections and streams.</p>
+                        <p>Done when: you can filter, map, sort, and group without copying examples blindly.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="java-jdbc">
@@ -102,9 +110,32 @@
                     </label>
                     <div>
                         <h3>JDBC and database access</h3>
-                        <p>Connect Java code to SQL, then compare it with Spring Data and JdbcTemplate.</p>
+                        <p>Goal: understand what Spring is abstracting away from plain SQL access.</p>
+                        <p>Read: JDBC examples in <code>basic/</code>, then compare to <code>JdbcTemplate</code> usage in Spring.</p>
+                        <p>Done when: you can explain connection, SQL execution, row mapping, and error handling.</p>
                     </div>
                 </article>
+                <article class="roadmap-item" data-key="java-testing">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Unit testing in Java</h3>
+                        <p>Goal: use tests as the fastest reading tool in the repo.</p>
+                        <p>Read: JUnit tests in <code>basic/src/test/java</code>.</p>
+                        <p>Done when: you can change code intentionally and predict which test should fail.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Phase 2: Spring Foundations</h2>
+                <p class="panel-kicker">Here you move from Java syntax to a running backend application model.</p>
+            </div>
+            <div class="roadmap-list">
                 <article class="roadmap-item" data-key="spring-web">
                     <label class="roadmap-toggle">
                         <input type="checkbox" />
@@ -112,7 +143,9 @@
                     </label>
                     <div>
                         <h3>Spring MVC controllers and templates</h3>
-                        <p>Follow request flow from page to controller to service.</p>
+                        <p>Goal: follow request flow from browser to controller to response.</p>
+                        <p>Read: <code>WebController</code>, <code>RegistrationController</code>, public templates.</p>
+                        <p>Done when: you can add one small public page or endpoint yourself.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="spring-security">
@@ -122,7 +155,9 @@
                     </label>
                     <div>
                         <h3>JWT auth, refresh tokens, and sessions</h3>
-                        <p>Understand access token issuance, rotation, revocation, and reuse detection.</p>
+                        <p>Goal: understand why access token and refresh token are different.</p>
+                        <p>Read: auth controller, token service, refresh token store, security config.</p>
+                        <p>Done when: you can explain login, refresh, logout, logout-all, and reuse detection in order.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="spring-transaction">
@@ -132,9 +167,32 @@
                     </label>
                     <div>
                         <h3>Transactions, rollback, and Flyway</h3>
-                        <p>Study why schema migration and transactional writes belong together.</p>
+                        <p>Goal: see how one service method spans repository, audit, analytics, and rollback.</p>
+                        <p>Read: transaction tests and Flyway migration files.</p>
+                        <p>Done when: you can explain what gets rolled back and why.</p>
                     </div>
                 </article>
+                <article class="roadmap-item" data-key="spring-testing">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Spring Boot testing with MockMvc</h3>
+                        <p>Goal: verify HTTP behavior without manually clicking everything in a browser.</p>
+                        <p>Read: controller tests in the Spring module.</p>
+                        <p>Done when: you can add a new route and test it first or immediately after.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Phase 3: Data And Integration</h2>
+                <p class="panel-kicker">This phase is where the app starts to look like a real backend system.</p>
+            </div>
+            <div class="roadmap-list">
                 <article class="roadmap-item" data-key="messaging-outbox">
                     <label class="roadmap-toggle">
                         <input type="checkbox" />
@@ -142,7 +200,9 @@
                     </label>
                     <div>
                         <h3>Outbox pattern and durable event publishing</h3>
-                        <p>Read the write path, outbox store, dispatcher, and dead-letter handling.</p>
+                        <p>Goal: understand why DB write and event publish should not be coupled naively.</p>
+                        <p>Read: <code>RegistrationService</code>, <code>OutboxEventStore</code>, <code>OutboxDispatcher</code>.</p>
+                        <p>Done when: you can explain pending, published, retry, and dead-letter states.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="kafka-rabbit">
@@ -152,7 +212,9 @@
                     </label>
                     <div>
                         <h3>Kafka and RabbitMQ producers and consumers</h3>
-                        <p>Compare transport adapters and how the same event reaches different systems.</p>
+                        <p>Goal: compare two transports without confusing business logic with transport glue.</p>
+                        <p>Read: publishers, listeners, topology config, and notification service consumers.</p>
+                        <p>Done when: you can say what is shared and what is transport-specific.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="microservice-thinking">
@@ -162,7 +224,9 @@
                     </label>
                     <div>
                         <h3>Microservice boundaries and notification service</h3>
-                        <p>Understand the split between the main app and the extracted notification service.</p>
+                        <p>Goal: think in boundaries, not only classes.</p>
+                        <p>Read: main Spring app and extracted <code>notification-service</code> side by side.</p>
+                        <p>Done when: you can describe why the service was extracted and what contract it consumes.</p>
                     </div>
                 </article>
                 <article class="roadmap-item" data-key="observability-ops">
@@ -172,19 +236,88 @@
                     </label>
                     <div>
                         <h3>Observability and admin operations</h3>
-                        <p>Use metrics, health checks, admin console, and runtime diagnostics like an operator.</p>
+                        <p>Goal: read the system like an operator, not just a coder.</p>
+                        <p>Read: actuator config, metrics class, system overview controller, admin page.</p>
+                        <p>Done when: you can use runtime pages to explain what the app is doing now.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="postgres-testcontainers">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>PostgreSQL integration with Testcontainers</h3>
+                        <p>Goal: trust the system against a real database, not only H2.</p>
+                        <p>Read: <code>PostgresContainerRegistrationTest</code>.</p>
+                        <p>Done when: you can explain why the project keeps both lightweight and realistic tests.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Phase 4: What To Build Next</h2>
+                <p class="panel-kicker">These are not yet complete learning stages. They are your next serious upgrades.</p>
+            </div>
+            <div class="roadmap-list">
+                <article class="roadmap-item" data-key="redis-caching-next">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Redis cache and distributed rate limit</h3>
+                        <p>Goal: move shared state out of one app instance.</p>
+                        <p>Practice: add Redis-backed rate limiting and cache for repeated lookups.</p>
+                        <p>Done when: multiple app instances could share the same limit state safely.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="real-user-management-next">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Persistent user accounts and role model</h3>
+                        <p>Goal: replace demo users with real database-backed accounts.</p>
+                        <p>Practice: user table, password hashing, role table, registration flow.</p>
+                        <p>Done when: auth no longer depends on in-memory demo credentials.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="exercise-mode-next">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Exercise mode and guided tasks</h3>
+                        <p>Goal: turn the repo into practice, not just reading.</p>
+                        <p>Practice: small tasks, expected outputs, and matching tests.</p>
+                        <p>Done when: you can use the repo as a self-paced Java/Spring lab.</p>
                     </div>
                 </article>
             </div>
         </section>
 
         <section class="panel">
-            <h2>Next Step Rules</h2>
+            <h2>Study Rules</h2>
             <ol class="path-list">
                 <li>If a topic is new, read the cheat sheet first.</li>
                 <li>Then read the matching Java code and tests.</li>
                 <li>Then change one behavior and rerun the test suite.</li>
                 <li>Only then mark the topic complete.</li>
+            </ol>
+        </section>
+
+        <section class="panel">
+            <h2>Definition Of Done</h2>
+            <ol class="path-list">
+                <li>You can explain the topic without reading the code.</li>
+                <li>You can point to the exact file that demonstrates it.</li>
+                <li>You can change one behavior and predict the test impact.</li>
+                <li>You can say where this concept appears in real backend work.</li>
             </ol>
         </section>
 
