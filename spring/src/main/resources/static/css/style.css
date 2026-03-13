@@ -182,10 +182,6 @@ h1 {
     text-wrap: balance;
 }
 
-.hero-title-home {
-    font-size: clamp(2.9rem, 5vw, 4.9rem);
-}
-
 .hero-title-compact {
     font-size: clamp(2.4rem, 4.2vw, 4.35rem);
     line-height: 0.98;
@@ -899,7 +895,6 @@ pre {
     }
 
     .hero-title,
-    .hero-title-home,
     .hero-title-compact {
         font-size: clamp(2.2rem, 10vw, 3.6rem);
         line-height: 1;
