@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Learning Roadmap</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="page-shell">
+    <div class="atmosphere atmosphere-left"></div>
+    <div class="atmosphere atmosphere-right"></div>
+    <nav class="top-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/cheatsheets/java-basics">Cheat Sheets</a>
+        <a class="nav-link active" href="/roadmap">Roadmap</a>
+        <a class="nav-link" href="/admin">Admin Console</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Java Labs / Learning Roadmap</p>
+            <h1 class="hero-title">
+                <span class="hero-title-line">Track</span>
+                <span class="hero-title-name-wrap">
+                    <span class="hero-title-name">What You Have Learned</span><span class="hero-title-dot">.</span>
+                </span>
+            </h1>
+            <p class="lede">This page is your study board. Mark topics as learned, in progress, or next. Progress is stored in your browser so you can use it as a practical map while reading code in this repo.</p>
+            <div class="hero-actions">
+                <a class="primary-action" href="/cheatsheets/java-basics">Use Cheat Sheet</a>
+                <a class="secondary-link" href="/">Back To Home</a>
+            </div>
+        </div>
+        <aside class="runtime-card">
+            <p class="runtime-label">Roadmap Progress</p>
+            <div class="progress-ring">
+                <strong id="roadmapPercent">0%</strong>
+                <span id="roadmapSummary">0 / 12 topics complete</span>
+            </div>
+            <div class="progress-bar-shell">
+                <div class="progress-bar-fill" id="roadmapProgressBar"></div>
+            </div>
+            <div class="runtime-note">
+                <p>Tip</p>
+                <strong>Only mark a topic complete after you can explain it from memory and change the code without guessing.</strong>
+            </div>
+        </aside>
+    </header>
+
+    <main class="content-grid">
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Milestones</h2>
+                <p class="panel-kicker">Each item is tied to code already present in this repo.</p>
+            </div>
+            <div class="roadmap-list" id="roadmapList">
+                <article class="roadmap-item" data-key="java-variables">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Java variables, parameters, and methods</h3>
+                        <p>Start with syntax and signatures. Use the cheat sheet and the basic module entry points.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="java-control-flow">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Control flow and loops</h3>
+                        <p>Learn <code>if</code>, <code>switch</code>, <code>for</code>, and <code>for-each</code>.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="java-oop">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Classes, records, encapsulation, and OOP</h3>
+                        <p>Study domain classes and small immutable DTOs.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="java-collections">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Collections, streams, and analytics logic</h3>
+                        <p>Read how data is grouped, sorted, and summarized in memory.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="java-jdbc">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>JDBC and database access</h3>
+                        <p>Connect Java code to SQL, then compare it with Spring Data and JdbcTemplate.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="spring-web">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Spring MVC controllers and templates</h3>
+                        <p>Follow request flow from page to controller to service.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="spring-security">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>JWT auth, refresh tokens, and sessions</h3>
+                        <p>Understand access token issuance, rotation, revocation, and reuse detection.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="spring-transaction">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Transactions, rollback, and Flyway</h3>
+                        <p>Study why schema migration and transactional writes belong together.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="messaging-outbox">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Outbox pattern and durable event publishing</h3>
+                        <p>Read the write path, outbox store, dispatcher, and dead-letter handling.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="kafka-rabbit">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Kafka and RabbitMQ producers and consumers</h3>
+                        <p>Compare transport adapters and how the same event reaches different systems.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="microservice-thinking">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Microservice boundaries and notification service</h3>
+                        <p>Understand the split between the main app and the extracted notification service.</p>
+                    </div>
+                </article>
+                <article class="roadmap-item" data-key="observability-ops">
+                    <label class="roadmap-toggle">
+                        <input type="checkbox" />
+                        <span></span>
+                    </label>
+                    <div>
+                        <h3>Observability and admin operations</h3>
+                        <p>Use metrics, health checks, admin console, and runtime diagnostics like an operator.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Next Step Rules</h2>
+            <ol class="path-list">
+                <li>If a topic is new, read the cheat sheet first.</li>
+                <li>Then read the matching Java code and tests.</li>
+                <li>Then change one behavior and rerun the test suite.</li>
+                <li>Only then mark the topic complete.</li>
+            </ol>
+        </section>
+
+        <section class="panel">
+            <h2>Reset Progress</h2>
+            <p class="helper-text">Progress is stored in your browser only. It does not touch the backend.</p>
+            <button id="resetRoadmapButton" type="button">Reset Roadmap Progress</button>
+        </section>
+    </main>
+</div>
+<script src="/js/roadmap.js"></script>
+</body>
+</html>

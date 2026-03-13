@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Basics Cheat Sheet</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="page-shell">
+    <div class="atmosphere atmosphere-left"></div>
+    <div class="atmosphere atmosphere-right"></div>
+    <nav class="top-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link active" href="/cheatsheets/java-basics">Cheat Sheets</a>
+        <a class="nav-link" href="/roadmap">Roadmap</a>
+        <a class="nav-link" href="/admin">Admin Console</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Java Labs / Java Basics Cheat Sheet</p>
+            <h1 class="hero-title">
+                <span class="hero-title-line">Variables,</span>
+                <span class="hero-title-name-wrap">
+                    <span class="hero-title-name">Parameters, Methods</span><span class="hero-title-dot">.</span>
+                </span>
+            </h1>
+            <p class="lede">Use this page as a quick reference while reading the codebase. It is not a textbook. It is a compact map of the syntax you will keep seeing in the Java and Spring examples.</p>
+            <div class="hero-actions">
+                <a class="primary-action" href="/roadmap">Open Roadmap</a>
+                <a class="secondary-link" href="/">Back To Home</a>
+            </div>
+        </div>
+        <aside class="runtime-card">
+            <p class="runtime-label">How To Use</p>
+            <dl>
+                <div>
+                    <dt>Step 1</dt>
+                    <dd>Read one cheat sheet block.</dd>
+                </div>
+                <div>
+                    <dt>Step 2</dt>
+                    <dd>Open the matching Java class in the repo.</dd>
+                </div>
+                <div>
+                    <dt>Step 3</dt>
+                    <dd>Change one example and rerun tests.</dd>
+                </div>
+                <div>
+                    <dt>Step 4</dt>
+                    <dd>Mark it complete on the roadmap page.</dd>
+                </div>
+            </dl>
+        </aside>
+    </header>
+
+    <main class="content-grid">
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Core Syntax</h2>
+                <p class="panel-kicker">The pieces you will meet first in almost every Java file.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Variable</h3>
+                    <p>A named value stored in memory.</p>
+                    <pre><code>int age = 25;
+String name = "ThanhSon99";</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Parameter</h3>
+                    <p>An input variable declared in a method signature.</p>
+                    <pre><code>public String greet(String name) {
+    return "Hello, " + name;
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Argument</h3>
+                    <p>The real value passed into a method call.</p>
+                    <pre><code>greet("Spring");</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Method</h3>
+                    <p>A reusable block of logic attached to a class.</p>
+                    <pre><code>public int add(int left, int right) {
+    return left + right;
+}</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Primitive Types</h2>
+            <div class="cheat-list">
+                <div><strong><code>int</code></strong><span>whole numbers</span></div>
+                <div><strong><code>double</code></strong><span>decimal numbers</span></div>
+                <div><strong><code>boolean</code></strong><span><code>true</code> or <code>false</code></span></div>
+                <div><strong><code>char</code></strong><span>single character</span></div>
+                <div><strong><code>long</code></strong><span>large whole numbers</span></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Reference Types</h2>
+            <div class="cheat-list">
+                <div><strong><code>String</code></strong><span>text values</span></div>
+                <div><strong><code>List&lt;T&gt;</code></strong><span>ordered collection</span></div>
+                <div><strong><code>Map&lt;K, V&gt;</code></strong><span>key-value lookup</span></div>
+                <div><strong><code>record</code></strong><span>small immutable data carrier</span></div>
+                <div><strong><code>class</code></strong><span>full object with state and behavior</span></div>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Method Anatomy</h2>
+                <p class="panel-kicker">Read a method left to right in this order.</p>
+            </div>
+            <div class="formula-card">
+                <pre><code>public ReturnType methodName(Type parameterName) {
+    // method body
+    return value;
+}</code></pre>
+                <ul class="path-list">
+                    <li><code>public</code>: who can call it</li>
+                    <li><code>ReturnType</code>: what it gives back</li>
+                    <li><code>methodName</code>: action name</li>
+                    <li><code>Type parameterName</code>: input definition</li>
+                    <li><code>return</code>: output value</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Control Flow</h2>
+                <p class="panel-kicker">How the program chooses and repeats behavior.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3><code>if</code></h3>
+                    <pre><code>if (score >= 50) {
+    return "pass";
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3><code>switch</code></h3>
+                    <pre><code>return switch (region) {
+    case "APAC" -> "Asia Pacific";
+    default -> "Other";
+};</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3><code>for</code></h3>
+                    <pre><code>for (int i = 0; i &lt; items.size(); i++) {
+    System.out.println(items.get(i));
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3><code>for-each</code></h3>
+                    <pre><code>for (String item : items) {
+    System.out.println(item);
+}</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel panel-wide">
+            <div class="panel-heading">
+                <h2>Common Java Patterns In This Repo</h2>
+                <p class="panel-kicker">These are the patterns you should connect to the codebase directly.</p>
+            </div>
+            <div class="cheat-grid">
+                <article class="cheat-card">
+                    <h3>Constructor Injection</h3>
+                    <pre><code>public RegistrationService(UserProfileRepository repository) {
+    this.repository = repository;
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Record DTO</h3>
+                    <pre><code>public record TokenRequest(String username, String password) {
+}</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>Exception Handling</h3>
+                    <pre><code>throw new IllegalStateException("user already exists");</code></pre>
+                </article>
+                <article class="cheat-card">
+                    <h3>JavaDoc</h3>
+                    <pre><code>/**
+ * Returns the public dashboard payload.
+ */</code></pre>
+                </article>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

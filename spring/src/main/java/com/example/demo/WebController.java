@@ -50,6 +50,32 @@ public class WebController {
     }
 
     /**
+     * Renders the Java basics cheat sheet page.
+     *
+     * @param model MVC model populated for the Thymeleaf template
+     * @return the cheat sheet template name
+     */
+    @GetMapping("/cheatsheets/java-basics")
+    public String javaBasicsCheatSheet(Model model) {
+        populateCommonModel(model);
+        model.addAttribute("name", "ThanhSon99");
+        return "cheatsheet";
+    }
+
+    /**
+     * Renders the learning roadmap page.
+     *
+     * @param model MVC model populated for the Thymeleaf template
+     * @return the roadmap template name
+     */
+    @GetMapping("/roadmap")
+    public String roadmap(Model model) {
+        populateCommonModel(model);
+        model.addAttribute("name", "ThanhSon99");
+        return "roadmap";
+    }
+
+    /**
      * Adds shared runtime metadata used by multiple HTML pages.
      *
      * @param model MVC model to enrich

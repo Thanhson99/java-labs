@@ -24,6 +24,8 @@ class WebControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Hello,")))
                 .andExpect(content().string(containsString("Switch To Admin")))
+                .andExpect(content().string(containsString("Cheat Sheets")))
+                .andExpect(content().string(containsString("Roadmap")))
                 .andExpect(content().string(containsString("Admin Console")));
     }
 
@@ -34,5 +36,23 @@ class WebControllerTest {
                 .andExpect(content().string(containsString("Admin Console")))
                 .andExpect(content().string(containsString("Load Admin Data")))
                 .andExpect(content().string(containsString("admin / admin123")));
+    }
+
+    @Test
+    void cheatSheetPageIsPublic() throws Exception {
+        mockMvc.perform(get("/cheatsheets/java-basics"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Java Basics Cheat Sheet")))
+                .andExpect(content().string(containsString("Variables,")))
+                .andExpect(content().string(containsString("Method Anatomy")));
+    }
+
+    @Test
+    void roadmapPageIsPublic() throws Exception {
+        mockMvc.perform(get("/roadmap"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Learning Roadmap")))
+                .andExpect(content().string(containsString("Milestones")))
+                .andExpect(content().string(containsString("Reset Roadmap Progress")));
     }
 }
