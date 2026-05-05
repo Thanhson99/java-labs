@@ -1,0 +1,2017 @@
+{
+  "bundles": [
+    {
+      "id": "fresher",
+      "track": "Quiz",
+      "title": "Fresher Java Backend",
+      "level": "From basic to lower-intermediate",
+      "description": "Good for checking your Java, OOP, collections, SQL, Spring, and web-flow fundamentals.",
+      "suggestedTime": "90-120 minutes",
+      "drawCount": 100,
+      "questionIds": [
+        "q001",
+        "q002",
+        "q003",
+        "q004",
+        "q005",
+        "q006",
+        "q007",
+        "q008",
+        "q009",
+        "q010",
+        "q011",
+        "q012",
+        "q013",
+        "q014",
+        "q015",
+        "q016",
+        "q017",
+        "q018",
+        "q019",
+        "q020",
+        "q021",
+        "q022",
+        "q023",
+        "q024",
+        "q025",
+        "q026",
+        "q027",
+        "q028",
+        "q029",
+        "q030",
+        "q031",
+        "q032",
+        "q033",
+        "q034",
+        "q035",
+        "q036",
+        "q037",
+        "q038",
+        "q039",
+        "q040",
+        "q041",
+        "q042",
+        "q043",
+        "q044",
+        "q045",
+        "q046",
+        "q047",
+        "q048",
+        "q049",
+        "q050",
+        "q051",
+        "q052",
+        "q053",
+        "q054",
+        "q055",
+        "q056",
+        "q057",
+        "q058",
+        "q059",
+        "q060",
+        "q061",
+        "q062",
+        "q063",
+        "q064",
+        "q065",
+        "q066",
+        "q067",
+        "q068",
+        "q069",
+        "q070",
+        "q071",
+        "q072",
+        "q073",
+        "q074",
+        "q075",
+        "q076",
+        "q077",
+        "q078",
+        "q079",
+        "q080",
+        "q081",
+        "q082",
+        "q083",
+        "q084",
+        "q085",
+        "q086",
+        "q087",
+        "q088",
+        "q089",
+        "q090",
+        "q091",
+        "q092",
+        "q093",
+        "q094",
+        "q095",
+        "q096",
+        "q097",
+        "q098",
+        "q099",
+        "q100",
+        "q101",
+        "q102",
+        "q103",
+        "q104",
+        "q105",
+        "q106",
+        "q107",
+        "q108",
+        "q109",
+        "q110"
+      ],
+      "bands": [
+        {
+          "minScore": 90,
+          "label": "Very strong foundation",
+          "grade": "Excellent",
+          "description": "You already have a solid foundation for Fresher or Junior interviews."
+        },
+        {
+          "minScore": 75,
+          "label": "Quite solid",
+          "grade": "Good",
+          "description": "You understand most of the fundamentals, but you should still patch a few gaps around data, Spring, or collections."
+        },
+        {
+          "minScore": 60,
+          "label": "Meets the basic level",
+          "grade": "Average",
+          "description": "You have a foundation, but it is still fragmented. Go back to Java Core, SQL, and web flow to make it more solid."
+        },
+        {
+          "minScore": 0,
+          "label": "Needs reinforcement",
+          "grade": "Weak",
+          "description": "You should revisit the roadmap from Java Core before moving deeper into frameworks and architecture."
+        }
+      ]
+    },
+    {
+      "id": "interview",
+      "track": "Quiz",
+      "title": "Interview Mixed Stack",
+      "level": "From intermediate to mixed interview level",
+      "description": "Good for learners who already studied Java backend and want to test their knowledge coverage before an interview.",
+      "suggestedTime": "100-130 minutes",
+      "drawCount": 100,
+      "questionIds": [
+        "q011",
+        "q012",
+        "q013",
+        "q014",
+        "q015",
+        "q016",
+        "q017",
+        "q018",
+        "q019",
+        "q020",
+        "q021",
+        "q022",
+        "q023",
+        "q024",
+        "q025",
+        "q026",
+        "q027",
+        "q028",
+        "q029",
+        "q030",
+        "q031",
+        "q032",
+        "q033",
+        "q034",
+        "q035",
+        "q036",
+        "q037",
+        "q038",
+        "q039",
+        "q040",
+        "q041",
+        "q042",
+        "q043",
+        "q044",
+        "q045",
+        "q046",
+        "q047",
+        "q048",
+        "q049",
+        "q050",
+        "q051",
+        "q052",
+        "q053",
+        "q054",
+        "q055",
+        "q056",
+        "q057",
+        "q058",
+        "q059",
+        "q060",
+        "q061",
+        "q062",
+        "q063",
+        "q064",
+        "q065",
+        "q066",
+        "q067",
+        "q068",
+        "q069",
+        "q070",
+        "q071",
+        "q072",
+        "q073",
+        "q074",
+        "q075",
+        "q076",
+        "q077",
+        "q078",
+        "q079",
+        "q080",
+        "q081",
+        "q082",
+        "q083",
+        "q084",
+        "q085",
+        "q086",
+        "q087",
+        "q088",
+        "q089",
+        "q090",
+        "q091",
+        "q092",
+        "q093",
+        "q094",
+        "q095",
+        "q096",
+        "q097",
+        "q098",
+        "q099",
+        "q100",
+        "q101",
+        "q102",
+        "q103",
+        "q104",
+        "q105",
+        "q106",
+        "q107",
+        "q108",
+        "q109",
+        "q110",
+        "q111",
+        "q112",
+        "q113",
+        "q114",
+        "q115",
+        "q116",
+        "q117",
+        "q118",
+        "q119",
+        "q120",
+        "q121",
+        "q122",
+        "q123",
+        "q124",
+        "q125",
+        "q126",
+        "q127",
+        "q128",
+        "q129",
+        "q130"
+      ],
+      "bands": [
+        {
+          "minScore": 88,
+          "label": "Strong interview readiness",
+          "grade": "Very good",
+          "description": "You have good coverage and can answer most mixed backend interview questions."
+        },
+        {
+          "minScore": 72,
+          "label": "Good level",
+          "grade": "Good",
+          "description": "Your foundation is good, but you should songthen advanced areas such as transactions, messaging, security, and performance."
+        },
+        {
+          "minScore": 55,
+          "label": "Average level",
+          "grade": "Average",
+          "description": "You know many concepts, but the links between add and your hands-on confidence are still not strong."
+        },
+        {
+          "minScore": 0,
+          "label": "Not solid enough",
+          "grade": "Weak",
+          "description": "You should review the roadmap and do more interview prep before callng confidently into mixed interviews."
+        }
+      ]
+    },
+    {
+      "id": "senior",
+      "track": "Quiz",
+      "title": "Senior Backend Mindset",
+      "level": "Advanced / systems / trade-offs",
+      "description": "A question pool focused on risk, transactions, reliability, observability, integration, and technical decision-making.",
+      "suggestedTime": "110-140 minutes",
+      "drawCount": 100,
+      "questionIds": [
+        "q021",
+        "q022",
+        "q023",
+        "q024",
+        "q025",
+        "q026",
+        "q027",
+        "q028",
+        "q029",
+        "q030",
+        "q031",
+        "q032",
+        "q033",
+        "q034",
+        "q035",
+        "q036",
+        "q037",
+        "q038",
+        "q039",
+        "q040",
+        "q041",
+        "q042",
+        "q043",
+        "q044",
+        "q045",
+        "q046",
+        "q047",
+        "q048",
+        "q049",
+        "q050",
+        "q051",
+        "q052",
+        "q053",
+        "q054",
+        "q055",
+        "q056",
+        "q057",
+        "q058",
+        "q059",
+        "q060",
+        "q061",
+        "q062",
+        "q063",
+        "q064",
+        "q065",
+        "q066",
+        "q067",
+        "q068",
+        "q069",
+        "q070",
+        "q071",
+        "q072",
+        "q073",
+        "q074",
+        "q075",
+        "q076",
+        "q077",
+        "q078",
+        "q079",
+        "q080",
+        "q081",
+        "q082",
+        "q083",
+        "q084",
+        "q085",
+        "q086",
+        "q087",
+        "q088",
+        "q089",
+        "q090",
+        "q091",
+        "q092",
+        "q093",
+        "q094",
+        "q095",
+        "q096",
+        "q097",
+        "q098",
+        "q099",
+        "q100",
+        "q101",
+        "q102",
+        "q103",
+        "q104",
+        "q105",
+        "q106",
+        "q107",
+        "q108",
+        "q109",
+        "q110",
+        "q111",
+        "q112",
+        "q113",
+        "q114",
+        "q115",
+        "q116",
+        "q117",
+        "q118",
+        "q119",
+        "q120",
+        "q121",
+        "q122",
+        "q123",
+        "q124",
+        "q125",
+        "q126",
+        "q127",
+        "q128",
+        "q129",
+        "q130"
+      ],
+      "bands": [
+        {
+          "minScore": 90,
+          "label": "Very strong senior mindset",
+          "grade": "Strong",
+          "description": "You do not just remember concepts; you also understand risk, integration flow, and trade-offs in real backend systems."
+        },
+        {
+          "minScore": 78,
+          "label": "Strong advanced level",
+          "grade": "Good",
+          "description": "You are technically solid, but you should still train more on observability, blast radius, and system trade-offs."
+        },
+        {
+          "minScore": 62,
+          "label": "Has a foundation but is not mature yet",
+          "grade": "Upper-intermediate",
+          "description": "You understand many concepts, but your hands-on depth and the connections between system parts are still uneven."
+        },
+        {
+          "minScore": 0,
+          "label": "Not ready for the senior bundle",
+          "grade": "Needs more study",
+          "description": "You should revisit data, security, messaging, and reliability before evaluating yourself at the senior level."
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "q001",
+      "topic": "Java Core",
+      "prompt": "JDK different JRE in what way?",
+      "options": [
+        "JDK includes additional development tools",
+        "JDK only used to run apps",
+        "JRE has javac",
+        "JRE is larger than JDK"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q002",
+      "topic": "Java Core",
+      "prompt": "JVM mainly responsible for what?",
+      "options": [
+        "Manage bytecode and execute",
+        "Write SQL",
+        "Build Maven project",
+        "Render HTML"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q003",
+      "topic": "Java Core",
+      "prompt": "In Java, `==` with objects uchangelly compare?",
+      "options": [
+        "Reference",
+        "Logical value",
+        "Hash code",
+        "Class name"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q004",
+      "topic": "Java Core",
+      "prompt": "Which is way correct to compare the contents of two strings?",
+      "options": [
+        "equals()",
+        "==",
+        "compareRef()",
+        "same()"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q005",
+      "topic": "Java Core",
+      "prompt": "Which statement about String in Java is correct?",
+      "options": [
+        "Immutable",
+        "Always mutable",
+        "Cannot be null",
+        "Cannot be compared"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q006",
+      "topic": "Java Core",
+      "prompt": "Why StringBuilder is uchangelly better concatenating strings with `+` inside a long loop?",
+      "options": [
+        "Reduce intermediate object creation",
+        "Automatically parallelize",
+        "Use no memory",
+        "Bypass the compiler"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q007",
+      "topic": "Java Core",
+      "prompt": "Loop `do-while` different `while` in what way?",
+      "options": [
+        "Runs at least once",
+        "Always faster",
+        "Needs no condition",
+        "Only used with arrays"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q008",
+      "topic": "Java Core",
+      "prompt": "What is the common mistake when using `i <= arr.length` to iterate through an array?",
+      "options": [
+        "ArrayIndexOutOfBoundsException",
+        "NullPointerException",
+        "ClassCastException",
+        "StackOverflowError"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q009",
+      "topic": "Java Core",
+      "prompt": "When is an enhanced for loop appropriate?",
+      "options": [
+        "Iterate through a collection without needing an index",
+        "Need to change the list size while iterating",
+        "Need to access the last element first",
+        "Need to work with SQL"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q010",
+      "topic": "Java Core",
+      "prompt": "Keyword `final` for a local variable what does it mean?",
+      "options": [
+        "Cannot be reassigned after it is assigned",
+        "Cannot be null",
+        "Cannot be read",
+        "Always static"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q011",
+      "topic": "OOP",
+      "prompt": "When is an interface most useful?",
+      "options": [
+        "When you need to separate the contract from the implementation",
+        "Only when there is a database",
+        "Only in UI code",
+        "When you want to skip tests"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q012",
+      "topic": "OOP",
+      "prompt": "What is a record in Java uchangelly good for?",
+      "options": [
+        "DTO immutable",
+        "Connect to a database",
+        "Thread pool",
+        "Logging framework"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q013",
+      "topic": "OOP",
+      "prompt": "Which sign shows that a class is carrying too many responsibilities?",
+      "options": [
+        "A tiny change forces you to touch a huge class",
+        "The class name is clear",
+        "Methods are short",
+        "It has good tests"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q014",
+      "topic": "OOP",
+      "prompt": "Why is composition often preferred over inheritance?",
+      "options": [
+        "More flexible and lower coupling",
+        "Faster in every case",
+        "Needs no constructor",
+        "Creates a database by itself"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q015",
+      "topic": "OOP",
+      "prompt": "Encapsulation help with?",
+      "options": [
+        "Protect the internal invariants of an object",
+        "Increase the number of bugs",
+        "Remove dependencies",
+        "No tests needed"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q016",
+      "topic": "OOP",
+      "prompt": "Why is constructor injection often better than field injection?",
+      "options": [
+        "Dependencies are explicit and easier to test",
+        "Automatically makes the app faster",
+        "No Spring needed",
+        "Remove compilation"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q017",
+      "topic": "OOP",
+      "prompt": "When is an enum most appropriate?",
+      "options": [
+        "Represent a finite set of values",
+        "Store large files",
+        "Create HTTP requests",
+        "Close connections"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q018",
+      "topic": "OOP",
+      "prompt": "Why is a public field often considered a bad idea?",
+      "options": [
+        "Any place can modify the state directly",
+        "Because Java forbids it",
+        "Cannot compile",
+        "Cannot be used with a class"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q019",
+      "topic": "OOP",
+      "prompt": "What does polymorphism help with?",
+      "options": [
+        "Code works through abstractions",
+        "Remove collections",
+        "Tgood SQL bang XML",
+        "No interface needed"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q020",
+      "topic": "OOP",
+      "prompt": "When is an abstract class more appropriate than an interface?",
+      "options": [
+        "When you need shared state or common implementation",
+        "When you need to store JSON",
+        "When creating an enum",
+        "When write SQL"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q021",
+      "topic": "Collections",
+      "prompt": "List different Set in what way?",
+      "options": [
+        "Lists allow duplicates while sets do not",
+        "Lists are always faster",
+        "Sets have indexes",
+        "Lists do not store objects"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q022",
+      "topic": "Collections",
+      "prompt": "When is a Map the best choice?",
+      "options": [
+        "When you need access by key",
+        "When you need queue-shaped data",
+        "When you need multithreaded computation",
+        "When you need to store files"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q023",
+      "topic": "Collections",
+      "prompt": "What does HashMap rely on to place a key into a bucket?",
+      "options": [
+        "hashCode",
+        "toString",
+        "compareTo",
+        "package name"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q024",
+      "topic": "Collections",
+      "prompt": "Why must you override both `equals` and `hashCode` when using an object as a HashMap key?",
+      "options": [
+        "To keep lookup logic consistent",
+        "To make the code compile",
+        "To increase thread safety",
+        "To build a Maven plugin"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q025",
+      "topic": "Collections",
+      "prompt": "Why is ArrayList usually a more reasonable default than LinkedList?",
+      "options": [
+        "Better index access and better locality",
+        "Always faster for inserting in the middle",
+        "Uses no RAM",
+        "No generics needed"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q026",
+      "topic": "Collections",
+      "prompt": "What do generics help with most clearly?",
+      "options": [
+        "Type safety at compile time",
+        "Create a database by itself",
+        "Speed up the network",
+        "No import needed"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q027",
+      "topic": "Collections",
+      "prompt": "What is a consequence of type erasure?",
+      "options": [
+        "Cannot call `new T()` directly",
+        "Cannot use lists",
+        "Cannot use maps",
+        "Cannot write a generic class"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q028",
+      "topic": "Collections",
+      "prompt": "When is the Stream API most appropriate?",
+      "options": [
+        "Represent a data transformation pipeline",
+        "Every tiny loop",
+        "Store database state",
+        "Tgood constructor"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q029",
+      "topic": "Collections",
+      "prompt": "A common stream trap is what?",
+      "options": [
+        "Overusing side effects inside the pipeline",
+        "not the filter",
+        "not the sort",
+        "not the use with list"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q030",
+      "topic": "Collections",
+      "prompt": "When does a Set express the intent better than a List?",
+      "options": [
+        "When you need uniqueness",
+        "When you need indexing",
+        "When you always need insertion order",
+        "When you need duplicates"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q031",
+      "topic": "Exceptions",
+      "prompt": "Checked exception different unchecked exception in what way?",
+      "options": [
+        "Checked exceptions force handling or declaration",
+        "Unchecked exceptions are always more severe",
+        "Checked not has message",
+        "Unchecked exceptions should never be caught"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q032",
+      "topic": "Exceptions",
+      "prompt": "What is the main benefit of try-with-resources?",
+      "options": [
+        "Automatically closes resources safely",
+        "Automatically retries exceptions",
+        "Automatically rolls back the database",
+        "Automatically creates a log file"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q033",
+      "topic": "Exceptions",
+      "prompt": "What should you do when wrapping an exception?",
+      "options": [
+        "Keep the original cause",
+        "Delete the whole stack trace",
+        "Turn it into null",
+        "Silently ignore it"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q034",
+      "topic": "Exceptions",
+      "prompt": "Why is catching generic Exception everywhere a bad idea?",
+      "options": [
+        "It hides root causes and makes errors easy to swallow",
+        "It would not run on the JVM",
+        "It would make String mutable",
+        "It bypasses compile-time feedback"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q035",
+      "topic": "Exceptions",
+      "prompt": "When is a custom exception useful?",
+      "options": [
+        "It represents a business error with clear meaning",
+        "It replaces every RuntimeException",
+        "It only makes the code longer",
+        "When there is no business meaning"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q036",
+      "topic": "Concurrency",
+      "prompt": "Race condition is what?",
+      "options": [
+        "The result depends on thread execution order",
+        "A type of SQL injection",
+        "A kind of migration",
+        "A kind of cache"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q037",
+      "topic": "Concurrency",
+      "prompt": "Deadlock is what?",
+      "options": [
+        "Threads wait for each other forever",
+        "A thread runs too fast",
+        "A stack trace gets printed",
+        "HTTP times out"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q038",
+      "topic": "Concurrency",
+      "prompt": "What does `volatile` mainly help with?",
+      "options": [
+        "Visibility across threads",
+        "Atomic increment",
+        "SQL transaction",
+        "JSON serialize"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q039",
+      "topic": "Concurrency",
+      "prompt": "Why `count++` not thread-safe?",
+      "options": [
+        "Because it is not atomic",
+        "Because Java forbids it",
+        "Because it is immutable",
+        "Because compile error"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q040",
+      "topic": "Concurrency",
+      "prompt": "Why is ExecutorService better than creating raw threads everywhere?",
+      "options": [
+        "It manages thread pools and lifecycles better",
+        "It debugs itself automatically",
+        "It avoids memory entirely",
+        "It avoids methods entirely"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q041",
+      "topic": "Concurrency",
+      "prompt": "How do immutable objects help multithreaded code?",
+      "options": [
+        "It reduces the need to synchronize shared state",
+        "It increases the number of threads",
+        "It makes the database faster",
+        "It forces parallelism"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q042",
+      "topic": "Concurrency",
+      "prompt": "What is a sign of future maintenance hell?",
+      "options": [
+        "A tangled async chain that is hard to debug",
+        "A loop missing a break",
+        "SQL without an index",
+        "A class without a getter"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q043",
+      "topic": "Performance",
+      "prompt": "What is the heap mainly used to store?",
+      "options": [
+        "Dynamically allocated objects",
+        "The call stack of each method",
+        "Package names",
+        "Bytecode source"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q044",
+      "topic": "Performance",
+      "prompt": "What usually causes StackOverflowError?",
+      "options": [
+        "Recursion without a stop condition",
+        "The database is too slow",
+        "The JSON is too large",
+        "List not generic"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q045",
+      "topic": "Performance",
+      "prompt": "Can a memory leak still happen in Java?",
+      "options": [
+        "Yes, if objects are still strongly referenced",
+        "Never, because Java has GC",
+        "Only in C/C++",
+        "Only when Spring is not used"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q046",
+      "topic": "Performance",
+      "prompt": "What does the garbage collector do?",
+      "options": [
+        "It reclaims memory from objects that are no longer used",
+        "Compiles Maven projects",
+        "Creates JWTs",
+        "Opens an HTTP port"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q047",
+      "topic": "Performance",
+      "prompt": "Autoboxing is what?",
+      "options": [
+        "It automatically converts a primitive to a wrapper",
+        "Convert a list into a map",
+        "It encapsulates a zip file",
+        "It automatically adds a constructor"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q048",
+      "topic": "Performance",
+      "prompt": "Why are careless benchmarks misleading?",
+      "options": [
+        "They are affected by warm-up, JIT, and input data",
+        "Because Java cannot be benchmarked",
+        "Because compile error",
+        "Because String immutable"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q049",
+      "topic": "Performance",
+      "prompt": "CPU-bound different I/O-bound in what way?",
+      "options": [
+        "One is bound by CPU, the other by waiting on I/O",
+        "They are the same thing",
+        "CPU-bound means database-bound",
+        "I/O-bound means interface-bound"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q050",
+      "topic": "Performance",
+      "prompt": "Why is premature optimization dangerous?",
+      "options": [
+        "It can make the code more complex before you know the real bottleneck",
+        "It makes code compile slowly",
+        "It makes local code stop running",
+        "It expires JWTs"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q051",
+      "topic": "JDBC/SQL",
+      "prompt": "Why is PreparedStatement better than concatenating SQL strings manually?",
+      "options": [
+        "It reduces the risk of SQL injection",
+        "It cannot use a connection",
+        "It cannot run a query",
+        "It automatically creates a table"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q052",
+      "topic": "JDBC/SQL",
+      "prompt": "Connection pool used for what?",
+      "options": [
+        "Reuse database connections",
+        "Create another database",
+        "It replaces transactions",
+        "Delete old tables"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q053",
+      "topic": "JDBC/SQL",
+      "prompt": "What do database transactions help with?",
+      "options": [
+        "They keep multiple operations as one logical unit",
+        "Increase the code font",
+        "They disable rollbacks",
+        "They replace HTTP"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q054",
+      "topic": "JDBC/SQL",
+      "prompt": "When is an index most useful?",
+      "options": [
+        "Speed up queries on columns commonly used for search or joins",
+        "Increase the number of bugs",
+        "It makes every query absolutely fast",
+        "It has no impact on writes"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q055",
+      "topic": "JDBC/SQL",
+      "prompt": "N+1 query is what?",
+      "options": [
+        "One initial query followed by repeated queries for each record",
+        "A SQL string with one plus sign",
+        "The DB returns one row",
+        "A JSON error"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q056",
+      "topic": "JDBC/SQL",
+      "prompt": "JOIN in SQL used for what?",
+      "options": [
+        "Combine data from multiple tables",
+        "Rollback transaction",
+        "Serialize object",
+        "Create a thread"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q057",
+      "topic": "JDBC/SQL",
+      "prompt": "What does a foreign key help with?",
+      "options": [
+        "Maintain referential integrity",
+        "Speed up the CPU",
+        "Create a new API",
+        "Replace the index"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q058",
+      "topic": "JDBC/SQL",
+      "prompt": "What is a sign that the connection pool is under pressure?",
+      "options": [
+        "Timeouts when acquiring a connection",
+        "A string becomes null",
+        "An enum fails",
+        "HTML does not render"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q059",
+      "topic": "JDBC/SQL",
+      "prompt": "Why should you read SQL logs when debugging data-access performance?",
+      "options": [
+        "To see the number of queries and their real shape",
+        "To create more threads",
+        "To reduce RAM",
+        "To skip tests"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q060",
+      "topic": "JDBC/SQL",
+      "prompt": "When reviewing code that touches the database, what is a very good question to ask?",
+      "options": [
+        "How many times does one request hit the database?",
+        "Does the class name look nice?",
+        "Does it use tabs or spaces?",
+        "How many imports does it have?"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q061",
+      "topic": "Spring Boot",
+      "prompt": "What is Spring Boot strongest at?",
+      "options": [
+        "Reducing manual configuration and integrating the ecosystem out of the box",
+        "Replacing Java",
+        "Skipping tests",
+        "Avoiding dependencies"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q062",
+      "topic": "Spring Boot",
+      "prompt": "Bean in Spring is what?",
+      "options": [
+        "An object managed by the container",
+        "File SQL",
+        "One loai endpoint",
+        "One kieu thread"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q063",
+      "topic": "Spring Web",
+      "prompt": "What should a controller do?",
+      "options": [
+        "Handle HTTP concerns and call the service layer",
+        "Write all the SQL",
+        "Contain all long business logic",
+        "Store the connection pool"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q064",
+      "topic": "Spring Web",
+      "prompt": "What is the role of the service layer?",
+      "options": [
+        "Hold business logic and orchestration",
+        "Render CSS",
+        "Replace DTOs",
+        "Only call `print`"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q065",
+      "topic": "Spring Web",
+      "prompt": "Repository pattern help with?",
+      "options": [
+        "Group data-access logic",
+        "Replace auth",
+        "Create a message broker",
+        "Skip migrations"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q066",
+      "topic": "Spring Web",
+      "prompt": "Why should DTOs be separated from entities?",
+      "options": [
+        "To protect the API boundary and reduce persistence coupling",
+        "To make the code longer",
+        "To skip validation",
+        "To avoid controllers"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q067",
+      "topic": "Spring Web",
+      "prompt": "Where is request validation most useful?",
+      "options": [
+        "Blocking invalid input right at the entry point",
+        "Replacing the database",
+        "Creating JWTs automatically",
+        "Ignoring HTTP status codes"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q068",
+      "topic": "Spring Web",
+      "prompt": "What is MockMvc best used for?",
+      "options": [
+        "Test HTTP behavior of controller",
+        "Benchmark GC",
+        "Manage RabbitMQ",
+        "Write migrations"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q069",
+      "topic": "Spring Boot",
+      "prompt": "Auto-configuration is what?",
+      "options": [
+        "Spring Boot configures itself based on the classpath and config",
+        "The JVM deletes files automatically",
+        "Java writes tests automatically",
+        "SQL adds indexes automatically"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q070",
+      "topic": "Spring Web",
+      "prompt": "What characteristics should a clean controller have?",
+      "options": [
+        "Short, clear, and mostly focused on request mapping and service calls",
+        "Contain all business logic",
+        "Write all queries inside it",
+        "Never return a response"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q071",
+      "topic": "Security",
+      "prompt": "What are JWTs most commonly used for?",
+      "options": [
+        "Access token stateless",
+        "Migration DB",
+        "Connecting JDBC",
+        "Indexing tables"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q072",
+      "topic": "Security",
+      "prompt": "Access token different refresh token in what way?",
+      "options": [
+        "Access tokens are short-lived for API calls, while refresh tokens are used to get new tokens",
+        "They are the same",
+        "Refresh tokens are used for SQL",
+        "Access tokens store schema"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q073",
+      "topic": "Security",
+      "prompt": "Refresh token rotation mean?",
+      "options": [
+        "Each refresh issues a new token and invalidates the old one",
+        "Tokens change color by themselves",
+        "JWT turns into a session",
+        "Delete a role"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q074",
+      "topic": "Security",
+      "prompt": "Reuse detection used for what?",
+      "options": [
+        "Detect reuse of an old token after it has been invalidated",
+        "Increase the login font",
+        "Create another endpoint",
+        "Delete the database"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q075",
+      "topic": "Security",
+      "prompt": "Authorization different authentication in what way?",
+      "options": [
+        "Authentication verifies identity, while authorization checks permissions",
+        "The reverse is true",
+        "They are the same",
+        "It only applies to databases"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q076",
+      "topic": "Security",
+      "prompt": "Role-based authorization is what?",
+      "options": [
+        "Assign permissions by role",
+        "Encrypt passwords",
+        "call message broker",
+        "Create immutable objects"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q077",
+      "topic": "Security",
+      "prompt": "Why should refresh tokens not be stored as plain text?",
+      "options": [
+        "If the database leaks, the token can be used immediately",
+        "Because Java forbids it",
+        "Because SQL does not support it",
+        "Because JWTs do not allow it"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q078",
+      "topic": "Security",
+      "prompt": "When is logout-all useful?",
+      "options": [
+        "When you need to revoke all related sessions",
+        "When add index",
+        "When format string",
+        "When creating an enum"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q079",
+      "topic": "Security",
+      "prompt": "What is a silly but common security mistake?",
+      "options": [
+        "Committing real secrets or tokens into the repo",
+        "Using interfaces",
+        "Writing tests",
+        "Using DTOs"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q080",
+      "topic": "Security",
+      "prompt": "Why should authentication go together with observability?",
+      "options": [
+        "To detect brute force, token reuse, and abnormal behavior",
+        "To remove logging",
+        "To remove controllers",
+        "To avoid timeouts"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q081",
+      "topic": "JPA",
+      "prompt": "JPA is what?",
+      "options": [
+        "The ORM standard for Java",
+        "A message broker",
+        "A build tool",
+        "A web server"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q082",
+      "topic": "JPA",
+      "prompt": "Entity is what in JPA?",
+      "options": [
+        "An object mapped to persistent data",
+        "File YAML",
+        "One kieu test",
+        "One loai queue"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q083",
+      "topic": "JPA",
+      "prompt": "Why can lazy loading be dangerous?",
+      "options": [
+        "It can cause N+1 queries and failures outside a transaction",
+        "It makes every query absolutely faster",
+        "Replace the index",
+        "Delete the database entirely"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q084",
+      "topic": "JPA",
+      "prompt": "Where is `@Transactional` usually placed most appropriately?",
+      "options": [
+        "Service layer",
+        "HTML template",
+        "Enum",
+        "Test resource file"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q085",
+      "topic": "JPA",
+      "prompt": "Dirty checking is what?",
+      "options": [
+        "JPA tracks managed entities and flushes changes",
+        "SQL lint",
+        "A type of retry",
+        "A JWT mechanism"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q086",
+      "topic": "JPA",
+      "prompt": "Flush different commit in what way?",
+      "options": [
+        "Flush pushes changes down to the database layer, while commit closes the transaction",
+        "There is no difference",
+        "Commit always happens before flush",
+        "Flush is only for HTML"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q087",
+      "topic": "JPA",
+      "prompt": "What is a fetch join commonly used for?",
+      "options": [
+        "Reducing N+1 queries in appropriate read cases",
+        "Increasing JWT size",
+        "Creating a connection pool",
+        "Deleting dead-letter messages"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q088",
+      "topic": "JPA",
+      "prompt": "What risk does Open Session in View create?",
+      "options": [
+        "It hides lazy loading in the web layer and can trigger N+1 queries",
+        "It makes Java compile faster",
+        "It creates another role",
+        "It skips migrations"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q089",
+      "topic": "JPA",
+      "prompt": "What is the hardest part of a second-level cache?",
+      "options": [
+        "Invalidation and consistency",
+        "Creating interfaces",
+        "Writing enums",
+        "compare String"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q090",
+      "topic": "JPA",
+      "prompt": "Why can calling `save` inside a large loop be dangerous?",
+      "options": [
+        "It can create many round trips and bloat the persistence context",
+        "Compile error immediately",
+        "Delete the whole database",
+        "Fail to create entities"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q091",
+      "topic": "Flyway",
+      "prompt": "Flyway used for what?",
+      "options": [
+        "Version database schema migrations",
+        "Create HTML",
+        "Manage threads",
+        "Encrypt JWTs"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q092",
+      "topic": "Flyway",
+      "prompt": "What should you think about for a safe migration?",
+      "options": [
+        "The impact on old data and multi-step deployments",
+        "Only the file name needs to look nice",
+        "It only needs to run locally",
+        "Rollback is unnecessary"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q093",
+      "topic": "Spring/Data",
+      "prompt": "What kind of error is it when a request returns success but the data is only half-written?",
+      "options": [
+        "A dangerous consistency error",
+        "A CSS error",
+        "An enum error",
+        "A minor compile error"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q094",
+      "topic": "Spring/Data",
+      "prompt": "When a service both writes to the DB and triggers an external side effect, what should your first question be?",
+      "options": [
+        "If the later step fails, what happens to the data?",
+        "Is the class too long?",
+        "Does it use tabs?",
+        "Does it use records?"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q095",
+      "topic": "Testing",
+      "prompt": "What are unit tests strongest at?",
+      "options": [
+        "Protecting small behavior and making code easier to read",
+        "Replacing all integration tests",
+        "Fixing bugs automatically",
+        "Deleting runtime config"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q096",
+      "topic": "Testing",
+      "prompt": "How are integration tests different from unit tests?",
+      "options": [
+        "They test real coordination between multiple components",
+        "They always run faster",
+        "They do not need data",
+        "They do not use frameworks"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q097",
+      "topic": "Testing",
+      "prompt": "When are mocks most valuable?",
+      "options": [
+        "When isolating dependencies to test the main logic",
+        "When replacing every real object everywhere",
+        "When speeding up the database",
+        "When writing CSS"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q098",
+      "topic": "Testing",
+      "prompt": "What is a common sign of a low-quality test?",
+      "options": [
+        "It sets up too many unrelated things",
+        "It has a clear name",
+        "It has strong assertions",
+        "It is short and focused"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q099",
+      "topic": "Testing",
+      "prompt": "Why should you write a test that reproduces the bug before fixing it?",
+      "options": [
+        "It turns the bug into a clear, verifiable condition",
+        "To make the code longer",
+        "To remove logs",
+        "To avoid review"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q100",
+      "topic": "Testing",
+      "prompt": "Where are Testcontainers especially useful?",
+      "options": [
+        "Running integration tests closer to a real environment",
+        "Creating a StringBuilder",
+        "Creating enums",
+        "Replacing MockMvc"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q101",
+      "topic": "Messaging",
+      "prompt": "Event-driven architecture help with?",
+      "options": [
+        "Split communication through events instead of relying completely on direct calls",
+        "Removing the database",
+        "Avoiding authentication",
+        "Avoiding logging"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q102",
+      "topic": "Messaging",
+      "prompt": "What problem does the outbox pattern solve?",
+      "options": [
+        "Keeping database writes and event publishing consistent",
+        "Optimizing CSS",
+        "Replacing JPA",
+        "Skipping transactions"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q103",
+      "topic": "Messaging",
+      "prompt": "Dead-letter queue used for what?",
+      "options": [
+        "Holding messages that still fail after retries",
+        "Speeding up the build",
+        "Storing DTOs",
+        "Encrypting passwords"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q104",
+      "topic": "Messaging",
+      "prompt": "Why is idempotency important for consumers?",
+      "options": [
+        "Because messages can arrive more than once or be retried",
+        "To make JSON prettier",
+        "So the DB does not need indexes",
+        "To keep controllers short"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q105",
+      "topic": "Messaging",
+      "prompt": "What is Kafka strongest at?",
+      "options": [
+        "Event streaming and consumer group",
+        "ORM",
+        "Template engine",
+        "GC tuning"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q106",
+      "topic": "Messaging",
+      "prompt": "What is RabbitMQ strongest at?",
+      "options": [
+        "Traditional queues and routing through exchanges",
+        "JPA mapping",
+        "Compile Java",
+        "JWT signing"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q107",
+      "topic": "Messaging",
+      "prompt": "Why is a clear event contract important?",
+      "options": [
+        "It prevents publishers and consumers from interpreting the event differently",
+        "It keeps CSS pretty",
+        "It increases heap usage",
+        "It removes the need for logging"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q108",
+      "topic": "Messaging",
+      "prompt": "What can a badly designed retry strategy cause?",
+      "options": [
+        "The system can attack itself when a downstream dependency is already slow",
+        "More OOP",
+        "Deleting null data",
+        "Fix N+1"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q109",
+      "topic": "Messaging",
+      "prompt": "What do consumer groups in Kafka help with?",
+      "options": [
+        "Scaling consumers by partition",
+        "Creating a DB replica",
+        "Creating new tokens",
+        "Deleting duplicate code"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q110",
+      "topic": "Messaging",
+      "prompt": "What is the role of an ack in messaging?",
+      "options": [
+        "Confirming that a message has been processed at some level",
+        "Creating an HTML response",
+        "Compile entity",
+        "Generating a migration"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q111",
+      "topic": "Observability",
+      "prompt": "Observability is what?",
+      "options": [
+        "The ability to understand a system through logs, metrics, and traces",
+        "A database engine",
+        "A kind of collection",
+        "A UI framework"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q112",
+      "topic": "Observability",
+      "prompt": "What are the three common pillars of observability?",
+      "options": [
+        "Logs, metrics, traces",
+        "CPU, RAM, disk",
+        "GET, POST, PUT",
+        "JWT, SQL, XML"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q113",
+      "topic": "Observability",
+      "prompt": "Health check used for what?",
+      "options": [
+        "Showing whether the app and its dependencies are still healthy",
+        "Creating a new class",
+        "Creating a transaction",
+        "Deleting cache"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q114",
+      "topic": "Observability",
+      "prompt": "Why are p95 and p99 latency often more important than the average?",
+      "options": [
+        "The average can hide the slowest requests",
+        "The average is always wrong",
+        "p95 is Java syntax",
+        "Because the database requires it"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q115",
+      "topic": "Observability",
+      "prompt": "What value does a correlation ID provide?",
+      "options": [
+        "It ties together logs from the same flow or request",
+        "It speeds up the CPU",
+        "It replaces JWTs",
+        "It creates entities"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q116",
+      "topic": "Reliability",
+      "prompt": "What problem does a circuit breaker solve?",
+      "options": [
+        "It stops repeated calls to a dependency that is failing or slow",
+        "It creates another queue",
+        "It deletes old tokens",
+        "It changes the schema"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q117",
+      "topic": "Reliability",
+      "prompt": "Where should timeouts be set?",
+      "options": [
+        "On every risky I/O call or external dependency",
+        "Only in HTML",
+        "Only in enums",
+        "Not needed if local is fine"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q118",
+      "topic": "Reliability",
+      "prompt": "What makes a fallback dangerous?",
+      "options": [
+        "It can hide errors or return stale, incorrect data",
+        "It makes compilation slow",
+        "It is guaranteed to kill the database",
+        "It cannot be used with Spring"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q119",
+      "topic": "Reliability",
+      "prompt": "Blast radius is what?",
+      "options": [
+        "The radius of impact of an error or change",
+        "Heap size",
+        "An exception type",
+        "A migration name"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q120",
+      "topic": "Reliability",
+      "prompt": "What is a good reliability principle?",
+      "options": [
+        "Assume the system will fail and prepare ways to detect and recover from it",
+        "Tin rang production luon on",
+        "Remove logs to keep things short",
+        "No tests needed"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q121",
+      "topic": "Architecture",
+      "prompt": "When should design patterns be used?",
+      "options": [
+        "When they clarify the design and solve a real pain point",
+        "Everywhere to make the code look senior",
+        "Before understanding the problem",
+        "Only for interviews"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q122",
+      "topic": "Architecture",
+      "prompt": "When is the Strategy pattern useful?",
+      "options": [
+        "When there are multiple ways to handle the same contract",
+        "Only when writing SQL",
+        "Only when there is a thread pool",
+        "When there is no interface"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q123",
+      "topic": "Architecture",
+      "prompt": "Adapter pattern help with?",
+      "options": [
+        "Connect two incompatible interfaces",
+        "Delete a collection",
+        "Remove dependency injection",
+        "Turn a database into HTML"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q124",
+      "topic": "Architecture",
+      "prompt": "What does a good Facade help with?",
+      "options": [
+        "Simplifying the entry point into a complex subsystem",
+        "Increasing N+1 queries",
+        "Creating deadlocks",
+        "Removing health checks"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q125",
+      "topic": "Architecture",
+      "prompt": "What does Dependency Inversion emphasize?",
+      "options": [
+        "The business core should depend on abstractions",
+        "Controllers should depend on HTML",
+        "SQL should depend on JWT",
+        "Threads should depend on CSS"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q126",
+      "topic": "Architecture",
+      "prompt": "What is a sign that code is too clever?",
+      "options": [
+        "It is more complex than the real needs of the problem",
+        "Variable names are clear",
+        "Tests are easy to read",
+        "The flow is clear"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q127",
+      "topic": "Architecture",
+      "prompt": "When is technical debt most dangerous?",
+      "options": [
+        "When nobody knows what debt exists or why it exists",
+        "When it is clearly documented",
+        "When there are good tests",
+        "When there is a clear owner"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q128",
+      "topic": "Architecture",
+      "prompt": "What is a downside of feature flags?",
+      "options": [
+        "They can accumulate hard-to-follow branch logic if not cleaned up",
+        "They do not run on the JVM",
+        "They cannot be used with HTTP",
+        "They cannot be deployed"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q129",
+      "topic": "Architecture",
+      "prompt": "Where is backward compatibility most important?",
+      "options": [
+        "APIs, event contracts, and schemas",
+        "Local variable names",
+        "English comments",
+        "Whitespace"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q130",
+      "topic": "Architecture",
+      "prompt": "What is a very common senior-level question when reviewing a change?",
+      "options": [
+        "How does it affect data, security, observability, and blast radius?",
+        "Did the button color change?",
+        "Does it use tabs?",
+        "Did it add a getter yet?"
+      ],
+      "correctIndex": 0
+    }
+  ]
+}

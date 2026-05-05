@@ -1,9 +1,365 @@
-const QUESTION_BANK_PATH = "data/content/question-bank.json";
-const ROADMAP_PATH = "data/roadmap/backend-roadmap.json";
-const QUIZ_BANK_PATH = "data/quizzes/quiz-bank.json";
+const LANGUAGE_STORAGE_KEY = "java-labs-language";
+const DEFAULT_LANGUAGE = "en";
+const currentLanguage = getCurrentLanguage();
+
+const QUESTION_BANK_PATHS = {
+  vi: "data/content/question-bank.vi.json",
+  en: "data/content/question-bank.en.json"
+};
+
+const ROADMAP_PATHS = {
+  vi: "data/roadmap/backend-roadmap.vi.json",
+  en: "data/roadmap/backend-roadmap.en.json"
+};
+
+const QUIZ_BANK_PATHS = {
+  vi: "data/quizzes/quiz-bank.vi.json",
+  en: "data/quizzes/quiz-bank.en.json"
+};
+
+const UI = {
+  vi: {
+    nav: ["Home", "Interview Prep", "Interview Levels", "Quiz", "Roadmap"],
+    language: { vi: "VI", en: "EN" },
+    home: {
+      title: "Java Labs Learning Sites",
+      eyebrow: "Java Labs",
+      heading: "Static Learning Portal",
+      intro:
+        "Học Java Core, Spring Boot và kiến trúc backend trực tiếp trên GitHub Pages. Nội dung được load từ JSON để bạn học tập trực tiếp theo từng chủ đề từ cơ bản đến nâng cao.",
+      cta: "Mở Interview Practice Site",
+      section: "Learning Sites",
+      cards: [
+        {
+          title: "Ngân hàng câu hỏi Java và Spring",
+          body: "Hệ thống câu hỏi và câu trả lời theo chủ đề, có lý thuyết, phân tích, ví dụ code và bài tập tự luyện.",
+          cta: "Mở site học tập"
+        },
+        {
+          title: "Site phỏng vấn theo cấp độ",
+          body: "Cổng tổng hợp câu hỏi phỏng vấn chia theo mức độ từ cơ bản đến nâng cao, có đáp án để ôn luyện theo level rõ ràng.",
+          cta: "Mở site phỏng vấn"
+        },
+        {
+          title: "Quiz thực chiến đánh giá năng lực",
+          body: "Làm bộ đề trắc nghiệm ngẫu nhiên 100 câu theo cấp độ Fresher, Interview và Senior để tự đánh giá năng lực.",
+          cta: "Mở quiz"
+        },
+        {
+          title: "Roadmap học Java Backend",
+          body: "Lộ trình từ Java Core đến Spring Boot, database, messaging, testing, vận hành và tư duy backend nâng cao.",
+          cta: "Mở roadmap"
+        }
+      ]
+    },
+    interview: {
+      title: "Java Interview Practice",
+      eyebrow: "Java Labs / Interview Practice",
+      heading: "Question Bank From JSON",
+      intro:
+        "Mục tiêu là có một portal học tập tinh gọn: danh sách chủ đề, câu hỏi, câu trả lời chuẩn, ví dụ code và bài tập tự luyện. Tất cả đều render từ file JSON để phù hợp GitHub Pages.",
+      statsLabel: "Bank Stats",
+      statTopics: "Topics",
+      statQuestions: "Questions",
+      statLevels: "Levels",
+      statLevelsValue: "Cơ bản -> Nâng cao",
+      sidebarEyebrow: "Topics",
+      sidebarHeading: "Topic Catalog",
+      contentEyebrow: "Content",
+      contentHeading: "Questions And Answers",
+      searchLabel: "Tìm kiếm",
+      searchPlaceholder: "Ví dụ: transaction, JWT, Kafka...",
+      levelLabel: "Mức độ",
+      kindLabel: "Loại câu hỏi",
+      sortLabel: "Sắp xếp"
+    },
+    interviewLevels: {
+      title: "Java Interview Levels",
+      eyebrow: "Java Labs / Interview Levels",
+      heading: "Câu hỏi phỏng vấn theo cấp độ",
+      intro:
+        "Portal này gom câu hỏi phỏng vấn theo level để bạn ôn tập đúng mặt bằng: bắt đầu từ nền tảng, lên trung cấp, nâng cao và các câu hỏi mẹo hoặc tư duy hệ thống.",
+      statsLabel: "Interview Stats",
+      statTotal: "Tổng câu",
+      statGroups: "Số level",
+      statRange: "Phạm vi",
+      statRangeValue: "Core -> Senior",
+      sidebarEyebrow: "Levels",
+      sidebarHeading: "Nhóm cấp độ",
+      contentEyebrow: "Interview Bank",
+      contentHeading: "Question Sets By Level",
+      searchLabel: "Tìm kiếm",
+      searchPlaceholder: "Ví dụ: JWT, transaction, Kafka...",
+      trackLabel: "Track",
+      kindLabel: "Loại câu hỏi",
+      sortLabel: "Sắp xếp"
+    },
+    roadmap: {
+      title: "Java Backend Roadmap",
+      eyebrow: "Java Labs / Roadmap",
+      heading: "Roadmap học Java Backend",
+      intro:
+        "Trang này giúp bạn nhìn bức tranh tổng thể: bắt đầu từ đâu, học theo thứ tự nào, phần nào nên làm trước, phần nào là nâng cao, và cách nối kiến thức thành một cây tư duy rõ ràng.",
+      statsLabel: "Roadmap Stats",
+      statPhase: "Giai đoạn",
+      statTopic: "Chủ đề",
+      statGoal: "Mục tiêu",
+      statGoalValue: "Core -> Senior",
+      sections: [
+        ["Bản đồ", "Roadmap là gì?"],
+        ["Khởi đầu", "Nếu mới bắt đầu thì học gì trước?"],
+        ["Cây trí tuệ", "Knowledge Tree"],
+        ["Công nghệ", "Học công nghệ nào, tích hợp ra sao?"],
+        ["Tích hợp", "Dòng chảy tích hợp toàn hệ thống"],
+        ["Lộ trình", "Học theo giai đoạn"],
+        ["Thực chiến", "Học phần nào thì làm phần nào"],
+        ["Bẫy học", "Những chỗ rất dễ học lệch hoặc hiểu hời hợt"],
+        ["Hình dung", "Roadmap Visual"]
+      ],
+      introCards: [
+        ["Tư duy đúng", "Roadmap không phải danh sách học thuộc. Nó là bản đồ để bạn biết học phần nào trước, phần nào sau, và vì sao chúng liên kết với nhau."],
+        ["Mục tiêu", "Đi từ biết cú pháp Java đến hiểu hệ thống backend: dữ liệu, auth, transaction, event, testing, observability và vận hành."],
+        ["Cách dùng", "Chọn một giai đoạn, học theo thứ tự, đối chiếu code trong repo và quay lại bổ sung phần còn hổng thay vì nhảy lung tung."]
+      ]
+    },
+    quiz: {
+      title: "Java Backend Quiz Arena",
+      eyebrow: "Java Labs / Quiz Arena",
+      heading: "Thực chiến bằng bộ đề ngẫu nhiên",
+      intro:
+        "Chọn một bộ đề có pool trên 100 câu, hệ thống sẽ rút ngẫu nhiên 100 câu để bạn làm bài và chấm theo mức năng lực từ cơ bản đến nâng cao.",
+      statsLabel: "Quiz Stats",
+      statBundle: "Bộ đề",
+      statPool: "Ngân hàng câu",
+      statDraw: "Mỗi lần làm",
+      statDrawValue: "100 câu",
+      sections: [
+        ["Chọn đề", "Bộ đề theo cấp độ"],
+        ["Làm bài", "Quiz Workspace"]
+      ],
+      empty: "Chọn một bộ đề để bắt đầu."
+    },
+    common: {
+      all: "Tất cả",
+      defaultSort: "Mặc định",
+      levelAsc: "Độ khó tăng dần",
+      levelDesc: "Độ khó giảm dần",
+      titleAsc: "Theo tiêu đề A-Z",
+      questionsDesc: "Nhiều câu trước",
+      questionsAsc: "Ít câu trước",
+      groupTitleAsc: "Tên level A-Z",
+      noTopics: "Không có chủ đề nào khớp bộ lọc hiện tại.",
+      noQuestions: "Không tìm thấy câu hỏi phù hợp. Hãy đổi từ khóa hoặc bộ lọc.",
+      noLevels: "Không có level nào khớp bộ lọc hiện tại.",
+      noLevelQuestions: "Không tìm thấy câu hỏi phỏng vấn phù hợp. Hãy đổi từ khóa hoặc bộ lọc.",
+      interviewQuestionCount: "câu hỏi phỏng vấn",
+      interviewLevelEyebrow: "Interview Level",
+      interviewLevelSummary: "câu hỏi đã được tổng hợp ở mức này.",
+      learnFor: "Học để làm gì?",
+      integratesWith: "Tích hợp với gì?",
+      lookAt: "Trong repo nên nhìn đâu?",
+      learnWhat: "Học gì?",
+      doInRepo: "Làm gì trong repo?",
+      outcomes: "Khi xong phải đạt",
+      mistakes: "Dễ hiểu sai ở đâu?",
+      fixLearning: "Nên sửa cách học thế nào?",
+      chooseBundle: "Chọn một bộ đề để bắt đầu.",
+      pool: "Pool",
+      drawCount: "Làm bài",
+      level: "Mức",
+      suggestedTime: "Thời gian gợi ý",
+      startBundle: "Bắt đầu bộ này",
+      totalQuestions: "Tổng câu",
+      submit: "Nộp bài và chấm điểm",
+      retry: "Rút đề ngẫu nhiên lại",
+      result: "Kết quả",
+      correctScore: "Điểm đúng",
+      ratio: "Tỉ lệ",
+      answered: "Đã trả lời",
+      assessment: "Mức đánh giá",
+      answer: "Trả lời",
+      answerFallback: "Câu trả lời",
+      explanation: "Giải thích dễ hiểu",
+      apply: "Áp dụng / dễ sai ở đâu",
+      practice: "Tự luyện",
+      jsonError: "Không thể tải nội dung JSON."
+    }
+  },
+  en: {
+    nav: ["Home", "Interview Prep", "Interview Levels", "Quiz", "Roadmap"],
+    language: { vi: "VI", en: "EN" },
+    home: {
+      title: "Java Labs Learning Sites",
+      eyebrow: "Java Labs",
+      heading: "Static Learning Portal",
+      intro:
+        "Study Java Core, Spring Boot, and backend architecture directly on GitHub Pages. Content is loaded from JSON so you can learn topic by topic from basic to advanced.",
+      cta: "Open Interview Practice Site",
+      section: "Learning Sites",
+      cards: [
+        {
+          title: "Java and Spring question bank",
+          body: "A topic-based system of questions and answers with theory, analysis, code examples, and self-practice prompts.",
+          cta: "Open study site"
+        },
+        {
+          title: "Interview site by level",
+          body: "A curated interview portal grouped from basic to advanced, with answers to review by level.",
+          cta: "Open interview site"
+        },
+        {
+          title: "Hands-on skill quiz",
+          body: "Take randomized 100-question sets across Fresher, Interview, and Senior levels to assess your skills.",
+          cta: "Open quiz"
+        },
+        {
+          title: "Java Backend roadmap",
+          body: "A path from Java Core to Spring Boot, databases, messaging, testing, operations, and advanced backend thinking.",
+          cta: "Open roadmap"
+        }
+      ]
+    },
+    interview: {
+      title: "Java Interview Practice",
+      eyebrow: "Java Labs / Interview Practice",
+      heading: "Question Bank From JSON",
+      intro:
+        "The goal is a lean learning portal: topic list, questions, solid answers, code examples, and self-practice tasks. Everything is rendered from JSON so it works cleanly on GitHub Pages.",
+      statsLabel: "Bank Stats",
+      statTopics: "Topics",
+      statQuestions: "Questions",
+      statLevels: "Levels",
+      statLevelsValue: "Basic -> Advanced",
+      sidebarEyebrow: "Topics",
+      sidebarHeading: "Topic Catalog",
+      contentEyebrow: "Content",
+      contentHeading: "Questions And Answers",
+      searchLabel: "Search",
+      searchPlaceholder: "Example: transaction, JWT, Kafka...",
+      levelLabel: "Level",
+      kindLabel: "Question type",
+      sortLabel: "Sort"
+    },
+    interviewLevels: {
+      title: "Java Interview Levels",
+      eyebrow: "Java Labs / Interview Levels",
+      heading: "Interview questions by level",
+      intro:
+        "This portal groups interview questions by level so you can review at the right baseline: start with fundamentals, move to intermediate and advanced, then tackle trick and system-thinking questions.",
+      statsLabel: "Interview Stats",
+      statTotal: "Total questions",
+      statGroups: "Level groups",
+      statRange: "Range",
+      statRangeValue: "Core -> Senior",
+      sidebarEyebrow: "Levels",
+      sidebarHeading: "Level Groups",
+      contentEyebrow: "Interview Bank",
+      contentHeading: "Question Sets By Level",
+      searchLabel: "Search",
+      searchPlaceholder: "Example: JWT, transaction, Kafka...",
+      trackLabel: "Track",
+      kindLabel: "Question type",
+      sortLabel: "Sort"
+    },
+    roadmap: {
+      title: "Java Backend Roadmap",
+      eyebrow: "Java Labs / Roadmap",
+      heading: "Java Backend Roadmap",
+      intro:
+        "This page helps you see the full picture: where to start, what order to learn in, what should come first, what counts as advanced, and how to connect everything into a clear knowledge tree.",
+      statsLabel: "Roadmap Stats",
+      statPhase: "Phases",
+      statTopic: "Topics",
+      statGoal: "Goal",
+      statGoalValue: "Core -> Senior",
+      sections: [
+        ["Map", "What is a roadmap?"],
+        ["Starting Point", "What should you learn first if you are new?"],
+        ["Knowledge Tree", "Knowledge Tree"],
+        ["Technology", "What technologies should you learn and how do they integrate?"],
+        ["Integration", "Full system integration flow"],
+        ["Phases", "Learn by phase"],
+        ["Hands-on", "What to build while learning each part"],
+        ["Learning traps", "Places where it is easy to learn the wrong thing or stay shallow"],
+        ["Visual", "Roadmap Visual"]
+      ],
+      introCards: [
+        ["Think correctly", "A roadmap is not a list to memorize. It is a map that tells you what to study first, what comes later, and why the pieces connect."],
+        ["Goal", "Move from knowing Java syntax to understanding a real backend system: data, auth, transactions, events, testing, observability, and operations."],
+        ["How to use it", "Pick one phase, study in order, compare it with code in the repo, then come back to fill the gaps instead of jumping around."]
+      ]
+    },
+    quiz: {
+      title: "Java Backend Quiz Arena",
+      eyebrow: "Java Labs / Quiz Arena",
+      heading: "Practice with randomized exam sets",
+      intro:
+        "Choose a set with a pool of more than 100 questions. The system will draw 100 random questions and grade your level from basic to advanced.",
+      statsLabel: "Quiz Stats",
+      statBundle: "Bundles",
+      statPool: "Question pool",
+      statDraw: "Per attempt",
+      statDrawValue: "100 questions",
+      sections: [
+        ["Choose a set", "Bundles by level"],
+        ["Take the test", "Quiz Workspace"]
+      ],
+      empty: "Choose a quiz bundle to begin."
+    },
+    common: {
+      all: "All",
+      defaultSort: "Default",
+      levelAsc: "Difficulty ascending",
+      levelDesc: "Difficulty descending",
+      titleAsc: "Title A-Z",
+      questionsDesc: "Most questions first",
+      questionsAsc: "Fewest questions first",
+      groupTitleAsc: "Level name A-Z",
+      noTopics: "No topics match the current filters.",
+      noQuestions: "No matching questions found. Try another keyword or filter.",
+      noLevels: "No levels match the current filters.",
+      noLevelQuestions: "No matching interview questions found. Try another keyword or filter.",
+      interviewQuestionCount: "interview questions",
+      interviewLevelEyebrow: "Interview Level",
+      interviewLevelSummary: "questions have been grouped at this level.",
+      learnFor: "What should you learn it for?",
+      integratesWith: "What does it integrate with?",
+      lookAt: "Where should you look in this repo?",
+      learnWhat: "What should you learn?",
+      doInRepo: "What should you do in the repo?",
+      outcomes: "What should you be able to do after this?",
+      mistakes: "Where do people misunderstand this?",
+      fixLearning: "How should you correct the way you learn it?",
+      chooseBundle: "Choose a quiz bundle to begin.",
+      pool: "Pool",
+      drawCount: "Attempt",
+      level: "Level",
+      suggestedTime: "Suggested time",
+      startBundle: "Start this bundle",
+      totalQuestions: "Total questions",
+      submit: "Submit and grade",
+      retry: "Draw another random set",
+      result: "Result",
+      correctScore: "Correct",
+      ratio: "Score",
+      answered: "Answered",
+      assessment: "Assessment",
+      answer: "Answer",
+      answerFallback: "Answer",
+      explanation: "Plain-English explanation",
+      apply: "Where to apply it / where people go wrong",
+      practice: "Self-practice",
+      jsonError: "Could not load JSON content."
+    }
+  }
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
   const page = document.body.dataset.page;
+  document.documentElement.lang = currentLanguage;
+  preserveLanguageLinks();
+  mountLanguageSwitcher();
+  applyStaticCopy(page);
 
   try {
     if (page === "home") {
@@ -11,29 +367,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (page === "interview") {
-      const response = await fetch(QUESTION_BANK_PATH);
+      const response = await fetch(QUESTION_BANK_PATHS[currentLanguage]);
       if (!response.ok) {
         throw new Error(`Failed to load question bank: ${response.status}`);
       }
 
-      const bank = await response.json();
+      const bank = normalizeQuestionBank(await response.json());
       renderInterview(bank);
       return;
     }
 
     if (page === "interview-levels") {
-      const response = await fetch(QUESTION_BANK_PATH);
+      const response = await fetch(QUESTION_BANK_PATHS[currentLanguage]);
       if (!response.ok) {
         throw new Error(`Failed to load question bank: ${response.status}`);
       }
 
-      const bank = await response.json();
+      const bank = normalizeQuestionBank(await response.json());
       renderInterviewLevels(bank);
       return;
     }
 
     if (page === "roadmap") {
-      const response = await fetch(ROADMAP_PATH);
+      const response = await fetch(ROADMAP_PATHS[currentLanguage]);
       if (!response.ok) {
         throw new Error(`Failed to load roadmap: ${response.status}`);
       }
@@ -44,7 +400,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (page === "quiz") {
-      const response = await fetch(QUIZ_BANK_PATH);
+      const response = await fetch(QUIZ_BANK_PATHS[currentLanguage]);
       if (!response.ok) {
         throw new Error(`Failed to load quiz bank: ${response.status}`);
       }
@@ -59,6 +415,596 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function renderHome(bank) {
   return bank;
+}
+
+function getCurrentLanguage() {
+  const fromQuery = new URLSearchParams(window.location.search).get("lang");
+  if (fromQuery === "vi" || fromQuery === "en") {
+    return fromQuery;
+  }
+
+  return DEFAULT_LANGUAGE;
+}
+
+function copy() {
+  return UI[currentLanguage];
+}
+
+function commonText() {
+  return copy().common;
+}
+
+function mountLanguageSwitcher() {
+  const target = document.querySelector(".top-nav") || document.querySelector(".hero");
+  if (!target || document.getElementById("languageSwitch")) {
+    return;
+  }
+
+  const switcher = document.createElement("div");
+  switcher.id = "languageSwitch";
+  switcher.className = "language-switch";
+  switcher.innerHTML = `
+    <button class="language-pill${currentLanguage === "vi" ? " active" : ""}" type="button" data-lang="vi">${copy().language.vi}</button>
+    <button class="language-pill${currentLanguage === "en" ? " active" : ""}" type="button" data-lang="en">${copy().language.en}</button>
+  `;
+
+  target.appendChild(switcher);
+  switcher.querySelectorAll("[data-lang]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextLanguage = button.getAttribute("data-lang");
+      if (!nextLanguage || nextLanguage === currentLanguage) {
+        return;
+      }
+
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", nextLanguage);
+      window.location.href = url.toString();
+    });
+  });
+}
+
+function preserveLanguageLinks() {
+  const links = document.querySelectorAll("a[href]");
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || href.startsWith("#") || href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:")) {
+      return;
+    }
+
+    try {
+      const url = new URL(href, window.location.href);
+      if (!url.pathname.endsWith(".html")) {
+        return;
+      }
+
+      url.searchParams.set("lang", currentLanguage);
+      link.setAttribute("href", `${url.pathname.split("/").pop()}${url.search}${url.hash}`);
+    } catch (_error) {
+      // Ignore malformed links and leave them untouched.
+    }
+  });
+}
+
+function applyStaticCopy(page) {
+  applyNavCopy();
+
+  if (page === "home") {
+    applyHomeCopy();
+    return;
+  }
+
+  if (page === "interview") {
+    applyInterviewCopy();
+    return;
+  }
+
+  if (page === "interview-levels") {
+    applyInterviewLevelsCopy();
+    return;
+  }
+
+  if (page === "roadmap") {
+    applyRoadmapCopy();
+    return;
+  }
+
+  if (page === "quiz") {
+    applyQuizCopy();
+  }
+}
+
+function applyNavCopy() {
+  const links = document.querySelectorAll(".nav-link");
+  if (links.length === 0) {
+    return;
+  }
+
+  copy().nav.forEach((label, index) => {
+    if (links[index]) {
+      links[index].textContent = label;
+    }
+  });
+}
+
+function applyHomeCopy() {
+  const pageCopy = copy().home;
+  document.title = pageCopy.title;
+  setText(".hero-content .eyebrow", pageCopy.eyebrow);
+  setText(".hero-content h1", pageCopy.heading);
+  setText(".hero-content .hero-copy", pageCopy.intro);
+  setText(".hero-actions .btn", pageCopy.cta);
+  setText("main .panel h2", pageCopy.section);
+
+  const cards = document.querySelectorAll(".service-card");
+  pageCopy.cards.forEach((card, index) => {
+    const target = cards[index];
+    if (!target) {
+      return;
+    }
+
+    setTextWithin(target, "h3", card.title);
+    const paragraphs = target.querySelectorAll("p");
+    if (paragraphs[0]) {
+      paragraphs[0].textContent = card.body;
+    }
+    if (paragraphs[1]) {
+      const link = paragraphs[1].querySelector("a");
+      if (link) {
+        link.textContent = card.cta;
+      }
+    }
+  });
+}
+
+function applyInterviewCopy() {
+  const pageCopy = copy().interview;
+  document.title = pageCopy.title;
+  setText(".hero-content .eyebrow", pageCopy.eyebrow);
+  setText(".hero-content h1", pageCopy.heading);
+  setText(".hero-content .hero-copy", pageCopy.intro);
+  setText(".side-label", pageCopy.statsLabel);
+  setTextInList(".stat-list dt", [pageCopy.statTopics, pageCopy.statQuestions, pageCopy.statLevels]);
+  setTextInList(".stat-list dd", [null, null, pageCopy.statLevelsValue]);
+  setTextInList(".sidebar-panel .section-heading .eyebrow", [pageCopy.sidebarEyebrow]);
+  setTextInList(".sidebar-panel .section-heading h2", [pageCopy.sidebarHeading]);
+  setTextInList(".content-panel .section-heading .eyebrow", [pageCopy.contentEyebrow]);
+  setTextInList(".content-panel .section-heading h2", [pageCopy.contentHeading]);
+  setLabelAndPlaceholder("questionSearch", pageCopy.searchLabel, pageCopy.searchPlaceholder);
+  setLabelAndSelect("levelFilter", pageCopy.levelLabel, commonText().all);
+  setLabelAndSelect("kindFilter", pageCopy.kindLabel, commonText().all);
+  setSortSelect("sortFilter", pageCopy.sortLabel, [
+    commonText().defaultSort,
+    commonText().levelAsc,
+    commonText().levelDesc,
+    commonText().titleAsc
+  ]);
+}
+
+function applyInterviewLevelsCopy() {
+  const pageCopy = copy().interviewLevels;
+  document.title = pageCopy.title;
+  setText(".hero-content .eyebrow", pageCopy.eyebrow);
+  setText(".hero-content h1", pageCopy.heading);
+  setText(".hero-content .hero-copy", pageCopy.intro);
+  setText(".side-label", pageCopy.statsLabel);
+  setTextInList(".stat-list dt", [pageCopy.statTotal, pageCopy.statGroups, pageCopy.statRange]);
+  setTextInList(".stat-list dd", [null, null, pageCopy.statRangeValue]);
+  setTextInList(".sidebar-panel .section-heading .eyebrow", [pageCopy.sidebarEyebrow]);
+  setTextInList(".sidebar-panel .section-heading h2", [pageCopy.sidebarHeading]);
+  setTextInList(".content-panel .section-heading .eyebrow", [pageCopy.contentEyebrow]);
+  setTextInList(".content-panel .section-heading h2", [pageCopy.contentHeading]);
+  setLabelAndPlaceholder("levelSearch", pageCopy.searchLabel, pageCopy.searchPlaceholder);
+  setLabelAndSelect("levelTrackFilter", pageCopy.trackLabel, commonText().all);
+  setLabelAndSelect("levelKindFilter", pageCopy.kindLabel, commonText().all);
+  setSortSelect("levelSortFilter", pageCopy.sortLabel, [
+    commonText().defaultSort,
+    commonText().questionsDesc,
+    commonText().questionsAsc,
+    commonText().groupTitleAsc
+  ]);
+}
+
+function applyRoadmapCopy() {
+  const pageCopy = copy().roadmap;
+  document.title = pageCopy.title;
+  setText(".hero-content .eyebrow", pageCopy.eyebrow);
+  setText(".hero-content h1", pageCopy.heading);
+  setText(".hero-content .hero-copy", pageCopy.intro);
+  setText(".side-label", pageCopy.statsLabel);
+  setTextInList(".stat-list dt", [pageCopy.statPhase, pageCopy.statTopic, pageCopy.statGoal]);
+  setTextInList(".stat-list dd", [null, null, pageCopy.statGoalValue]);
+  setRoadmapSectionCopy(pageCopy.sections);
+  setRoadmapIntroCards(pageCopy.introCards);
+}
+
+function applyQuizCopy() {
+  const pageCopy = copy().quiz;
+  document.title = pageCopy.title;
+  setText(".hero-content .eyebrow", pageCopy.eyebrow);
+  setText(".hero-content h1", pageCopy.heading);
+  setText(".hero-content .hero-copy", pageCopy.intro);
+  setText(".side-label", pageCopy.statsLabel);
+  setTextInList(".stat-list dt", [pageCopy.statBundle, pageCopy.statPool, pageCopy.statDraw]);
+  setTextInList(".stat-list dd", [null, null, pageCopy.statDrawValue]);
+  setRoadmapSectionCopy(pageCopy.sections);
+  const emptyState = document.querySelector("#quizWorkspace .empty-state");
+  if (emptyState) {
+    emptyState.textContent = pageCopy.empty;
+  }
+}
+
+function setRoadmapSectionCopy(sections) {
+  const headings = document.querySelectorAll("main .section-heading");
+  sections.forEach((item, index) => {
+    const target = headings[index];
+    if (!target) {
+      return;
+    }
+
+    setTextWithin(target, ".eyebrow", item[0]);
+    setTextWithin(target, "h2", item[1]);
+  });
+}
+
+function setRoadmapIntroCards(cards) {
+  const blocks = document.querySelectorAll(".roadmap-intro-grid .info-card");
+  cards.forEach((item, index) => {
+    const target = blocks[index];
+    if (!target) {
+      return;
+    }
+
+    setTextWithin(target, "h3", item[0]);
+    setTextWithin(target, "p", item[1]);
+  });
+}
+
+function setLabelAndPlaceholder(inputId, label, placeholder) {
+  const input = document.getElementById(inputId);
+  if (!input) {
+    return;
+  }
+
+  const field = input.closest(".toolbar-field");
+  if (field) {
+    const caption = field.querySelector("span");
+    if (caption) {
+      caption.textContent = label;
+    }
+  }
+
+  input.placeholder = placeholder;
+}
+
+function setLabelAndSelect(selectId, label, firstOption) {
+  const select = document.getElementById(selectId);
+  if (!select) {
+    return;
+  }
+
+  const field = select.closest(".toolbar-field");
+  if (field) {
+    const caption = field.querySelector("span");
+    if (caption) {
+      caption.textContent = label;
+    }
+  }
+
+  if (select.options[0]) {
+    select.options[0].textContent = firstOption;
+  }
+}
+
+function setSortSelect(selectId, label, optionLabels) {
+  const select = document.getElementById(selectId);
+  if (!select) {
+    return;
+  }
+
+  const field = select.closest(".toolbar-field");
+  if (field) {
+    const caption = field.querySelector("span");
+    if (caption) {
+      caption.textContent = label;
+    }
+  }
+
+  optionLabels.forEach((text, index) => {
+    if (select.options[index]) {
+      select.options[index].textContent = text;
+    }
+  });
+}
+
+function setText(selector, value) {
+  const target = document.querySelector(selector);
+  if (target) {
+    target.textContent = value;
+  }
+}
+
+function setTextWithin(root, selector, value) {
+  const target = root.querySelector(selector);
+  if (target) {
+    target.textContent = value;
+  }
+}
+
+function setTextInList(selector, values) {
+  const nodes = document.querySelectorAll(selector);
+  values.forEach((value, index) => {
+    if (value !== null && value !== undefined && nodes[index]) {
+      nodes[index].textContent = value;
+    }
+  });
+}
+
+function normalizeQuestionBank(bank) {
+  return {
+    ...bank,
+    siteTitle: normalizeDisplayText(bank.siteTitle || ""),
+    topics: Array.isArray(bank.topics) ? bank.topics.map(normalizeTopic) : []
+  };
+}
+
+function normalizeTopic(topic) {
+  return {
+    ...topic,
+    track: normalizeDisplayText(topic.track || ""),
+    title: normalizeTopicTitle(topic.id, topic.title || ""),
+    summary: normalizeTopicSummary(topic.id, topic.summary || ""),
+    questions: Array.isArray(topic.questions) ? topic.questions.map(normalizeQuestion) : []
+  };
+}
+
+function normalizeQuestion(question) {
+  return {
+    ...question,
+    level: normalizeDisplayText(question.level || question.leaboutl || ""),
+    kind: normalizeDisplayText(question.kind || ""),
+    question: normalizeDisplayText(question.question || ""),
+    answer: Array.isArray(question.answer) ? question.answer.map((item) => normalizeDisplayText(item)) : [],
+    answerShort: normalizeDisplayText(question.answerShort || ""),
+    explanation: (Array.isArray(question.explanation) ? question.explanation : Array.isArray(question.expisnation) ? question.expisnation : [])
+      .map((item) => normalizeDisplayText(item))
+      .filter(Boolean),
+    applyOrPitfalls: (Array.isArray(question.applyOrPitfalls) ? question.applyOrPitfalls : [])
+      .map((item) => normalizeDisplayText(item))
+      .filter((item) => item && !shouldHideNoisyEnglish(item)),
+    practice: (Array.isArray(question.practice) ? question.practice : [])
+      .map((item) => normalizeDisplayText(item))
+      .filter((item) => item && !shouldHideNoisyEnglish(item))
+  };
+}
+
+function normalizeTopicTitle(topicId, title) {
+  if (currentLanguage !== "en") {
+    return title;
+  }
+
+  const overrides = {
+    "jaand-fundamentals": "Java fundamentals",
+    "syntax-control-flow": "Syntax, variables, and control flow",
+    "oop-design": "OOP, class design, and clean code",
+    "collections-generics-streams": "Collections, generics, and streams",
+    "strings-time-enums": "Strings, enums, and date-time basics",
+    "exceptions-debugwhatng": "Exceptions, logging, and debugging mindset",
+    "concurrency-async": "Concurrency, async flows, and callback-hell equivalents",
+    "jvm-memory-performance": "JVM, memory, and performance",
+    "jdbc-sql-database": "JDBC, SQL, and database connectivity",
+    "testing-build-tools": "Testing, Maven, and real project habits",
+    "spring-boot-web-data": "Spring Boot web, beans, and data access",
+    "spring-security-auth": "Security, JWT, and session management",
+    "spring-transactions-jpa": "JPA, transactions, Flyway, and durable data",
+    "messawhatng-microservices": "Messaging, outbox, Kafka, RabbitMQ, and microservice thinking",
+    "design-patterns-and-architecture": "Design patterns and architecture thinking",
+    "http-rest-api": "HTTP, REST APIs, and backend communication",
+    "obserandbility-reliability": "Observability, reliability, and operations",
+    "file-io-networking": "Files, I/O, and external system integration",
+    "interview-problem-solving": "Interview thinking, code analysis, and issue diagnosis",
+    "adandnced-jaand-tricks": "Hard Java questions, tricks, and pitfalls",
+    "adandnced-spring-and-data": "Advanced Spring Boot and data access",
+    "senior-backend-mindset": "Advanced backend thinking and senior-style questions",
+    "interview-expansion-bank": "Expanded interview question bank",
+    "interview-famous-and-basic-bank": "Basic, famous, and trick interview questions"
+  };
+
+  return overrides[topicId] || normalizeDisplayText(title);
+}
+
+function normalizeTopicSummary(topicId, summary) {
+  if (currentLanguage !== "en") {
+    return summary;
+  }
+
+  const overrides = {
+    "jaand-fundamentals": "Foundational questions about what Java is, how it runs, and why it remains dominant in backend systems.",
+    "syntax-control-flow": "Core syntax and control-flow questions that make Java code easier to read and write correctly.",
+    "oop-design": "Object-oriented design, responsibility boundaries, and clean-code habits in Java.",
+    "collections-generics-streams": "Collection choices, generics, streams, and the trade-offs behind everyday data handling.",
+    "strings-time-enums": "Small language features that look simple but often cause subtle bugs in real systems.",
+    "exceptions-debugwhatng": "Error handling, stack traces, logging, and practical debugging habits for backend work.",
+    "concurrency-async": "Threads, futures, shared state, and the Java version of async complexity.",
+    "jvm-memory-performance": "JVM behavior, memory problems, and performance questions that appear in real production debugging.",
+    "jdbc-sql-database": "Database connectivity, SQL execution, connection pools, and common backend persistence mistakes.",
+    "testing-build-tools": "Testing layers, build tools, and habits that matter when code is maintained by real teams.",
+    "spring-boot-web-data": "Spring Boot request flow, dependency injection, service boundaries, and data-access structure.",
+    "spring-security-auth": "Authentication, authorization, JWT flows, refresh tokens, and common security mistakes.",
+    "spring-transactions-jpa": "Transactions, JPA behavior, schema migration, and durable-data concerns.",
+    "messawhatng-microservices": "Async integration, messaging guarantees, outbox patterns, and microservice trade-offs.",
+    "design-patterns-and-architecture": "Patterns, trade-offs, and architecture thinking beyond syntax-level knowledge.",
+    "http-rest-api": "HTTP semantics, API design, contracts, and backend communication behavior.",
+    "obserandbility-reliability": "Logs, metrics, tracing, alerts, and thinking clearly about reliability in production.",
+    "file-io-networking": "File handling, network I/O, and safe integration with external systems.",
+    "interview-problem-solving": "How to think through unfamiliar code, explain trade-offs, and answer interview questions clearly.",
+    "adandnced-jaand-tricks": "Hard Java questions, famous traps, and senior-level details that often show up in interviews.",
+    "adandnced-spring-and-data": "Advanced Spring Boot, transactions, data consistency, and repository-level pitfalls.",
+    "senior-backend-mindset": "Senior-style backend questions focused on risks, trade-offs, and system behavior.",
+    "interview-expansion-bank": "Additional mixed interview questions that broaden the practice set across backend topics.",
+    "interview-famous-and-basic-bank": "Basic but memorable questions, common traps, and interview classics."
+  };
+
+  return overrides[topicId] || normalizeDisplayText(summary);
+}
+
+function normalizeDisplayText(text) {
+  if (!text || currentLanguage !== "en") {
+    return text;
+  }
+
+  let value = String(text);
+  const exactReplacements = [
+    ["Apply it when you need read older code, explain thich cho person different or decide choose explain phap nao trong backend Java.", "Use this when you read older code, explain the idea to someone else, or choose between backend design options."],
+    ["De wrong when only remember definition ma not noi no voi behavior runtime, data real and trade-off technical.", "People often go wrong when they memorize the definition but never connect it to runtime behavior, real data, and technical trade-offs."],
+    ["Apply it when xu ly job nen, batch, xu ly song song or chia se data between nunderstand luong.", "Use this in background jobs, batch processing, parallel flows, or shared-state debugging."],
+    ["De wrong when nghi code chay correct o local thi chac chan correct under tai high or when nunderstand thread together cham data.", "People often go wrong when code works locally but has never been tested under load or concurrent access."],
+    ["Apply it when design hop dong API, choose status code, validation and retry strategy o client.", "Use this when you design API contracts, choose status codes, add validation, and plan client retry behavior."],
+    ["De wrong when endpoint only chay duoc on happy path but not ro xu ly error, idempotency or backward compatibility.", "People often go wrong when an endpoint only handles the happy path and ignores errors, idempotency, or backward compatibility."],
+    ["Apply it when tach xu ly bat dong bo, whatam coupling or need phuc hoi when downstream tam error.", "Use this when you split work asynchronously, reduce coupling, or need recovery after temporary downstream failures."],
+    ["Tu mo ta isi flow: source -> bytecode -> class loader -> JVM -> JIT.", "Describe the flow yourself: source -> bytecode -> class loader -> JVM -> JIT."],
+    ["Thu use `javac` and `javap -c` to inspect bytecode of a small class.", "Try `javac` and `javap -c` on a small class to inspect the generated bytecode."],
+    ["Hay tu chay isi vi du or write one test very remember to check truc tiep behavior thay because only remember dap an.", "Run a tiny example yourself or write a focused test so you can verify the behavior directly instead of memorizing the answer."],
+    ["Apply it when design dang nhap, authorization, refresh token, bao about endpoint and call service lien he thong.", "Use this when you design login flows, authorization, refresh tokens, protected endpoints, or cross-service calls."],
+    ["Ap use strong nhat when review pull request, debug bug real or explain thich because sao one doan code look at correct ma andn error.", "This is especially useful in code review, real bug debugging, or when a piece of code looks correct but still fails."],
+    ["Diem cot error is must phan biet between value noi use and reference object, because day is cho beginners Java very or nham.", "The key is to distinguish business value equality from object reference identity, because beginners confuse these very easily."],
+    ["Khi read code real, or luon tu hoi doan nay dang compare value business logic or only dang check hai andriable co together tro into one object or not.", "When reading real code, ask whether the line compares business values or only checks whether two references point to the same object."]
+  ];
+
+  exactReplacements.forEach(([from, to]) => {
+    if (value.includes(from)) {
+      value = value.split(from).join(to);
+    }
+  });
+
+  const regexReplacements = [
+    [/\bJaand\b/g, "Java"],
+    [/\bAdandnced\b/g, "Advanced"],
+    [/\bcisss\b/g, "class"],
+    [/\bMaaboutn\b/g, "Maven"],
+    [/\bdeaboutlopment\b/g, "development"],
+    [/\bdeaboutloper\b/g, "developer"],
+    [/\bobserandbility\b/g, "observability"],
+    [/\bmessawhatng\b/g, "messaging"],
+    [/\beaboutnt-driaboutn\b/g, "event-driven"],
+    [/\beaboutntual\b/g, "eventual"],
+    [/\beaboutnt\b/g, "event"],
+    [/\bseraboutr\b/g, "server"],
+    [/\bprimitiabout\b/g, "primitive"],
+    [/\bStackOaboutrflowError\b/g, "StackOverflowError"],
+    [/\blogwhatng\b/g, "logging"],
+    [/\bandrious\b/g, "various"],
+    [/\bwhatiao\b/g, "solving"],
+    [/\bwhatai\b/g, "solving"],
+    [/\bbaisnces\b/g, "balances"],
+    [/\bnunderstand luong\b/g, "multiple threads"],
+    [/\bnunderstand thread\b/g, "multiple threads"],
+    [/\bnunderstand object\b/g, "many objects"],
+    [/\bnunderstand isn\b/g, "many times"],
+    [/\bthoi whatan\b/g, "time"],
+    [/\btrung whatan\b/g, "temporary"],
+    [/\bbat andriable\b/g, "immutable"],
+    [/\bpho andriable\b/g, "common"],
+    [/\bquan ly phien\b/g, "session management"],
+    [/\btruong hop nao\b/g, "use cases"],
+    [/\bTuy nhien\b/g, "However"],
+    [/\bVi\b/g, "Because"],
+    [/\bNeu\b/g, "If"],
+    [/\bKhi\b/g, "When"],
+    [/\bNo\b/g, "It"],
+    [/\bDay\b/g, "This"],
+    [/\bChi\b/g, "Only"],
+    [/\bHay\b/g, "Try"],
+    [/\bThu\b/g, "Try"],
+    [/\bkhong\b/g, "not"],
+    [/\bco\b/g, "have"],
+    [/\bnguoi\b/g, "person"],
+    [/\bcau hoi\b/g, "question"],
+    [/\btra loi\b/g, "answer"],
+    [/\bgiai thich\b/g, "explain"],
+    [/\bvi sao\b/g, "why"],
+    [/\bdang\b/g, "is"],
+    [/\bkhi nao\b/g, "when should"],
+    [/\bneu\b/g, "if"],
+    [/\bnen\b/g, "should"],
+    [/\bma\b/g, "but"],
+    [/\bde wrong when\b/gi, "People go wrong when"],
+    [/\bDap an kieu nay quan trong\b/g, "This kind of answer matters"],
+    [/\bMot dau understand cho thay\b/g, "What is a sign that"],
+    [/\bMot question dang whata\b/g, "What is a very good question"],
+    [/\bMot question 'to doi' when design class is it\?/g, "What is a good balancing question when designing a class?"],
+    [/\bMot nguyen tac\b/g, "One principle"],
+    [/\bMot meo\b/g, "One practical tip"],
+    [/\bMot bug\b/g, "One common bug"],
+    [/\bMot anti-pattern\b/g, "One classic anti-pattern"],
+    [/\bMot error\b/g, "One common mistake"],
+    [/\bMot habit\b/g, "One good habit"],
+    [/\bMot varioush\b/g, "One practical way"],
+    [/\bMot bai hoc\b/g, "One architecture lesson"],
+    [/\bMot answer interview strong usually co question truc nao\?/g, "What structure does a strong interview answer usually have?"],
+    [/\bdifferent nhau ra sao\?/g, "differ?"],
+    [/\bco y nghia what\?/g, "mean?"],
+    [/\bwhat do generics solve\?/gi, "What problem do generics solve?"],
+    [/\blook at such as the nao\?/g, "look like in practice?"],
+    [/\btrong repo nay\b/g, "in this repo"],
+    [/\bgood hon\b/g, "better than"],
+    [/\btranh\b/g, "avoid"],
+    [/\bpho andriable\b/g, "common"],
+    [/\bdoi eaboutnt contract\b/g, "change an event contract"],
+    [/\bdoi schema\b/g, "change a schema"],
+    [/\bcorrect varioush\b/g, "correctly"],
+    [/\bcorrect-looking\b/g, "apparently correct"],
+    [/\bnot must\b/g, "not every"],
+    [/\bneed store y\b/g, "deserves attention"],
+    [/\bwhatong thinking\b/g, "works like"],
+    [/\bwhatong nhau\b/g, "similar"],
+    [/\bunder tai high\b/g, "under high load"],
+    [/\bwhatam coupling\b/g, "reduce coupling"],
+    [/\bngoai luong\b/g, "outside the stream"],
+    [/\bhappy path\b/g, "happy path"],
+    [/\s+/g, " "]
+  ];
+
+  regexReplacements.forEach(([pattern, replacement]) => {
+    value = value.replace(pattern, replacement);
+  });
+
+  return value.trim();
+}
+
+function shouldHideNoisyEnglish(text) {
+  if (currentLanguage !== "en" || !text) {
+    return false;
+  }
+
+  const suspicious = [
+    "nunderstand",
+    "andn",
+    "whatan",
+    "andriable",
+    "whatam",
+    "whata",
+    "haabout",
+    "whatau",
+    "maaboutn",
+    "saabout",
+    "whatong",
+    "andlidate",
+    "aboutt",
+    "lowhatn",
+    "whatao",
+    "cunderstand",
+    "aaboutrage",
+    "oaboutr",
+    "aboutn",
+    "rewhaton",
+    "pluwhatn",
+    "behaabout",
+    "driaboutr"
+  ];
+
+  const lowered = text.toLowerCase();
+  const hits = suspicious.reduce((sum, token) => sum + (lowered.includes(token) ? 1 : 0), 0);
+  return hits >= 2;
 }
 
 function renderInterview(bank) {
@@ -88,13 +1034,13 @@ function renderInterview(bank) {
   }
 
   if (levelFilter) {
-    levelFilter.innerHTML = `<option value="">Tất cả</option>${levels
+    levelFilter.innerHTML = `<option value="">${commonText().all}</option>${levels
       .map((level) => `<option value="${escapeHtml(level)}">${escapeHtml(level)}</option>`)
       .join("")}`;
   }
 
   if (kindFilter) {
-    kindFilter.innerHTML = `<option value="">Tất cả</option>${kinds
+    kindFilter.innerHTML = `<option value="">${commonText().all}</option>${kinds
       .map((kind) => `<option value="${escapeHtml(kind)}">${escapeHtml(kind)}</option>`)
       .join("")}`;
   }
@@ -147,7 +1093,7 @@ function renderInterview(bank) {
             `
           )
           .join("")
-      : `<div class="empty-state">Không có chủ đề nào khớp bộ lọc hiện tại.</div>`;
+      : `<div class="empty-state">${commonText().noTopics}</div>`;
 
     questionSections.innerHTML = sortedTopics.length
       ? sortedTopics
@@ -164,7 +1110,7 @@ function renderInterview(bank) {
             `
           )
           .join("")
-      : `<div class="empty-state">Không tìm thấy câu hỏi phù hợp. Hãy đổi từ khóa hoặc bộ lọc.</div>`;
+      : `<div class="empty-state">${commonText().noQuestions}</div>`;
 
     if (questionCount) {
       questionCount.textContent = String(
@@ -220,13 +1166,13 @@ function renderInterviewLevels(bank) {
   }
 
   if (levelTrackFilter) {
-    levelTrackFilter.innerHTML = `<option value="">Tất cả</option>${tracks
+    levelTrackFilter.innerHTML = `<option value="">${commonText().all}</option>${tracks
       .map((track) => `<option value="${escapeHtml(track)}">${escapeHtml(track)}</option>`)
       .join("")}`;
   }
 
   if (levelKindFilter) {
-    levelKindFilter.innerHTML = `<option value="">Tất cả</option>${kinds
+    levelKindFilter.innerHTML = `<option value="">${commonText().all}</option>${kinds
       .map((kind) => `<option value="${escapeHtml(kind)}">${escapeHtml(kind)}</option>`)
       .join("")}`;
   }
@@ -277,9 +1223,9 @@ function renderInterviewLevels(bank) {
       ? [
           `
             <button class="topic-link${activeLevel === "" ? " active-filter" : ""}" type="button" data-level-filter="">
-              <span class="topic-track">Tất cả</span>
+              <span class="topic-track">${commonText().all}</span>
               <span class="topic-link-body">
-                <small>${filteredQuestions.length} câu hỏi phỏng vấn</small>
+                <small>${filteredQuestions.length} ${commonText().interviewQuestionCount}</small>
               </span>
             </button>
           `,
@@ -289,13 +1235,13 @@ function renderInterviewLevels(bank) {
                 <button class="topic-link${activeLevel === group.level ? " active-filter" : ""}" type="button" data-level-filter="${escapeHtml(group.level)}">
                   <span class="topic-track">${escapeHtml(group.level)}</span>
                   <span class="topic-link-body">
-                    <small>${group.count} câu hỏi phỏng vấn</small>
+                    <small>${group.count} ${commonText().interviewQuestionCount}</small>
                   </span>
                 </button>
               `
             )
         ].join("")
-      : `<div class="empty-state">Không có level nào khớp bộ lọc hiện tại.</div>`;
+      : `<div class="empty-state">${commonText().noLevels}</div>`;
 
     levelNav.querySelectorAll("[data-level-filter]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -310,9 +1256,9 @@ function renderInterviewLevels(bank) {
             (group) => `
               <section class="topic-block" id="${escapeHtml(group.id)}">
                 <div class="topic-header">
-                  <p class="eyebrow">Interview Level</p>
+                  <p class="eyebrow">${commonText().interviewLevelEyebrow}</p>
                   <h2>${escapeHtml(group.level)}</h2>
-                  <p class="topic-summary">${group.questions.length} câu hỏi đã được tổng hợp ở mức này.</p>
+                  <p class="topic-summary">${group.questions.length} ${commonText().interviewLevelSummary}</p>
                 </div>
                 ${group.questions
                   .map(
@@ -329,7 +1275,7 @@ function renderInterviewLevels(bank) {
             `
           )
           .join("")
-      : `<div class="empty-state">Không tìm thấy câu hỏi phỏng vấn phù hợp. Hãy đổi từ khóa hoặc bộ lọc.</div>`;
+      : `<div class="empty-state">${commonText().noLevelQuestions}</div>`;
 
     if (levelTotalQuestions) {
       levelTotalQuestions.textContent = String(filteredQuestions.length);
@@ -419,19 +1365,19 @@ function renderRoadmap(roadmap) {
             <p class="technology-summary">${escapeHtml(item.purpose)}</p>
             <div class="technology-grid">
               <article class="technology-block">
-                <h4>Học để làm gì?</h4>
+                <h4>${commonText().learnFor}</h4>
                 <ul class="phase-list">
                   ${item.learnFor.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
                 </ul>
               </article>
               <article class="technology-block">
-                <h4>Tích hợp với gì?</h4>
+                <h4>${commonText().integratesWith}</h4>
                 <ul class="phase-list">
                   ${item.integratesWith.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
                 </ul>
               </article>
               <article class="technology-block">
-                <h4>Trong repo nên nhìn đâu?</h4>
+                <h4>${commonText().lookAt}</h4>
                 <ul class="phase-list">
                   ${item.lookAt.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
                 </ul>
@@ -478,19 +1424,19 @@ function renderRoadmap(roadmap) {
             <p class="phase-summary">${escapeHtml(phase.summary)}</p>
             <div class="phase-subgrid">
               <article class="phase-block">
-                <h4>Học gì?</h4>
+                <h4>${commonText().learnWhat}</h4>
                 <ul class="phase-list">
                   ${phase.topics.map((topic) => `<li>${escapeHtml(topic)}</li>`).join("")}
                 </ul>
               </article>
               <article class="phase-block">
-                <h4>Làm gì trong repo?</h4>
+                <h4>${commonText().doInRepo}</h4>
                 <ul class="phase-list">
                   ${phase.actions.map((action) => `<li>${escapeHtml(action)}</li>`).join("")}
                 </ul>
               </article>
               <article class="phase-block">
-                <h4>Khi xong phải đạt</h4>
+                <h4>${commonText().outcomes}</h4>
                 <ul class="phase-list">
                   ${phase.outcomes.map((outcome) => `<li>${escapeHtml(outcome)}</li>`).join("")}
                 </ul>
@@ -511,13 +1457,13 @@ function renderRoadmap(roadmap) {
             <p>${escapeHtml(item.why)}</p>
             <div class="phase-subgrid">
               <article class="phase-block">
-                <h4>Dễ hiểu sai ở đâu?</h4>
+                <h4>${commonText().mistakes}</h4>
                 <ul class="phase-list">
                   ${item.mistakes.map((mistake) => `<li>${escapeHtml(mistake)}</li>`).join("")}
                 </ul>
               </article>
               <article class="phase-block">
-                <h4>Nên sửa cách học thế nào?</h4>
+                <h4>${commonText().fixLearning}</h4>
                 <ul class="phase-list">
                   ${item.fix.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}
                 </ul>
@@ -627,12 +1573,12 @@ function renderQuiz(quizBank) {
             <h3>${escapeHtml(bundle.title)}</h3>
             <p>${escapeHtml(bundle.description)}</p>
             <div class="quiz-bundle-meta">
-              <span>Pool: ${bundle.questionIds.length} câu</span>
-              <span>Làm bài: ${bundle.drawCount} câu</span>
-              <span>Mức: ${escapeHtml(bundle.level)}</span>
-              <span>Thời gian gợi ý: ${escapeHtml(bundle.suggestedTime)}</span>
+              <span>${commonText().pool}: ${bundle.questionIds.length} ${currentLanguage === "vi" ? "câu" : "questions"}</span>
+              <span>${commonText().drawCount}: ${bundle.drawCount} ${currentLanguage === "vi" ? "câu" : "questions"}</span>
+              <span>${commonText().level}: ${escapeHtml(bundle.level)}</span>
+              <span>${commonText().suggestedTime}: ${escapeHtml(bundle.suggestedTime)}</span>
             </div>
-            <p><button class="btn btn-primary" type="button" data-bundle-id="${escapeHtml(bundle.id)}">Bắt đầu bộ này</button></p>
+            <p><button class="btn btn-primary" type="button" data-bundle-id="${escapeHtml(bundle.id)}">${commonText().startBundle}</button></p>
           </article>
         `
       )
@@ -647,7 +1593,7 @@ function renderQuiz(quizBank) {
 
   const renderQuizWorkspace = () => {
     if (!currentAttempt) {
-      quizWorkspace.innerHTML = `<div class="empty-state">Chọn một bộ đề để bắt đầu.</div>`;
+      quizWorkspace.innerHTML = `<div class="empty-state">${commonText().chooseBundle}</div>`;
       return;
     }
 
@@ -657,14 +1603,14 @@ function renderQuiz(quizBank) {
       <div class="quiz-summary-card">
         <p class="eyebrow">${escapeHtml(bundle.track)} / ${escapeHtml(bundle.title)}</p>
         <div class="quiz-summary-grid">
-          <article><span>Tổng câu</span><strong>${questions.length}</strong></article>
-          <article><span>Pool đề</span><strong>${bundle.questionIds.length}</strong></article>
-          <article><span>Thời gian gợi ý</span><strong>${escapeHtml(bundle.suggestedTime)}</strong></article>
-          <article><span>Cấp độ</span><strong>${escapeHtml(bundle.level)}</strong></article>
+          <article><span>${commonText().totalQuestions}</span><strong>${questions.length}</strong></article>
+          <article><span>${commonText().pool}</span><strong>${bundle.questionIds.length}</strong></article>
+          <article><span>${commonText().suggestedTime}</span><strong>${escapeHtml(bundle.suggestedTime)}</strong></article>
+          <article><span>${commonText().level}</span><strong>${escapeHtml(bundle.level)}</strong></article>
         </div>
         <div class="quiz-action-row">
-          <button id="submitQuizButton" class="btn btn-primary" type="button">Nộp bài và chấm điểm</button>
-          <button id="retryQuizButton" class="btn btn-secondary" type="button">Rút đề ngẫu nhiên lại</button>
+          <button id="submitQuizButton" class="btn btn-primary" type="button">${commonText().submit}</button>
+          <button id="retryQuizButton" class="btn btn-secondary" type="button">${commonText().retry}</button>
         </div>
       </div>
       <div id="quizResult"></div>
@@ -721,14 +1667,14 @@ function renderQuiz(quizBank) {
     if (resultTarget) {
       resultTarget.innerHTML = `
         <article class="quiz-result-card">
-          <p class="eyebrow">Kết quả</p>
+          <p class="eyebrow">${commonText().result}</p>
           <h3>${escapeHtml(band.label)}</h3>
           <p>${escapeHtml(band.description)}</p>
           <div class="quiz-result-grid">
-            <article><span>Điểm đúng</span><strong>${correctCount}/${currentAttempt.questions.length}</strong></article>
-            <article><span>Tỉ lệ</span><strong>${percent}%</strong></article>
-            <article><span>Đã trả lời</span><strong>${answeredCount}</strong></article>
-            <article><span>Mức đánh giá</span><strong>${escapeHtml(band.grade)}</strong></article>
+            <article><span>${commonText().correctScore}</span><strong>${correctCount}/${currentAttempt.questions.length}</strong></article>
+            <article><span>${commonText().ratio}</span><strong>${percent}%</strong></article>
+            <article><span>${commonText().answered}</span><strong>${answeredCount}</strong></article>
+            <article><span>${commonText().assessment}</span><strong>${escapeHtml(band.grade)}</strong></article>
           </div>
         </article>
       `;
@@ -746,7 +1692,7 @@ function renderQuestionCard(question, keyword = "", extraMeta = []) {
     .filter(Boolean)
     .map((item) => `<span class="meta-pill">${escapeHtml(item)}</span>`)
     .join("");
-  const answerTitle = normalizedQuestion.explanation.length > 0 ? "Trả lời" : "Câu trả lời";
+  const answerTitle = normalizedQuestion.explanation.length > 0 ? commonText().answer : commonText().answerFallback;
   const explanationHtml = normalizedQuestion.explanation
     .map((item) => `<li>${highlightText(item, keyword)}</li>`)
     .join("");
@@ -756,10 +1702,10 @@ function renderQuestionCard(question, keyword = "", extraMeta = []) {
   const codeHtml = question.codeExample
     ? `<pre class="code-sample"><code>${highlightText(question.codeExample, keyword)}</code></pre>`
     : "";
-  const practiceHtml = question.practice
+  const practiceHtml = Array.isArray(question.practice) && question.practice.length > 0
     ? `
       <div class="practice-block">
-        <h4>Tự luyện</h4>
+        <h4>${commonText().practice}</h4>
         <ul>
           ${question.practice.map((item) => `<li>${highlightText(item, keyword)}</li>`).join("")}
         </ul>
@@ -777,14 +1723,14 @@ function renderQuestionCard(question, keyword = "", extraMeta = []) {
           <p>${highlightText(normalizedQuestion.answerShort, keyword)}</p>
         </section>
         <section class="qa-block">
-          <h4>Giải thích dễ hiểu</h4>
+          <h4>${commonText().explanation}</h4>
           <ul class="answer-list">${explanationHtml}</ul>
         </section>
         ${
           normalizedQuestion.applyOrPitfalls.length > 0
             ? `
               <section class="qa-block qa-block-warm">
-                <h4>Áp dụng / dễ sai ở đâu</h4>
+                <h4>${commonText().apply}</h4>
                 <ul class="answer-list">${applyHtml}</ul>
               </section>
             `
@@ -831,13 +1777,19 @@ function normalizeQuestionDetails(question) {
     answerShort:
       question.answerShort ||
       answer[0] ||
-      "Câu hỏi này cần được trả lời theo ngữ cảnh cụ thể của Java backend và tình huống thực tế.",
+      (currentLanguage === "vi"
+        ? "Câu hỏi này cần được trả lời theo ngữ cảnh cụ thể của Java backend và tình huống thực tế."
+        : "This question should be answered in the specific context of Java backend work and a real-world scenario."),
     explanation:
       explanation.length > 0
         ? explanation
         : answer.length > 1
           ? answer.slice(1)
-          : ["Hãy đọc thêm code, test và flow chạy thực tế để hiểu rõ bản chất của câu hỏi này."],
+          : [
+              currentLanguage === "vi"
+                ? "Hãy đọc thêm code, test và flow chạy thực tế để hiểu rõ bản chất của câu hỏi này."
+                : "Read the code, tests, and runtime flow to understand the core idea behind this question."
+            ],
     applyOrPitfalls:
       filteredApplyHints.length > 0
         ? filteredApplyHints
@@ -864,7 +1816,7 @@ function renderError(error) {
   ].filter(Boolean);
 
   targets.forEach((target) => {
-    target.innerHTML = `<div class="empty-state">Không thể tải nội dung JSON. ${escapeHtml(error.message)}</div>`;
+    target.innerHTML = `<div class="empty-state">${commonText().jsonError} ${escapeHtml(error.message)}</div>`;
   });
 }
 
@@ -894,7 +1846,10 @@ function sortQuestions(questions, mode) {
   const levelRank = {
     "Cơ bản": 1,
     "Trung cấp": 2,
-    "Nâng cao": 3
+    "Nâng cao": 3,
+    Basic: 1,
+    Intermediate: 2,
+    Advanced: 3
   };
 
   const sorted = [...questions];
@@ -959,7 +1914,7 @@ function shuffleOptions(options, correctIndex) {
 function renderQuizQuestionCard(question) {
   return `
     <article class="quiz-question-card" data-question-id="${escapeHtml(question.id)}">
-      <p class="eyebrow">${escapeHtml(question.topic)} / Câu ${question.order}</p>
+      <p class="eyebrow">${escapeHtml(question.topic)} / ${currentLanguage === "vi" ? "Câu" : "Question"} ${question.order}</p>
       <h3>${escapeHtml(question.prompt)}</h3>
       <div class="quiz-options">
         ${question.shuffledOptions

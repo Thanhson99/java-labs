@@ -247,7 +247,47 @@ h3 {
 .top-nav {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
   margin-bottom: 18px;
+  position: relative;
+  z-index: 3;
+}
+
+.language-switch {
+  display: inline-flex;
+  gap: 8px;
+  margin-left: auto;
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.hero > .language-switch {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.language-pill {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  position: relative;
+  z-index: 6;
+  pointer-events: auto;
+}
+
+.language-pill.active {
+  border-color: rgba(118, 213, 193, 0.42);
+  background: rgba(118, 213, 193, 0.12);
+  color: var(--teal);
 }
 
 .nav-link.active {

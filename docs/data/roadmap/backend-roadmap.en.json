@@ -1,0 +1,916 @@
+{
+  "basicsChecklist": [
+    {
+      "step": "01",
+      "title": "Understand syntax before you study the framework",
+      "summary": "If variables, methods, if-else blocks, loops, and classes are still shaky, do not rush into Spring.",
+      "checks": [
+        "Read basic Java code without getting stuck",
+        "Distinguish methods, parameters, fields, and objects",
+        "Understand why a loop or condition behaves the way it does"
+      ]
+    },
+    {
+      "step": "02",
+      "title": "Learn OOP through real code",
+      "summary": "Do not stop at definitions. You need to see classes, interfaces, enums, and records in a real repo.",
+      "checks": [
+        "Know when to use an interface",
+        "Recognize when a class is carrying too many responsibilities",
+        "Be able to extract a small piece of logic into another class"
+      ]
+    },
+    {
+      "step": "03",
+      "title": "Read tests to learn faster",
+      "summary": "Tests are the fastest way to understand what a class is expected to do.",
+      "checks": [
+        "Read assertions and understand the input/output",
+        "Know which test protects which behavior",
+        "Change a small piece of code and predict which test will fail"
+      ]
+    },
+    {
+      "step": "04",
+      "title": "Move to Spring only when Java Core is solid enough",
+      "summary": "A framework helps you move faster, but it can also hide the fundamentals if your base is weak.",
+      "checks": [
+        "No longer confuse `==` with `equals`",
+        "No longer feel vague about collections and exceptions",
+        "Read plain Java service code without feeling overwhelmed"
+      ]
+    }
+  ],
+  "tree": [
+    {
+      "icon": "🌱",
+      "title": "Java Core foundation",
+      "summary": "This is the root of the tree. If this part is weak, you will follow frameworks in Spring or databases without understanding the core idea.",
+      "nodes": [
+        "Variables and methods",
+        "OOP",
+        "Collection",
+        "Exception",
+        "String",
+        "Date time",
+        "Basic testing"
+      ]
+    },
+    {
+      "icon": "🧠",
+      "title": "Code-reading mindset",
+      "summary": "Learn to look at a flow from input to output, understand side effects, boundaries, and the responsibilities of each layer.",
+      "nodes": [
+        "Read tests",
+        "Read controllers",
+        "Trace the service layer",
+        "Know where data is written",
+        "Know where events are emitted"
+      ]
+    },
+    {
+      "icon": "🗄️",
+      "title": "Data and transactions",
+      "summary": "Real backend work always comes back to data. You need to understand DBs, transactions, migrations, and queries instead of only calling save.",
+      "nodes": [
+        "JDBC",
+        "SQL",
+        "Index",
+        "JPA",
+        "@Transactional",
+        "Flyway",
+        "N+1 query"
+      ]
+    },
+    {
+      "icon": "🛡️",
+      "title": "Web and security",
+      "summary": "Move from request/response flow into authentication, authorization, validation, and session/token management.",
+      "nodes": [
+        "HTTP",
+        "REST",
+        "DTO",
+        "Validation",
+        "JWT",
+        "Refresh token",
+        "Role-based auth"
+      ]
+    },
+    {
+      "icon": "📨",
+      "title": "Events and integration",
+      "summary": "When the system grows beyond CRUD, you will meet queues, brokers, outbox, retry logic, and idempotency.",
+      "nodes": [
+        "Kafka",
+        "RabbitMQ",
+        "Outbox",
+        "Consumer",
+        "Retry",
+        "Dead-letter",
+        "Idempotency"
+      ]
+    },
+    {
+      "icon": "📈",
+      "title": "Operations and advanced topics",
+      "summary": "The end goal is not just writing code that runs, but also knowing how to observe, stabilize, and scale the system.",
+      "nodes": [
+        "Metrics",
+        "Logs",
+        "Health check",
+        "Timeout",
+        "Circuit breaker",
+        "Trade-off",
+        "Code review"
+      ]
+    }
+  ],
+  "technologyMap": [
+    {
+      "layer": "Build Tool",
+      "name": "Maven Wrapper",
+      "level": "Required",
+      "purpose": "Maven manages dependencies and the build lifecycle, and it helps the project run consistently across machines. The wrapper removes the need for a preinstalled Maven binary.",
+      "learnFor": [
+        "Understand what `pom.xml` pulls into the project.",
+        "Know the build lifecycle, testing, and packaging flow.",
+        "Understand why the wrapper helps reduce environment drift"
+      ],
+      "integratesWith": [
+        "Used across all modules `basic`, `spring`, `notification-service`",
+        "Directly related to dependency Spring, test and packaging"
+      ],
+      "lookAt": [
+        "`basic/pom.xml`",
+        "`spring/pom.xml`",
+        "`notification-service/pom.xml`",
+        "`./mvnw`"
+      ]
+    },
+    {
+      "layer": "Language",
+      "name": "Java Core",
+      "level": "Required",
+      "purpose": "This is the foundation. Every technology above depends on your ability to read Java classes, interfaces, collections, exceptions, and control flow.",
+      "learnFor": [
+        "Be able to read service code, tests, and utility classes.",
+        "understand object model, collection and error handling",
+        "Know which bugs come from Java itself and which come from the framework."
+      ],
+      "integratesWith": [
+        "Spring Boot uses Java to organize the whole application",
+        "JPA entity, DTO, event, test are all Java classes",
+        "Messaging, security, transaction all come back to Java code"
+      ],
+      "lookAt": [
+        "Module `basic/`",
+        "Tests in `basic/src/test/java`",
+        "Service classes and DTOs in `spring/`"
+      ]
+    },
+    {
+      "layer": "Web Framework",
+      "name": "Spring Boot",
+      "level": "Core",
+      "purpose": "Spring Boot helps you build a web application quickly, organize beans, controllers, services, and configuration, and integrate backend components.",
+      "learnFor": [
+        "Create clear APIs and web flow",
+        "Organize controllers, services, and repositories",
+        "Take advantage of dependency injection and auto-configuration"
+      ],
+      "integratesWith": [
+        "Integrate Spring MVC for HTTP layer",
+        "Integrate Spring Security for auth",
+        "Integrate Spring Data JPA for DB",
+        "Integrate Actuator for observability"
+      ],
+      "lookAt": [
+        "`spring/src/main/java/com/example/demo/WebController.java`",
+        "`RegistrationController`",
+        "`SecurityConfig` and related configuration classes"
+      ]
+    },
+    {
+      "layer": "Configuration",
+      "name": "Profiles /.env / application.properties",
+      "level": "Strongly recommended early",
+      "purpose": "Configuration decides which environment the app runs in, which database it uses, which features are enabled, and which secrets are loaded. This is a part beginners often skip.",
+      "learnFor": [
+        "Understand why configuration should not be hard-coded into the code.",
+        "Know how to split local, dev, prod, or Postgres profiles",
+        "Know how the app reads environment variables and properties"
+      ],
+      "integratesWith": [
+        "Works together with Spring Boot startup",
+        "Connected to Postgres profile, security config and runtime settings",
+        "Connected to run scripts at the repo root"
+      ],
+      "lookAt": [
+        "`spring/src/main/resources/application.properties`",
+        "`application-postgres.properties`",
+        "`.env.example` and `spring/.env.example`",
+        "`run.sh`"
+      ]
+    },
+    {
+      "layer": "HTTP Layer",
+      "name": "Spring MVC / REST API",
+      "level": "Learn early",
+      "purpose": "This is where requests enter the system. You need to understand routes, request bodies, validation, responses, and status codes.",
+      "learnFor": [
+        "Understand the request flow from the client into the app",
+        "Separate controllers from business logic",
+        "Design APIs that are easy to understand and test"
+      ],
+      "integratesWith": [
+        "Call into the service layer",
+        "Work together with validation and auth",
+        "Return responses from DTOs or domain responses"
+      ],
+      "lookAt": [
+        "`/hello`, `/api/auth/*`, `/api/users/*`",
+        "Controller tests in `spring/src/test/java`",
+        "DTO request/response"
+      ]
+    },
+    {
+      "layer": "Security",
+      "name": "Spring Security + JWT",
+      "level": "Upper intermediate",
+      "purpose": "This part helps you understand authentication, authorization, tokens, and the session lifecycle in modern backend systems.",
+      "learnFor": [
+        "Understand JWTs, access tokens, and refresh tokens",
+        "Know the difference between auth and authorization",
+        "Know how to handle refresh rotation, revocation, and reuse detection"
+      ],
+      "integratesWith": [
+        "Block requests at the HTTP layer",
+        "Work together with controllers and protected APIs",
+        "Rely on the token service and refresh token store"
+      ],
+      "lookAt": [
+        "`AuthController`",
+        "`JwtTokenService`",
+        "`RefreshTokenStore`",
+        "`SecurityConfig`"
+      ]
+    },
+    {
+      "layer": "Data",
+      "name": "H2 / PostgreSQL / JDBC / JPA",
+      "level": "Backend core",
+      "purpose": "Real backend systems live on data. You need to understand DBs, queries, transactions, mapping, and migrations.",
+      "learnFor": [
+        "Understand JDBC and JPA abstraction",
+        "Understand transactions, rollbacks, and consistency",
+        "Know how to optimize queries and avoid N+1"
+      ],
+      "integratesWith": [
+        "Spring Data JPA for repository",
+        "Flyway for migration",
+        "Transaction service layer",
+        "Analytics DB and data access supporting"
+      ],
+      "lookAt": [
+        "`spring/src/main/resources/db/migration`",
+        "`UserProfileRepository`",
+        "`RegistrationService`",
+        "JDBC examples in the `basic/` module"
+      ]
+    },
+    {
+      "layer": "Validation",
+      "name": "Request Validation",
+      "level": "Learn early",
+      "purpose": "Validation blocks dirty input right at the entry point. This is a very real part of backend work that beginners often only skim.",
+      "learnFor": [
+        "Know where an invalid request should be blocked",
+        "Reduce repeated invalid-data handling in services",
+        "Make API input errors clearer"
+      ],
+      "integratesWith": [
+        "Works together with controllers and request DTOs",
+        "Directly related to HTTP status codes and error responses."
+      ],
+      "lookAt": [
+        "`RegisterUserRequest`",
+        "`RegistrationController`",
+        "Controller tests related to validation"
+      ]
+    },
+    {
+      "layer": "Migration",
+      "name": "Flyway",
+      "level": "Required when learning databases",
+      "purpose": "Flyway helps manage schema change history in a controlled way instead of manual database edits.",
+      "learnFor": [
+        "Understand how a database evolves",
+        "Know how to add tables, columns, and indexes in a controlled way",
+        "Tie data changes to code versions"
+      ],
+      "integratesWith": [
+        "Run together with app startup",
+        "Work together with JPA entities and repositories",
+        "Directly related to safe deployment"
+      ],
+      "lookAt": [
+        "`V1__create_user_profiles.sql` and the later migration files",
+        "How services and entities depend on the schema",
+        "Compare migrations with the real data flow"
+      ]
+    },
+    {
+      "layer": "Messaging",
+      "name": "Kafka",
+      "level": "Advanced",
+      "purpose": "Kafka helps you learn event streaming, publisher/consumer flow, and asynchronous backend integration beyond CRUD.",
+      "learnFor": [
+        "Understand event-driven flow",
+        "Know producers, consumer groups, and retry logic",
+        "Understand how clear an event contract needs to be"
+      ],
+      "integratesWith": [
+        "Used together with registration event publishing",
+        "Connected with outbox and listeners",
+        "Present on the consumer side of `notification-service`"
+      ],
+      "lookAt": [
+        "`KafkaUserRegistrationEventPublisher`",
+        "`KafkaUserRegistrationEventListener`",
+        "Consumer code in `notification-service`"
+      ]
+    },
+    {
+      "layer": "Messaging",
+      "name": "RabbitMQ",
+      "level": "Advanced",
+      "purpose": "RabbitMQ helps compare traditional queue models with Kafka and understand transport-specific integration.",
+      "learnFor": [
+        "Understand queues, exchanges, and routing",
+        "Compare this broker with Kafka",
+        "Know which part is business logic and which part is transport glue"
+      ],
+      "integratesWith": [
+        "Works together with the registration event",
+        "Works together with listener and topology configuration",
+        "Connected to dead-letter and retry handling"
+      ],
+      "lookAt": [
+        "`RabbitUserRegistrationEventPublisher`",
+        "`RabbitUserRegistrationEventListener`",
+        "`MessagingTopologyConfig`"
+      ]
+    },
+    {
+      "layer": "Reliability",
+      "name": "Outbox Pattern",
+      "level": "Important advanced topic",
+      "purpose": "Outbox is the bridge between DB writes and event publishing, making the system more resilient when failures happen between the transaction and the broker.",
+      "learnFor": [
+        "Understand consistency between the DB and events",
+        "Understand why direct publishing is fragile",
+        "Understand retry, pending, and dead-letter states"
+      ],
+      "integratesWith": [
+        "Connected to transaction service",
+        "Connected to Kafka and Rabbit publisher",
+        "Connected to a dispatcher that runs after commit"
+      ],
+      "lookAt": [
+        "`OutboxEventStore`",
+        "`OutboxDispatcher`",
+        "`RegistrationService`"
+      ]
+    },
+    {
+      "layer": "Testing",
+      "name": "JUnit / Mockito / MockMvc / Testcontainers",
+      "level": "Required",
+      "purpose": "Without testing, you are only guessing. Tests are the fastest way to understand code and the safety rail during refactoring.",
+      "learnFor": [
+        "Understand class and endpoint behavior",
+        "Differentiate unit test, web test, integration test",
+        "Stay safe while changing code"
+      ],
+      "integratesWith": [
+        "MockMvc work with controller",
+        "Mockito work with service logic",
+        "Testcontainers work with a real database"
+      ],
+      "lookAt": [
+        "Tests in `basic/src/test/java`",
+        "Controller tests in `spring/src/test/java`",
+        "`PostgresContainerRegistrationTest`"
+      ]
+    },
+    {
+      "layer": "Connection Management",
+      "name": "Connection Pool",
+      "level": "A very worthwhile intermediate topic",
+      "purpose": "Many people study databases but forget how connections are managed. Connection pool has a big impact on performance and stability.",
+      "learnFor": [
+        "Understand why you should not open a brand-new connection for every request",
+        "Understand how dangerous pool exhaustion can be",
+        "Know where to look when the database hangs or times out"
+      ],
+      "integratesWith": [
+        "Works together with Spring Data/JDBC",
+        "Connected to DB profile and runtime metrics",
+        "Directly affects request performance"
+      ],
+      "lookAt": [
+        "Dashboard runtime DB section",
+        "Config datasource in Spring",
+        "Tests or flows that hit the database repeatedly"
+      ]
+    },
+    {
+      "layer": "Observability",
+      "name": "Spring Actuator + Metrics",
+      "level": "Highly recommended",
+      "purpose": "You need to know whether the system is healthy or in trouble. Actuator and metrics are your entry point into observability.",
+      "learnFor": [
+        "Inspect health, info, and runtime metrics",
+        "Know which requests are slow and which errors are increasing",
+        "Measure before you optimize"
+      ],
+      "integratesWith": [
+        "Used together with the runtime dashboard",
+        "Used together with custom business observability",
+        "Connected to auth, registration, and outbox metrics"
+      ],
+      "lookAt": [
+        "`/actuator/health`",
+        "`ApplicationMetrics`",
+        "`LearningSystemHealthIndicator`"
+      ]
+    },
+    {
+      "layer": "Runtime",
+      "name": "Docker Compose / Postgres profile",
+      "level": "Hands-on",
+      "purpose": "Helps you learn how to run a stack that is closer to the real world than a simple in-memory local setup.",
+      "learnFor": [
+        "Understand how environment profiles work",
+        "Understand how the app connects to an external database",
+        "Know where simple local setup differs from a real environment"
+      ],
+      "integratesWith": [
+        "Works together with the Spring Postgres profile",
+        "Used together with migrations and integration tests",
+        "Acts as a bridge into deployment and operations thinking"
+      ],
+      "lookAt": [
+        "`spring/docker-compose.yml`",
+        "`application-postgres.properties`",
+        "The Postgres run section in the README"
+      ]
+    }
+  ],
+  "integrationFlow": [
+    {
+      "stage": "Client",
+      "title": "Browser / curl / test call enters the HTTP layer",
+      "summary": "Everything starts with the request. This is the entry point for learning controllers, validation, auth, and response design.",
+      "links": [
+        "HTTP + REST API",
+        "Request Validation",
+        "MockMvc test"
+      ]
+    },
+    {
+      "stage": "Edge Security",
+      "title": "Spring Security checks tokens and permissions",
+      "summary": "A protected request passes through the JWT filter, role checks, and security configuration before it reaches business logic.",
+      "links": [
+        "Spring Security",
+        "JWT",
+        "Refresh token store"
+      ]
+    },
+    {
+      "stage": "Application",
+      "title": "The controller calls the service and orchestrates the use case",
+      "summary": "This is where business code starts: validating rules, coordinating repositories, and attaching audit, auth context, and metrics.",
+      "links": [
+        "Spring Boot",
+        "Service layer",
+        "DTO mapping",
+        "Metrics"
+      ]
+    },
+    {
+      "stage": "Data",
+      "title": "The service touches the database through JPA/JDBC and transactions",
+      "summary": "When the flow involves data, this is where transactions, rollbacks, Flyway schema changes, and connection pools start to matter.",
+      "links": [
+        "JPA / JDBC",
+        "Flyway",
+        "Transaction",
+        "Connection pool"
+      ]
+    },
+    {
+      "stage": "Async",
+      "title": "Side effects move through the outbox and broker",
+      "summary": "Things like notifications or downstream events do not always need to stay tightly coupled to a synchronous transaction.",
+      "links": [
+        "Outbox pattern",
+        "Kafka",
+        "RabbitMQ",
+        "Retry / dead-letter"
+      ]
+    },
+    {
+      "stage": "Ops",
+      "title": "Runtime is observed through health, metrics, and profiles",
+      "summary": "This is the layer where you see the system as a real service: whether it is healthy, which profile it is running with, and where the bottleneck lives.",
+      "links": [
+        "Actuator",
+        "Metrics dashboard",
+        "Docker / Postgres profile",
+        "Runtime config"
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "stage": "Phase 1",
+      "title": "Solidify Java Core",
+      "duration": "2-4 weeks",
+      "summary": "Focus on the foundation so you can read the code in `basic/` without guessing.",
+      "topics": [
+        "Data types, methods, if-else blocks, loops",
+        "Class, object, interface, enum, record",
+        "Collections, streams, strings, exceptions",
+        "Basic JUnit and how to read tests"
+      ],
+      "actions": [
+        "Read and run the code in the `basic/` module",
+        "Open the tests first, then guess what the class is doing",
+        "Change one small method yourself and observe which tests fail or pass"
+      ],
+      "outcomes": [
+        "Read Java without getting stuck on syntax",
+        "Know which responsibility each class is holding",
+        "Understand the difference between OOP theory and real code"
+      ]
+    },
+    {
+      "stage": "Phase 2",
+      "title": "Learn web flow with Spring Boot",
+      "duration": "2-3 weeks",
+      "summary": "Start with controllers, requests, responses, services, and DTOs.",
+      "topics": [
+        "Controller, service, repository",
+        "HTTP, REST, validation, DTO",
+        "Dependency injection and bean",
+        "MockMvc and test web layer"
+      ],
+      "actions": [
+        "Read the `controller -> service -> repository` flow in the `spring/` module",
+        "Try adding one small endpoint",
+        "Write a test for the happy path and one error case"
+      ],
+      "outcomes": [
+        "Understand how requests enter the app in practice",
+        "Know why controllers should stay thin",
+        "Stop seeing Spring as mysterious technical magic"
+      ]
+    },
+    {
+      "stage": "Phase 3",
+      "title": "Go deeper into data and transactions",
+      "duration": "2-4 weeks",
+      "summary": "This is the stage where you move from basic CRUD to understanding data correctness.",
+      "topics": [
+        "JDBC and SQL basic",
+        "JPA entity, repository, fetch",
+        "Transaction, rollback, consistency",
+        "Flyway migration and schema evolution"
+      ],
+      "actions": [
+        "compare code JDBC in `basic/` with JPA/JdbcTemplate in `spring/`",
+        "Read migrations in order starting from V1",
+        "Explain the rollback flow in the service yourself"
+      ],
+      "outcomes": [
+        "Understand how the system writes data correctly and consistently",
+        "Know why N+1 queries are dangerous",
+        "Lose the illusion that calling `save()` means the job is done"
+      ]
+    },
+    {
+      "stage": "Phase 4",
+      "title": "Auth, security and session",
+      "duration": "1-2 weeks",
+      "summary": "This is a very valuable backend area because it touches security and system boundaries.",
+      "topics": [
+        "JWT, access token, refresh token",
+        "Rotation, revoke, reuse detection",
+        "Role-based authorization",
+        "API protection and security config"
+      ],
+      "actions": [
+        "Read the auth tests first",
+        "Trace `AuthController`, the token service, and the token store",
+        "Draw the `login -> refresh -> logout -> logout-all` flow yourself"
+      ],
+      "outcomes": [
+        "Understand the practical difference between access tokens and refresh tokens",
+        "Know why reuse detection matters",
+        "Stop treating auth as nothing more than successful login"
+      ]
+    },
+    {
+      "stage": "Phase 5",
+      "title": "Messaging and systems thinking",
+      "duration": "2-4 weeks",
+      "summary": "Move from simple direct calls into architectures with events, publishers, consumers, and delay.",
+      "topics": [
+        "Kafka and RabbitMQ",
+        "Outbox pattern",
+        "Retry, dead-letter, idempotency",
+        "Notification service and consumer side"
+      ],
+      "actions": [
+        "Follow the flow from registration to the event publisher",
+        "Read the outbox store and dispatcher",
+        "Compare transport logic with business logic"
+      ],
+      "outcomes": [
+        "Understand why event-driven systems increase complexity",
+        "Know where event publishing can break",
+        "Start thinking like someone operating a real system"
+      ]
+    },
+    {
+      "stage": "Phase 6",
+      "title": "Advanced: observability, performance, and trade-offs",
+      "duration": "Ongoing",
+      "summary": "This is the shift from someone who can build features to someone who can keep a system healthy.",
+      "topics": [
+        "Metrics, logs, health check",
+        "Timeout, circuit breaker, retry policy",
+        "Understand database and API performance",
+        "Code review, refactor, technical debt"
+      ],
+      "actions": [
+        "Read the dashboard and observability parts in `spring/`",
+        "Ask what logs or metrics each flow needs",
+        "Review code by risk, not only by style"
+      ],
+      "outcomes": [
+        "Know what to measure before optimizing",
+        "Know how to spot the blast radius of a change",
+        "Build advanced backend thinking instead of only stitching features together"
+      ]
+    },
+    {
+      "stage": "Phase 7",
+      "title": "Design and refactor with intent",
+      "duration": "Ongoing",
+      "summary": "Learn how to make code easy to change, not just able to run today.",
+      "topics": [
+        "Use design patterns in moderation",
+        "Refactor safely with tests",
+        "Separate responsibilities and reduce coupling",
+        "Read code the way you would review production code"
+      ],
+      "actions": [
+        "Point out one overloaded class in the repo",
+        "Write a short refactor proposal",
+        "Split one flow into clearer steps"
+      ],
+      "outcomes": [
+        "Start thinking in terms of responsibility and boundaries",
+        "Know whether code is hard because of domain complexity or weak design",
+        "Change code with a smaller blast radius"
+      ]
+    },
+    {
+      "stage": "Phase 8",
+      "title": "Senior backend mindset",
+      "duration": "Ongoing",
+      "summary": "This is the layer where you view the system through trade-offs, risk, and long-term operability.",
+      "topics": [
+        "Blast radius of change",
+        "Backward compatibility",
+        "Observability-first",
+        "Intentional technical debt management"
+      ],
+      "actions": [
+        "Ask what data each change affects",
+        "Write down trade-offs for difficult decisions",
+        "Evaluate endpoints from security, performance, and operations perspectives"
+      ],
+      "outcomes": [
+        "Stop asking only how to make it run",
+        "Know how to ask where the system will break",
+        "Read and write backend code with more mature judgment"
+      ]
+    }
+  ],
+  "practiceMap": [
+    {
+      "when": "When learning Java Core",
+      "focus": "Do not rush straight into frameworks. The goal is to read classes, tests, and collections solidly.",
+      "doNow": [
+        "Run the `basic/` module",
+        "Open the tests and explain each assertion",
+        "Rewrite one small class yourself"
+      ]
+    },
+    {
+      "when": "When starting Spring",
+      "focus": "Focus on the request flow instead of opening random files.",
+      "doNow": [
+        "Start from the controller",
+        "Follow the service down to the repository",
+        "Observe DTOs, validation, and responses"
+      ]
+    },
+    {
+      "when": "When learning databases",
+      "focus": "Compare plain Java with framework abstractions to understand what the framework is hiding.",
+      "doNow": [
+        "Read the JDBC examples in `basic/`",
+        "Read migrations and repositories in `spring/`",
+        "Count how many times one request hits the database"
+      ]
+    },
+    {
+      "when": "When learning auth",
+      "focus": "Do not only test successful login. Study failure paths and the session lifecycle too.",
+      "doNow": [
+        "See how refresh tokens work in practice",
+        "Compare logout and logout-all behavior",
+        "Ask what happens if a token leaks"
+      ]
+    },
+    {
+      "when": "When learning messaging",
+      "focus": "Shift from direct-call thinking toward events, eventual consistency, and retry behavior.",
+      "doNow": [
+        "Read the outbox first, then the broker",
+        "Ask how duplicate messages are handled",
+        "Ask what happens to the data if publishing fails"
+      ]
+    },
+    {
+      "when": "When learning advanced topics",
+      "focus": "Learn how to measure, observe, review, and optimize based on real bottlenecks.",
+      "doNow": [
+        "Look at metrics before optimizing",
+        "Check the blast radius of every change",
+        "Write down trade-offs for key decisions"
+      ]
+    }
+  ],
+  "pitfalls": [
+    {
+      "title": "Studying Spring before Java Core is solid",
+      "why": "This is the most common mistake. Learners can run the project but still do not understand what classes, objects, collections, and exceptions are doing.",
+      "mistakes": [
+        "Memorize annotations but cannot read plain Java service code",
+        "Confuse Java bugs with framework bugs",
+        "Change code by trial and error"
+      ],
+      "fix": [
+        "Go back to the `basic/` module and read tests first",
+        "Practice collections, exceptions, and OOP with real classes",
+        "Move to Spring only when reading Java no longer feels shaky"
+      ]
+    },
+    {
+      "title": "Seeing backend as simple CRUD",
+      "why": "Real backend work is not just reading and writing data. It also includes auth, transactions, side effects, retries, and observability.",
+      "mistakes": [
+        "Only care whether the endpoint returns 200",
+        "Do not ask what happens when the data is half wrong",
+        "Ignore logs, metrics, timeouts, and blast radius"
+      ],
+      "fix": [
+        "Ask what happens if each flow fails halfway through",
+        "Connect your learning to data consistency and side effects",
+        "Read the auth, outbox, and metrics code too, not only the controller"
+      ]
+    },
+    {
+      "title": "Using a framework without knowing what it abstracts",
+      "why": "Spring and JPA are convenient, but that convenience can hide SQL, transactions, proxies, lazy loading, and query cost from learners.",
+      "mistakes": [
+        "Assume calling `save()` means the problem is solved",
+        "Do not count the real number of queries",
+        "Do not understand why annotations sometimes fail to behave as expected"
+      ],
+      "fix": [
+        "Compare JDBC in `basic/` with JPA in `spring/`",
+        "Read SQL logs, migrations, and transaction tests",
+        "Explain proxies, rollbacks, and the outbox flow in your own words"
+      ]
+    },
+    {
+      "title": "Learning technologies separately without connecting them into one system",
+      "why": "Knowing what Kafka, JWT, or Flyway are is still not enough if you do not understand how they hook into the same backend flow.",
+      "mistakes": [
+        "Learn each keyword in isolation",
+        "Do not visualize which layers a request passes through",
+        "Do not know which pain point each technology solves"
+      ],
+      "fix": [
+        "Use this roadmap in end-to-end flow order",
+        "Read the section about how technologies integrate together",
+        "For each technology, ask which part of the system it connects to"
+      ]
+    }
+  ],
+  "visualSteps": [
+    {
+      "level": "Foundation",
+      "title": "Java Core",
+      "short": "Syntax, OOP, collections, exceptions, strings, and basic testing.",
+      "focus": [
+        "Be able to read code",
+        "Be able to change a small method",
+        "Not depend on the framework"
+      ]
+    },
+    {
+      "level": "Level 2",
+      "title": "Spring Web",
+      "short": "Controller, service, DTO, validation, request-response flow.",
+      "focus": [
+        "HTTP",
+        "REST",
+        "Bean",
+        "Dependency injection"
+      ]
+    },
+    {
+      "level": "Level 3",
+      "title": "Data",
+      "short": "JDBC, SQL, JPA, transaction, migration, consistency.",
+      "focus": [
+        "Flyway",
+        "Rollback",
+        "N+1 query",
+        "Repository"
+      ]
+    },
+    {
+      "level": "Level 4",
+      "title": "Security",
+      "short": "JWT, refresh token, role-based auth, session lifecycle.",
+      "focus": [
+        "Access token",
+        "Refresh token",
+        "Reuse detection"
+      ]
+    },
+    {
+      "level": "Level 5",
+      "title": "Messaging",
+      "short": "Outbox, Kafka, RabbitMQ, retry, dead-letter, idempotency.",
+      "focus": [
+        "Publisher",
+        "Consumer",
+        "Retry",
+        "Event contract"
+      ]
+    },
+    {
+      "level": "Level 6",
+      "title": "Observability",
+      "short": "Metrics, logs, health check, timeout, circuit breaker.",
+      "focus": [
+        "Dashboard",
+        "Metrics",
+        "Timeout",
+        "Blast radius"
+      ]
+    },
+    {
+      "level": "Level 7",
+      "title": "Refactor",
+      "short": "Read hard code, reduce coupling, increase clarity, and stay safe with tests.",
+      "focus": [
+        "Design",
+        "Responsibility",
+        "Review",
+        "Trade-off"
+      ]
+    },
+    {
+      "level": "Level 8",
+      "title": "Senior Mindset",
+      "short": "Look at the system through data, risk, operations, and the ability to change it.",
+      "focus": [
+        "Reliability",
+        "Compatibility",
+        "Ownership",
+        "Technical debt"
+      ]
+    }
+  ]
+}

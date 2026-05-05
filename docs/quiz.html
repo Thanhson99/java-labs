@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,26 +22,26 @@
       <header class="hero compact-hero">
         <div class="hero-content">
           <p class="eyebrow">Java Labs / Quiz Arena</p>
-          <h1>Thực chiến bằng bộ đề ngẫu nhiên</h1>
+          <h1>Practice with randomized quiz sets</h1>
           <p class="hero-copy">
-            Chọn một bộ đề có pool trên 100 câu, hệ thống sẽ rút ngẫu nhiên 100 câu
-            để bạn làm bài và chấm theo mức năng lực từ cơ bản đến nâng cao.
+            Choose a bundle with a pool of more than 100 questions. The system will draw
+            100 random questions and grade your level from basic to advanced.
           </p>
         </div>
         <aside class="hero-side stats-card">
           <p class="side-label">Quiz Stats</p>
           <dl class="stat-list">
             <div>
-              <dt>Bộ đề</dt>
+              <dt>Bundles</dt>
               <dd id="quizBundleCount">--</dd>
             </div>
             <div>
-              <dt>Ngân hàng câu</dt>
+              <dt>Question pool</dt>
               <dd id="quizQuestionPoolCount">--</dd>
             </div>
             <div>
-              <dt>Mỗi lần làm</dt>
-              <dd>100 câu</dd>
+              <dt>Per attempt</dt>
+              <dd>100 questions</dd>
             </div>
           </dl>
         </aside>
@@ -51,8 +51,8 @@
         <section class="panel">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Chọn đề</p>
-              <h2>Bộ đề theo cấp độ</h2>
+              <p class="eyebrow">Choose a set</p>
+              <h2>Bundles by level</h2>
             </div>
           </div>
           <div id="quizBundles" class="quiz-bundles"></div>
@@ -61,12 +61,12 @@
         <section class="panel">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Làm bài</p>
+              <p class="eyebrow">Take the test</p>
               <h2>Quiz Workspace</h2>
             </div>
           </div>
           <div id="quizWorkspace" class="quiz-workspace">
-            <div class="empty-state">Chọn một bộ đề để bắt đầu.</div>
+            <div class="empty-state">Choose a quiz bundle to begin.</div>
           </div>
         </section>
       </main>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,25 +22,25 @@
       <header class="hero compact-hero">
         <div class="hero-content">
           <p class="eyebrow">Java Labs / Interview Levels</p>
-          <h1>Câu hỏi phỏng vấn theo cấp độ</h1>
+          <h1>Interview questions by level</h1>
           <p class="hero-copy">
-            Portal này gom câu hỏi phỏng vấn theo level để bạn ôn tập đúng mặt bằng:
-            bắt đầu từ nền tảng, lên trung cấp, nâng cao và các câu hỏi mẹo hoặc tư duy hệ thống.
+            This portal groups interview questions by level so you can review at the right baseline:
+            start with fundamentals, move to intermediate and advanced, then tackle trick and system-thinking questions.
           </p>
         </div>
         <aside class="hero-side stats-card">
           <p class="side-label">Interview Stats</p>
           <dl class="stat-list">
             <div>
-              <dt>Tổng câu</dt>
+              <dt>Total questions</dt>
               <dd id="levelTotalQuestions">--</dd>
             </div>
             <div>
-              <dt>Số level</dt>
+              <dt>Level groups</dt>
               <dd id="levelGroupCount">--</dd>
             </div>
             <div>
-              <dt>Phạm vi</dt>
+              <dt>Range</dt>
               <dd>Core -> Senior</dd>
             </div>
           </dl>
@@ -52,7 +52,7 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Levels</p>
-              <h2>Nhóm cấp độ</h2>
+              <h2>Level Groups</h2>
             </div>
           </div>
           <div id="levelNav" class="topic-nav"></div>
@@ -67,28 +67,28 @@
           </div>
           <div class="question-toolbar">
             <label class="toolbar-field">
-              <span>Tìm kiếm</span>
-              <input id="levelSearch" type="search" placeholder="Ví dụ: JWT, transaction, Kafka..." />
+              <span>Search</span>
+              <input id="levelSearch" type="search" placeholder="Example: JWT, transaction, Kafka..." />
             </label>
             <label class="toolbar-field">
               <span>Track</span>
               <select id="levelTrackFilter">
-                <option value="">Tất cả</option>
+                <option value="">All</option>
               </select>
             </label>
             <label class="toolbar-field">
-              <span>Loại câu hỏi</span>
+              <span>Question type</span>
               <select id="levelKindFilter">
-                <option value="">Tất cả</option>
+                <option value="">All</option>
               </select>
             </label>
             <label class="toolbar-field">
-              <span>Sắp xếp</span>
+              <span>Sort</span>
               <select id="levelSortFilter">
-                <option value="default">Mặc định</option>
-                <option value="questions-desc">Nhiều câu trước</option>
-                <option value="questions-asc">Ít câu trước</option>
-                <option value="title-asc">Tên level A-Z</option>
+                <option value="default">Default</option>
+                <option value="questions-desc">Most questions first</option>
+                <option value="questions-asc">Fewest questions first</option>
+                <option value="title-asc">Level name A-Z</option>
               </select>
             </label>
           </div>

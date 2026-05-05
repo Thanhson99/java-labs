@@ -1,6 +1,6 @@
 {
   "title": "Java Labs Quiz Template",
-  "description": "Template de ban them cau trac nghiem sau nay.",
+  "description": "Template for adding more multiple-choice questions later.",
   "quizzes": [
     {
       "id": "sample-java-core-quiz",
@@ -10,14 +10,14 @@
         {
           "id": "sample-1",
           "type": "single-choice",
-          "prompt": "JDK bao gom thanh phan nao?",
+          "prompt": "Which components are included in the JDK?",
           "options": [
-            "Chi co JVM",
-            "JRE va cong cu phat trien",
-            "Chi co javac"
+            "Only the JVM",
+            "The JRE and development tools",
+            "Only `javac`"
           ],
           "correctAnswerIndex": 1,
-          "explanation": "JDK bao gom JRE va cac cong cu phuc vu viec phat trien."
+          "explanation": "The JDK includes the JRE and tools used for development."
         }
       ]
     }
