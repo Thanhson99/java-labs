@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Interview Practice</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body data-page="interview">
+    <div class="page-shell">
+      <div class="glow glow-left"></div>
+      <div class="glow glow-right"></div>
+
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link active" href="interview.html">Interview Prep</a>
+        <a class="nav-link" href="interview-levels.html">Interview Levels</a>
+        <a class="nav-link" href="quiz.html">Quiz</a>
+        <a class="nav-link" href="roadmap.html">Roadmap</a>
+      </nav>
+
+      <header class="hero compact-hero">
+        <div class="hero-content">
+          <p class="eyebrow">Java Labs / Interview Practice</p>
+          <h1>Question Bank From JSON</h1>
+          <p class="hero-copy">
+            Mục tiêu là có một portal học tập tinh gọn: danh sách chủ đề, câu hỏi,
+            câu trả lời chuẩn, ví dụ code và bài tập tự luyện. Tất cả đều render từ
+            file JSON để phù hợp GitHub Pages.
+          </p>
+        </div>
+        <aside class="hero-side stats-card">
+          <p class="side-label">Bank Stats</p>
+          <dl class="stat-list">
+            <div>
+              <dt>Topics</dt>
+              <dd id="topicCount">--</dd>
+            </div>
+            <div>
+              <dt>Questions</dt>
+              <dd id="questionCount">--</dd>
+            </div>
+            <div>
+              <dt>Levels</dt>
+              <dd>Basic -> Advanced</dd>
+            </div>
+          </dl>
+        </aside>
+      </header>
+
+      <main class="interview-layout">
+        <aside class="panel sidebar-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Topics</p>
+              <h2>Topic Catalog</h2>
+            </div>
+          </div>
+          <div id="topicNav" class="topic-nav"></div>
+        </aside>
+
+        <section class="panel content-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Content</p>
+              <h2>Questions And Answers</h2>
+            </div>
+          </div>
+          <div class="question-toolbar">
+            <label class="toolbar-field">
+              <span>Tìm kiếm</span>
+              <input id="questionSearch" type="search" placeholder="Ví dụ: transaction, JWT, Kafka..." />
+            </label>
+            <label class="toolbar-field">
+              <span>Mức độ</span>
+              <select id="levelFilter">
+                <option value="">Tất cả</option>
+              </select>
+            </label>
+            <label class="toolbar-field">
+              <span>Loại câu hỏi</span>
+              <select id="kindFilter">
+                <option value="">Tất cả</option>
+              </select>
+            </label>
+            <label class="toolbar-field">
+              <span>Sắp xếp</span>
+              <select id="sortFilter">
+                <option value="default">Mặc định</option>
+                <option value="level-asc">Độ khó tăng dần</option>
+                <option value="level-desc">Độ khó giảm dần</option>
+                <option value="title-asc">Theo tiêu đề A-Z</option>
+              </select>
+            </label>
+          </div>
+          <div id="questionSections" class="question-sections"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

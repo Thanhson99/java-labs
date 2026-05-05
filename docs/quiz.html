@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Backend Quiz Arena</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body data-page="quiz">
+    <div class="page-shell">
+      <div class="glow glow-left"></div>
+      <div class="glow glow-right"></div>
+
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="interview.html">Interview Prep</a>
+        <a class="nav-link" href="interview-levels.html">Interview Levels</a>
+        <a class="nav-link active" href="quiz.html">Quiz</a>
+        <a class="nav-link" href="roadmap.html">Roadmap</a>
+      </nav>
+
+      <header class="hero compact-hero">
+        <div class="hero-content">
+          <p class="eyebrow">Java Labs / Quiz Arena</p>
+          <h1>Thực chiến bằng bộ đề ngẫu nhiên</h1>
+          <p class="hero-copy">
+            Chọn một bộ đề có pool trên 100 câu, hệ thống sẽ rút ngẫu nhiên 100 câu
+            để bạn làm bài và chấm theo mức năng lực từ cơ bản đến nâng cao.
+          </p>
+        </div>
+        <aside class="hero-side stats-card">
+          <p class="side-label">Quiz Stats</p>
+          <dl class="stat-list">
+            <div>
+              <dt>Bộ đề</dt>
+              <dd id="quizBundleCount">--</dd>
+            </div>
+            <div>
+              <dt>Ngân hàng câu</dt>
+              <dd id="quizQuestionPoolCount">--</dd>
+            </div>
+            <div>
+              <dt>Mỗi lần làm</dt>
+              <dd>100 câu</dd>
+            </div>
+          </dl>
+        </aside>
+      </header>
+
+      <main>
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Chọn đề</p>
+              <h2>Bộ đề theo cấp độ</h2>
+            </div>
+          </div>
+          <div id="quizBundles" class="quiz-bundles"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Làm bài</p>
+              <h2>Quiz Workspace</h2>
+            </div>
+          </div>
+          <div id="quizWorkspace" class="quiz-workspace">
+            <div class="empty-state">Chọn một bộ đề để bắt đầu.</div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,832 @@
+{
+  "basicsChecklist": [
+    {
+      "step": "01",
+      "title": "Hiểu cú pháp trước khi hiểu framework",
+      "summary": "Nếu chưa chắc biến, method, if-else, loop và class thì đừng vội nhảy vào Spring.",
+      "checks": [
+        "Đọc được code Java cơ bản mà không bị khựng",
+        "Phân biệt được method, parameter, field, object",
+        "Biết vì sao một vòng lặp hoặc điều kiện hoạt động"
+      ]
+    },
+    {
+      "step": "02",
+      "title": "Học OOP bằng code thật",
+      "summary": "Đừng chỉ học định nghĩa. Phải nhìn class, interface, enum và record trong repo thật.",
+      "checks": [
+        "Biết khi nào dùng interface",
+        "Biết class nào đang ôm quá nhiều trách nhiệm",
+        "Tự tách được một logic nhỏ sang class khác"
+      ]
+    },
+    {
+      "step": "03",
+      "title": "Đọc test để học nhanh hơn",
+      "summary": "Test là cách nhanh nhất để hiểu một class được kỳ vọng làm gì.",
+      "checks": [
+        "Đọc được assert và hiểu input/output",
+        "Biết test nào đang bảo vệ hành vi nào",
+        "Sửa code nhỏ và đoán test nào fail"
+      ]
+    },
+    {
+      "step": "04",
+      "title": "Chỉ sang Spring khi Java Core đủ chắc",
+      "summary": "Framework giúp làm nhanh hơn, nhưng cũng dễ che mất bản chất nếu nền chưa vững.",
+      "checks": [
+        "Không còn nhầm `==` với `equals`",
+        "Không còn mơ hồ về collection và exception",
+        "Đọc service Java thuần không bị ngợp"
+      ]
+    }
+  ],
+  "tree": [
+    {
+      "icon": "🌱",
+      "title": "Nền Java Core",
+      "summary": "Đây là gốc cây. Nếu phần này yếu, sang Spring hay database rất dễ chỉ chạy theo framework mà không hiểu bản chất.",
+      "nodes": ["Biến và method", "OOP", "Collection", "Exception", "String", "Date time", "Testing cơ bản"]
+    },
+    {
+      "icon": "🧠",
+      "title": "Tư duy đọc code",
+      "summary": "Học cách nhìn một flow từ input đến output, hiểu side effect, boundary và trách nhiệm của từng lớp.",
+      "nodes": ["Đọc test", "Đọc controller", "Lần theo service", "Biết điểm ghi dữ liệu", "Biết điểm phát sinh event"]
+    },
+    {
+      "icon": "🗄️",
+      "title": "Data và transaction",
+      "summary": "Backend thật luôn quay về dữ liệu. Bạn phải hiểu DB, transaction, migration và query thay vì chỉ gọi save.",
+      "nodes": ["JDBC", "SQL", "Index", "JPA", "@Transactional", "Flyway", "N+1 query"]
+    },
+    {
+      "icon": "🛡️",
+      "title": "Web và bảo mật",
+      "summary": "Từ request/response đi sang auth, phân quyền, validation và quản lý session/token.",
+      "nodes": ["HTTP", "REST", "DTO", "Validation", "JWT", "Refresh token", "Role-based auth"]
+    },
+    {
+      "icon": "📨",
+      "title": "Event và tích hợp",
+      "summary": "Khi hệ thống lớn hơn CRUD, bạn sẽ gặp queue, broker, outbox, retry và idempotency.",
+      "nodes": ["Kafka", "RabbitMQ", "Outbox", "Consumer", "Retry", "Dead-letter", "Idempotency"]
+    },
+    {
+      "icon": "📈",
+      "title": "Vận hành và nâng cao",
+      "summary": "Mục tiêu cuối là không chỉ viết code chạy được, mà còn biết cách quan sát, giữ ổn định và mở rộng hệ thống.",
+      "nodes": ["Metrics", "Logs", "Health check", "Timeout", "Circuit breaker", "Trade-off", "Code review"]
+    }
+  ],
+  "technologyMap": [
+    {
+      "layer": "Build Tool",
+      "name": "Maven Wrapper",
+      "level": "Bắt buộc",
+      "purpose": "Maven quản lý dependency, build lifecycle và giúp dự án chạy nhất quán giữa các máy. Wrapper giúp không lệ thuộc Maven cài sẵn.",
+      "learnFor": [
+        "Hiểu `pom.xml` đang kéo những gì vào dự án",
+        "Biết vòng đời build, test, package",
+        "Biết vì sao wrapper giúp môi trường ít lệch hơn"
+      ],
+      "integratesWith": [
+        "Đi cùng tất cả module `basic`, `spring`, `notification-service`",
+        "Liên quan trực tiếp đến dependency Spring, test và packaging"
+      ],
+      "lookAt": [
+        "`basic/pom.xml`",
+        "`spring/pom.xml`",
+        "`notification-service/pom.xml`",
+        "`./mvnw`"
+      ]
+    },
+    {
+      "layer": "Ngôn ngữ",
+      "name": "Java Core",
+      "level": "Bắt buộc",
+      "purpose": "Đây là nền móng. Mọi công nghệ phía trên đều dựa vào việc bạn đọc được class, interface, collection, exception và flow code Java.",
+      "learnFor": [
+        "Đọc được code service, test và utility",
+        "Hiểu object model, collection và xử lý lỗi",
+        "Biết chỗ nào là bug do Java, chỗ nào là bug do framework"
+      ],
+      "integratesWith": [
+        "Spring Boot dùng Java để tổ chức toàn bộ app",
+        "JPA entity, DTO, event, test đều là class Java",
+        "Messaging, security, transaction đều quay về Java code"
+      ],
+      "lookAt": [
+        "Module `basic/`",
+        "Các test trong `basic/src/test/java`",
+        "Class service và DTO trong `spring/`"
+      ]
+    },
+    {
+      "layer": "Web Framework",
+      "name": "Spring Boot",
+      "level": "Cốt lõi",
+      "purpose": "Spring Boot giúp dựng ứng dụng web nhanh, tổ chức bean, controller, service, config và tích hợp nhiều thành phần backend.",
+      "learnFor": [
+        "Tạo API và web flow rõ ràng",
+        "Tổ chức controller, service, repository",
+        "Tận dụng dependency injection và auto-configuration"
+      ],
+      "integratesWith": [
+        "Tích hợp Spring MVC cho HTTP layer",
+        "Tích hợp Spring Security cho auth",
+        "Tích hợp Spring Data JPA cho DB",
+        "Tích hợp Actuator cho observability"
+      ],
+      "lookAt": [
+        "`spring/src/main/java/com/example/demo/WebController.java`",
+        "`RegistrationController`",
+        "`SecurityConfig` và các config class"
+      ]
+    },
+    {
+      "layer": "Configuration",
+      "name": "Profiles / .env / application.properties",
+      "level": "Rất nên học sớm",
+      "purpose": "Cấu hình quyết định app chạy ở môi trường nào, dùng DB nào, mở tính năng nào và có secret gì. Đây là phần người mới rất hay bỏ qua.",
+      "learnFor": [
+        "Hiểu config không nên hard-code vào code",
+        "Biết tách local/dev/prod hoặc postgres profile",
+        "Biết cách app lấy biến môi trường và property"
+      ],
+      "integratesWith": [
+        "Đi cùng Spring Boot startup",
+        "Gắn với Postgres profile, security config và runtime settings",
+        "Liên quan script chạy ở root repo"
+      ],
+      "lookAt": [
+        "`spring/src/main/resources/application.properties`",
+        "`application-postgres.properties`",
+        "`.env.example` và `spring/.env.example`",
+        "`run.sh`"
+      ]
+    },
+    {
+      "layer": "HTTP Layer",
+      "name": "Spring MVC / REST API",
+      "level": "Cần học sớm",
+      "purpose": "Đây là nơi request đi vào hệ thống. Bạn cần hiểu route, request body, validation, response và status code.",
+      "learnFor": [
+        "Biết request flow từ client vào app",
+        "Tách controller khỏi business logic",
+        "Thiết kế API dễ hiểu và dễ test"
+      ],
+      "integratesWith": [
+        "Gọi xuống service layer",
+        "Đi cùng validation và auth",
+        "Trả response từ DTO hoặc domain response"
+      ],
+      "lookAt": [
+        "`/hello`, `/api/auth/*`, `/api/users/*`",
+        "Controller test trong `spring/src/test/java`",
+        "DTO request/response"
+      ]
+    },
+    {
+      "layer": "Bảo mật",
+      "name": "Spring Security + JWT",
+      "level": "Nâng trung cấp",
+      "purpose": "Phần này giúp bạn hiểu xác thực, phân quyền, token và vòng đời session trong backend hiện đại.",
+      "learnFor": [
+        "Hiểu JWT, access token, refresh token",
+        "Biết phân biệt auth và authorization",
+        "Biết xử lý refresh rotation, revoke và reuse detection"
+      ],
+      "integratesWith": [
+        "Chặn request ở HTTP layer",
+        "Đi cùng controller và protected API",
+        "Dựa vào token service và refresh token store"
+      ],
+      "lookAt": [
+        "`AuthController`",
+        "`JwtTokenService`",
+        "`RefreshTokenStore`",
+        "`SecurityConfig`"
+      ]
+    },
+    {
+      "layer": "Dữ liệu",
+      "name": "H2 / PostgreSQL / JDBC / JPA",
+      "level": "Cốt lõi backend",
+      "purpose": "Backend thật sống nhờ dữ liệu. Bạn phải hiểu DB, truy vấn, transaction, mapping và migration.",
+      "learnFor": [
+        "Hiểu JDBC và abstraction của JPA",
+        "Biết transaction, rollback và consistency",
+        "Biết tối ưu query và tránh N+1"
+      ],
+      "integratesWith": [
+        "Spring Data JPA cho repository",
+        "Flyway cho migration",
+        "Transaction service layer",
+        "Analytics DB và data access phụ trợ"
+      ],
+      "lookAt": [
+        "`spring/src/main/resources/db/migration`",
+        "`UserProfileRepository`",
+        "`RegistrationService`",
+        "Ví dụ JDBC trong module `basic/`"
+      ]
+    },
+    {
+      "layer": "Validation",
+      "name": "Request Validation",
+      "level": "Cần học sớm",
+      "purpose": "Validation chặn input bẩn ngay từ cửa vào. Đây là một phần rất thực tế của backend nhưng người mới thường chỉ học lướt qua.",
+      "learnFor": [
+        "Biết request nào sai nên bị chặn ở đâu",
+        "Giảm việc service phải xử lý dữ liệu lỗi lặp lại",
+        "Thiết kế API rõ ràng hơn về lỗi input"
+      ],
+      "integratesWith": [
+        "Đi cùng controller và DTO request",
+        "Liên quan trực tiếp tới HTTP status code và error response"
+      ],
+      "lookAt": [
+        "`RegisterUserRequest`",
+        "`RegistrationController`",
+        "Các test controller liên quan validation"
+      ]
+    },
+    {
+      "layer": "Migration",
+      "name": "Flyway",
+      "level": "Bắt buộc khi học DB",
+      "purpose": "Flyway giúp quản lý lịch sử thay đổi schema một cách có kiểm soát thay vì sửa tay trong database.",
+      "learnFor": [
+        "Hiểu database evolve ra sao",
+        "Biết thêm bảng, cột, index có kiểm soát",
+        "Gắn thay đổi dữ liệu với phiên bản code"
+      ],
+      "integratesWith": [
+        "Chạy cùng app startup",
+        "Đi cùng JPA entity và repository",
+        "Liên quan trực tiếp đến deploy an toàn"
+      ],
+      "lookAt": [
+        "`V1__create_user_profiles.sql` và các file sau",
+        "Cách service và entity dựa vào schema",
+        "So sánh migration với flow dữ liệu thật"
+      ]
+    },
+    {
+      "layer": "Messaging",
+      "name": "Kafka",
+      "level": "Nâng cao",
+      "purpose": "Kafka giúp học event streaming, publisher/consumer và cách backend tích hợp không đồng bộ ở quy mô lớn hơn CRUD.",
+      "learnFor": [
+        "Hiểu event-driven flow",
+        "Biết producer, consumer group, retry",
+        "Biết contract event cần rõ ra sao"
+      ],
+      "integratesWith": [
+        "Đi cùng registration event publishing",
+        "Kết nối với outbox và listener",
+        "Có mặt ở notification-service consumer side"
+      ],
+      "lookAt": [
+        "`KafkaUserRegistrationEventPublisher`",
+        "`KafkaUserRegistrationEventListener`",
+        "Code consumer trong `notification-service`"
+      ]
+    },
+    {
+      "layer": "Messaging",
+      "name": "RabbitMQ",
+      "level": "Nâng cao",
+      "purpose": "RabbitMQ giúp so sánh mô hình queue truyền thống với Kafka và hiểu transport-specific integration.",
+      "learnFor": [
+        "Hiểu queue, exchange, routing",
+        "So sánh broker này với Kafka",
+        "Biết phần nào là business logic, phần nào là transport glue"
+      ],
+      "integratesWith": [
+        "Đi cùng registration event",
+        "Đi cùng listener và topology config",
+        "Liên quan dead-letter và retry handling"
+      ],
+      "lookAt": [
+        "`RabbitUserRegistrationEventPublisher`",
+        "`RabbitUserRegistrationEventListener`",
+        "`MessagingTopologyConfig`"
+      ]
+    },
+    {
+      "layer": "Reliability",
+      "name": "Outbox Pattern",
+      "level": "Nâng cao quan trọng",
+      "purpose": "Outbox là cầu nối giữa ghi DB và publish event, giúp hệ thống bền hơn khi có lỗi giữa transaction và broker.",
+      "learnFor": [
+        "Hiểu consistency giữa DB và event",
+        "Biết vì sao publish trực tiếp dễ vỡ",
+        "Biết retry, pending, dead-letter state"
+      ],
+      "integratesWith": [
+        "Gắn với transaction service",
+        "Gắn với Kafka và Rabbit publisher",
+        "Gắn với dispatcher chạy sau commit"
+      ],
+      "lookAt": [
+        "`OutboxEventStore`",
+        "`OutboxDispatcher`",
+        "`RegistrationService`"
+      ]
+    },
+    {
+      "layer": "Testing",
+      "name": "JUnit / Mockito / MockMvc / Testcontainers",
+      "level": "Bắt buộc",
+      "purpose": "Không có testing thì bạn chỉ đoán. Test là cách hiểu code nhanh nhất và là hàng rào khi refactor.",
+      "learnFor": [
+        "Hiểu behavior của class và endpoint",
+        "Phân biệt unit test, web test, integration test",
+        "Giữ an toàn khi sửa code"
+      ],
+      "integratesWith": [
+        "MockMvc đi với controller",
+        "Mockito đi với service logic",
+        "Testcontainers đi với DB thật"
+      ],
+      "lookAt": [
+        "Test trong `basic/src/test/java`",
+        "Controller test trong `spring/src/test/java`",
+        "`PostgresContainerRegistrationTest`"
+      ]
+    },
+    {
+      "layer": "Connection Management",
+      "name": "Connection Pool",
+      "level": "Trung cấp rất đáng học",
+      "purpose": "Nhiều người học database nhưng quên mất kết nối được quản lý thế nào. Connection pool ảnh hưởng lớn đến hiệu năng và độ ổn định.",
+      "learnFor": [
+        "Hiểu vì sao không mở connection mới cho từng request",
+        "Biết pool exhaustion nguy hiểm ra sao",
+        "Biết chỗ nào cần nhìn khi DB bị treo hoặc timeout"
+      ],
+      "integratesWith": [
+        "Đi cùng Spring Data/JDBC",
+        "Gắn với DB profile và runtime metrics",
+        "Ảnh hưởng trực tiếp tới hiệu năng request"
+      ],
+      "lookAt": [
+        "Dashboard runtime DB section",
+        "Config datasource trong Spring",
+        "Các test hoặc flow chạm DB liên tục"
+      ]
+    },
+    {
+      "layer": "Observability",
+      "name": "Spring Actuator + Metrics",
+      "level": "Rất nên học",
+      "purpose": "Bạn cần biết hệ thống đang khỏe hay đang đau. Actuator và metrics là cửa vào cho observability.",
+      "learnFor": [
+        "Xem health, info, runtime metrics",
+        "Biết request nào chậm, lỗi nào tăng",
+        "Tư duy đo trước khi tối ưu"
+      ],
+      "integratesWith": [
+        "Đi cùng dashboard runtime",
+        "Đi cùng custom business observability",
+        "Gắn với auth, registration và outbox metrics"
+      ],
+      "lookAt": [
+        "`/actuator/health`",
+        "`ApplicationMetrics`",
+        "`LearningSystemHealthIndicator`"
+      ]
+    },
+    {
+      "layer": "Runtime",
+      "name": "Docker Compose / Postgres profile",
+      "level": "Thực chiến",
+      "purpose": "Giúp bạn học cách chạy stack gần thực tế hơn local in-memory đơn giản.",
+      "learnFor": [
+        "Biết profile môi trường hoạt động ra sao",
+        "Biết app kết nối DB ngoài như thế nào",
+        "Biết chỗ nào lệch giữa local đơn giản và môi trường thật"
+      ],
+      "integratesWith": [
+        "Đi cùng Spring profile postgres",
+        "Đi cùng migration và integration test",
+        "Là cầu nối sang tư duy deploy và vận hành"
+      ],
+      "lookAt": [
+        "`spring/docker-compose.yml`",
+        "`application-postgres.properties`",
+        "README phần chạy Postgres"
+      ]
+    }
+  ],
+  "integrationFlow": [
+    {
+      "stage": "Client",
+      "title": "Browser / curl / test gọi vào HTTP layer",
+      "summary": "Mọi thứ bắt đầu từ request. Đây là điểm vào để học controller, validation, auth và response design.",
+      "links": [
+        "HTTP + REST API",
+        "Request Validation",
+        "MockMvc test"
+      ]
+    },
+    {
+      "stage": "Edge Security",
+      "title": "Spring Security kiểm tra token và quyền",
+      "summary": "Request protected sẽ đi qua JWT filter, role check và security config trước khi chạm business logic.",
+      "links": [
+        "Spring Security",
+        "JWT",
+        "Refresh token store"
+      ]
+    },
+    {
+      "stage": "Application",
+      "title": "Controller gọi service và điều phối use case",
+      "summary": "Đây là nơi code nghiệp vụ bắt đầu: validate logic, phối hợp repository, audit, auth context và metrics.",
+      "links": [
+        "Spring Boot",
+        "Service layer",
+        "DTO mapping",
+        "Metrics"
+      ]
+    },
+    {
+      "stage": "Data",
+      "title": "Service chạm DB qua JPA/JDBC và transaction",
+      "summary": "Nếu flow có dữ liệu, đây là nơi transaction, rollback, Flyway schema và connection pool bắt đầu có ý nghĩa thật.",
+      "links": [
+        "JPA / JDBC",
+        "Flyway",
+        "Transaction",
+        "Connection pool"
+      ]
+    },
+    {
+      "stage": "Async",
+      "title": "Side effect có thể đẩy qua outbox và broker",
+      "summary": "Những thứ như notification hoặc downstream event không nhất thiết phải gắn cứng vào transaction synchronous.",
+      "links": [
+        "Outbox pattern",
+        "Kafka",
+        "RabbitMQ",
+        "Retry / dead-letter"
+      ]
+    },
+    {
+      "stage": "Ops",
+      "title": "Runtime được quan sát qua health, metrics và profile",
+      "summary": "Đây là tầng nhìn hệ thống như một dịch vụ thật: nó đang khỏe không, đang chạy ở profile nào, và bottleneck nằm đâu.",
+      "links": [
+        "Actuator",
+        "Metrics dashboard",
+        "Docker / Postgres profile",
+        "Runtime config"
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "stage": "Giai đoạn 1",
+      "title": "Làm chắc Java Core",
+      "duration": "2-4 tuần",
+      "summary": "Tập trung vào nền tảng để bạn đọc được code trong `basic/` mà không đoán mò.",
+      "topics": [
+        "Kiểu dữ liệu, method, if-else, vòng lặp",
+        "Class, object, interface, enum, record",
+        "Collection, stream, String, exception",
+        "JUnit cơ bản và cách đọc test"
+      ],
+      "actions": [
+        "Đọc và chạy code trong module `basic/`",
+        "Mở test trước rồi đoán class đang làm gì",
+        "Tự sửa một hàm nhỏ và quan sát test fail/pass"
+      ],
+      "outcomes": [
+        "Đọc được Java không bị khựng vì cú pháp",
+        "Biết class nào đang giữ trách nhiệm gì",
+        "Hiểu khác nhau giữa lý thuyết OOP và code thật"
+      ]
+    },
+    {
+      "stage": "Giai đoạn 2",
+      "title": "Học web flow với Spring Boot",
+      "duration": "2-3 tuần",
+      "summary": "Bắt đầu từ controller, request, response, service và DTO.",
+      "topics": [
+        "Controller, service, repository",
+        "HTTP, REST, validation, DTO",
+        "Dependency injection và bean",
+        "MockMvc và test web layer"
+      ],
+      "actions": [
+        "Đọc flow `controller -> service -> repository` trong module `spring/`",
+        "Thử thêm một endpoint nhỏ",
+        "Viết test cho happy path và một case lỗi"
+      ],
+      "outcomes": [
+        "Hiểu request đi vào app như thế nào",
+        "Biết vì sao controller nên mỏng",
+        "Không còn nhìn Spring như 'ma thuật'"
+      ]
+    },
+    {
+      "stage": "Giai đoạn 3",
+      "title": "Đi sâu vào dữ liệu và transaction",
+      "duration": "2-4 tuần",
+      "summary": "Đây là đoạn nâng level từ làm CRUD sang hiểu tính đúng của dữ liệu.",
+      "topics": [
+        "JDBC và SQL cơ bản",
+        "JPA entity, repository, fetch",
+        "Transaction, rollback, consistency",
+        "Flyway migration và schema evolution"
+      ],
+      "actions": [
+        "So sánh code JDBC trong `basic/` với JPA/JdbcTemplate trong `spring/`",
+        "Đọc migration theo thứ tự từ V1",
+        "Tự giải thích flow rollback trong service"
+      ],
+      "outcomes": [
+        "Hiểu hệ thống ghi dữ liệu đúng ra sao",
+        "Biết vì sao N+1 query nguy hiểm",
+        "Bớt ảo tưởng rằng `save()` là xong"
+      ]
+    },
+    {
+      "stage": "Giai đoạn 4",
+      "title": "Auth, security và session",
+      "duration": "1-2 tuần",
+      "summary": "Học phần backend rất đáng giá vì nó chạm bảo mật và boundary hệ thống.",
+      "topics": [
+        "JWT, access token, refresh token",
+        "Rotation, revoke, reuse detection",
+        "Role-based authorization",
+        "API protection và security config"
+      ],
+      "actions": [
+        "Đọc test auth trước",
+        "Lần theo `AuthController`, token service và store",
+        "Tự vẽ flow login -> refresh -> logout -> logout-all"
+      ],
+      "outcomes": [
+        "Hiểu access token khác refresh token thế nào",
+        "Biết vì sao reuse detection quan trọng",
+        "Không còn xem auth chỉ là login thành công"
+      ]
+    },
+    {
+      "stage": "Giai đoạn 5",
+      "title": "Messaging và tư duy hệ thống",
+      "duration": "2-4 tuần",
+      "summary": "Bước từ ứng dụng đơn sang kiến trúc có event, publisher, consumer và độ trễ.",
+      "topics": [
+        "Kafka và RabbitMQ",
+        "Outbox pattern",
+        "Retry, dead-letter, idempotency",
+        "Notification service và consumer side"
+      ],
+      "actions": [
+        "Theo flow từ registration sang event publisher",
+        "Đọc outbox store và dispatcher",
+        "So sánh transport logic và business logic"
+      ],
+      "outcomes": [
+        "Hiểu tại sao event-driven tăng độ phức tạp",
+        "Biết điểm dễ vỡ khi publish event",
+        "Bắt đầu nghĩ như người vận hành hệ thống"
+      ]
+    },
+    {
+      "stage": "Giai đoạn 6",
+      "title": "Nâng cao: observability, performance và trade-off",
+      "duration": "liên tục",
+      "summary": "Đây là đoạn chuyển từ người biết làm tính năng sang người biết giữ hệ thống sống khỏe.",
+      "topics": [
+        "Metrics, logs, health check",
+        "Timeout, circuit breaker, retry policy",
+        "Hiệu năng DB và API",
+        "Code review, refactor, technical debt"
+      ],
+      "actions": [
+        "Đọc dashboard và phần observability trong `spring/`",
+        "Tự hỏi mỗi flow cần log/metric gì",
+        "Review code theo rủi ro thay vì chỉ theo style"
+      ],
+      "outcomes": [
+        "Biết chỗ nào cần đo trước khi tối ưu",
+        "Biết phát hiện blast radius của thay đổi",
+        "Có tư duy backend nâng cao thay vì chỉ ghép tính năng"
+      ]
+    },
+    {
+      "stage": "Giai đoạn 7",
+      "title": "Thiết kế và refactor có chủ đích",
+      "duration": "liên tục",
+      "summary": "Học cách làm code dễ thay đổi chứ không chỉ chạy được hôm nay.",
+      "topics": [
+        "Design pattern vừa đủ",
+        "Refactor an toàn với test",
+        "Tách responsibility và giảm coupling",
+        "Đọc code như review production"
+      ],
+      "actions": [
+        "Tự chỉ ra một class quá tải trong repo",
+        "Viết đề xuất refactor ngắn gọn",
+        "Tách một flow thành các bước rõ nghĩa hơn"
+      ],
+      "outcomes": [
+        "Bắt đầu nghĩ theo responsibility và boundary",
+        "Biết phân biệt code khó vì domain hay khó vì thiết kế dở",
+        "Sửa code ít gây blast radius hơn"
+      ]
+    },
+    {
+      "stage": "Giai đoạn 8",
+      "title": "Tư duy senior backend",
+      "duration": "liên tục",
+      "summary": "Đây là tầng nhìn hệ thống bằng trade-off, rủi ro và khả năng vận hành lâu dài.",
+      "topics": [
+        "Blast radius của thay đổi",
+        "Backward compatibility",
+        "Observability-first",
+        "Technical debt có ý thức"
+      ],
+      "actions": [
+        "Tự hỏi mỗi thay đổi ảnh hưởng dữ liệu nào",
+        "Ghi note trade-off cho các quyết định khó",
+        "Đánh giá endpoint bằng góc nhìn bảo mật, hiệu năng và vận hành"
+      ],
+      "outcomes": [
+        "Không chỉ hỏi làm sao chạy được",
+        "Biết hỏi hệ thống sẽ vỡ ở đâu",
+        "Có tư duy chín hơn khi đọc và viết backend"
+      ]
+    }
+  ],
+  "practiceMap": [
+    {
+      "when": "Khi đang học Java Core",
+      "focus": "Đừng lao ngay vào framework. Mục tiêu là đọc class, test và collection thật chắc.",
+      "doNow": [
+        "Chạy module `basic/`",
+        "Mở test rồi giải thích từng assert",
+        "Tự viết lại một class nhỏ bằng lời của bạn"
+      ]
+    },
+    {
+      "when": "Khi bắt đầu học Spring",
+      "focus": "Tập nhìn request flow thay vì mở ngẫu nhiên nhiều file.",
+      "doNow": [
+        "Bắt đầu từ controller",
+        "Theo service xuống repository",
+        "Quan sát DTO, validation và response"
+      ]
+    },
+    {
+      "when": "Khi học database",
+      "focus": "So sánh Java thuần và abstraction của framework để hiểu framework đang giấu điều gì.",
+      "doNow": [
+        "Đọc ví dụ JDBC trong `basic/`",
+        "Đọc migration và repository trong `spring/`",
+        "Đếm thử một request đi DB mấy lần"
+      ]
+    },
+    {
+      "when": "Khi học auth",
+      "focus": "Đừng chỉ test đăng nhập thành công. Học cả failure path và session lifecycle.",
+      "doNow": [
+        "Xem refresh token sống ra sao",
+        "Xem logout và logout-all khác nhau thế nào",
+        "Tự đặt câu hỏi nếu token bị lộ thì sao"
+      ]
+    },
+    {
+      "when": "Khi học messaging",
+      "focus": "Chuyển tư duy từ lời gọi trực tiếp sang event, eventual consistency và retry.",
+      "doNow": [
+        "Đọc outbox trước rồi mới đọc broker",
+        "Tự hỏi duplicate message xử lý sao",
+        "Tự hỏi publish lỗi ở đâu thì dữ liệu ra sao"
+      ]
+    },
+    {
+      "when": "Khi học nâng cao",
+      "focus": "Học cách đo, quan sát, review và tối ưu theo bottleneck thật.",
+      "doNow": [
+        "Nhìn metrics trước khi tối ưu",
+        "Xem blast radius của mỗi thay đổi",
+        "Viết note trade-off cho các quyết định chính"
+      ]
+    }
+  ],
+  "pitfalls": [
+    {
+      "title": "Học Spring trước khi chắc Java Core",
+      "why": "Đây là lỗi phổ biến nhất. Người học chạy được dự án nhưng không hiểu class, object, collection và exception đang làm gì.",
+      "mistakes": [
+        "Thuộc annotation nhưng không đọc nổi service Java thuần",
+        "Nhầm bug Java với bug framework",
+        "Sửa code bằng cách thử may rủi"
+      ],
+      "fix": [
+        "Quay lại module `basic/` và đọc test trước",
+        "Luyện collection, exception, OOP bằng class thật",
+        "Chỉ sang Spring khi đọc Java không còn bị khựng"
+      ]
+    },
+    {
+      "title": "Xem backend như CRUD đơn giản",
+      "why": "Backend thật không chỉ là lấy dữ liệu ra rồi lưu vào. Nó còn là auth, transaction, side effect, retry và observability.",
+      "mistakes": [
+        "Chỉ quan tâm endpoint trả 200",
+        "Không nghĩ dữ liệu sai một nửa thì sao",
+        "Không nhìn log, metrics, timeout và blast radius"
+      ],
+      "fix": [
+        "Mỗi flow hãy tự hỏi nếu lỗi giữa chừng thì sao",
+        "Gắn việc học với data consistency và side effect",
+        "Đọc cả code auth, outbox, metrics thay vì chỉ controller"
+      ]
+    },
+    {
+      "title": "Dùng framework mà không biết nó đang trừu tượng hóa gì",
+      "why": "Spring và JPA rất tiện, nhưng sự tiện đó dễ làm người học mất cảm giác về SQL, transaction, proxy, lazy loading và query cost.",
+      "mistakes": [
+        "Cứ `save()` là nghĩ xong",
+        "Không đếm số query thật",
+        "Không hiểu vì sao annotation đôi lúc không hiệu lực như tưởng"
+      ],
+      "fix": [
+        "So sánh JDBC trong `basic/` với JPA trong `spring/`",
+        "Đọc log SQL, migration và transaction test",
+        "Tự giải thích flow proxy, rollback và outbox bằng lời của mình"
+      ]
+    },
+    {
+      "title": "Học công nghệ rời rạc, không nối chúng thành hệ thống",
+      "why": "Biết Kafka là gì, JWT là gì, Flyway là gì vẫn chưa đủ nếu không hiểu chúng móc vào flow backend ra sao.",
+      "mistakes": [
+        "Học từng từ khóa riêng lẻ",
+        "Không hình dung request đi qua những lớp nào",
+        "Không biết công nghệ nào giải quyết pain point nào"
+      ],
+      "fix": [
+        "Dùng roadmap này theo hướng flow end-to-end",
+        "Đọc phần `Học công nghệ nào, tích hợp ra sao?`",
+        "Mỗi công nghệ hãy tự trả lời: nó nối với phần nào của hệ thống?"
+      ]
+    }
+  ],
+  "visualSteps": [
+    {
+      "level": "Nền móng",
+      "title": "Java Core",
+      "short": "Cú pháp, OOP, collection, exception, string, test cơ bản.",
+      "focus": ["Biết đọc code", "Biết sửa hàm nhỏ", "Không phụ thuộc framework"]
+    },
+    {
+      "level": "Bậc 2",
+      "title": "Spring Web",
+      "short": "Controller, service, DTO, validation, request-response flow.",
+      "focus": ["HTTP", "REST", "Bean", "Dependency injection"]
+    },
+    {
+      "level": "Bậc 3",
+      "title": "Data",
+      "short": "JDBC, SQL, JPA, transaction, migration, consistency.",
+      "focus": ["Flyway", "Rollback", "N+1 query", "Repository"]
+    },
+    {
+      "level": "Bậc 4",
+      "title": "Security",
+      "short": "JWT, refresh token, role-based auth, session lifecycle.",
+      "focus": ["Access token", "Refresh token", "Reuse detection"]
+    },
+    {
+      "level": "Bậc 5",
+      "title": "Messaging",
+      "short": "Outbox, Kafka, RabbitMQ, retry, dead-letter, idempotency.",
+      "focus": ["Publisher", "Consumer", "Retry", "Event contract"]
+    },
+    {
+      "level": "Bậc 6",
+      "title": "Observability",
+      "short": "Metrics, logs, health check, timeout, circuit breaker.",
+      "focus": ["Dashboard", "Metrics", "Timeout", "Blast radius"]
+    },
+    {
+      "level": "Bậc 7",
+      "title": "Refactor",
+      "short": "Đọc code khó, giảm coupling, tăng clarity, giữ an toàn với test.",
+      "focus": ["Design", "Responsibility", "Review", "Trade-off"]
+    },
+    {
+      "level": "Bậc 8",
+      "title": "Senior Mindset",
+      "short": "Nhìn hệ thống bằng dữ liệu, rủi ro, vận hành và khả năng thay đổi.",
+      "focus": ["Reliability", "Compatibility", "Ownership", "Technical debt"]
+    }
+  ]
+}

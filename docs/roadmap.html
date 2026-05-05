@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Backend Roadmap</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body data-page="roadmap">
+    <div class="page-shell">
+      <div class="glow glow-left"></div>
+      <div class="glow glow-right"></div>
+
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="interview.html">Interview Prep</a>
+        <a class="nav-link" href="interview-levels.html">Interview Levels</a>
+        <a class="nav-link" href="quiz.html">Quiz</a>
+        <a class="nav-link active" href="roadmap.html">Roadmap</a>
+      </nav>
+
+      <header class="hero compact-hero">
+        <div class="hero-content">
+          <p class="eyebrow">Java Labs / Roadmap</p>
+          <h1>Roadmap học Java Backend</h1>
+          <p class="hero-copy">
+            Trang này giúp bạn nhìn bức tranh tổng thể: bắt đầu từ đâu, học theo
+            thứ tự nào, phần nào nên làm trước, phần nào là nâng cao, và cách nối
+            kiến thức thành một cây tư duy rõ ràng.
+          </p>
+        </div>
+        <aside class="hero-side stats-card">
+          <p class="side-label">Roadmap Stats</p>
+          <dl class="stat-list">
+            <div>
+              <dt>Giai đoạn</dt>
+              <dd id="roadmapPhaseCount">--</dd>
+            </div>
+            <div>
+              <dt>Chủ đề</dt>
+              <dd id="roadmapTopicCount">--</dd>
+            </div>
+            <div>
+              <dt>Mục tiêu</dt>
+              <dd>Core -> Senior</dd>
+            </div>
+          </dl>
+        </aside>
+      </header>
+
+      <main>
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Bản đồ</p>
+              <h2>Roadmap là gì?</h2>
+            </div>
+          </div>
+          <div class="roadmap-intro-grid">
+            <article class="info-card">
+              <h3>Tư duy đúng</h3>
+              <p>
+                Roadmap không phải danh sách học thuộc. Nó là bản đồ để bạn biết
+                học phần nào trước, phần nào sau, và vì sao chúng liên kết với nhau.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Mục tiêu</h3>
+              <p>
+                Đi từ biết cú pháp Java đến hiểu hệ thống backend: dữ liệu, auth,
+                transaction, event, testing, observability và vận hành.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Cách dùng</h3>
+              <p>
+                Chọn một giai đoạn, học theo thứ tự, đối chiếu code trong repo và
+                quay lại bổ sung phần còn hổng thay vì nhảy lung tung.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Khởi đầu</p>
+              <h2>Nếu mới bắt đầu thì học gì trước?</h2>
+            </div>
+          </div>
+          <div id="roadmapBasics" class="roadmap-basics"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Cây trí tuệ</p>
+              <h2>Knowledge Tree</h2>
+            </div>
+          </div>
+          <div id="knowledgeTree" class="knowledge-tree"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Công nghệ</p>
+              <h2>Học công nghệ nào, tích hợp ra sao?</h2>
+            </div>
+          </div>
+          <div id="technologyMap" class="technology-map"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Tích hợp</p>
+              <h2>Dòng chảy tích hợp toàn hệ thống</h2>
+            </div>
+          </div>
+          <div id="integrationFlow" class="integration-flow"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Lộ trình</p>
+              <h2>Học theo giai đoạn</h2>
+            </div>
+          </div>
+          <div id="roadmapPhases" class="roadmap-phase-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Thực chiến</p>
+              <h2>Học phần nào thì làm phần nào</h2>
+            </div>
+          </div>
+          <div id="practiceMatrix" class="practice-matrix"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Bẫy học</p>
+              <h2>Những chỗ rất dễ học lệch hoặc hiểu hời hợt</h2>
+            </div>
+          </div>
+          <div id="roadmapPitfalls" class="roadmap-pitfalls"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Hình dung</p>
+              <h2>Roadmap Visual</h2>
+            </div>
+          </div>
+          <div id="roadmapVisual" class="roadmap-visual"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

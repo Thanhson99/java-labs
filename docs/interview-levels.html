@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Interview Levels</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body data-page="interview-levels">
+    <div class="page-shell">
+      <div class="glow glow-left"></div>
+      <div class="glow glow-right"></div>
+
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="interview.html">Interview Prep</a>
+        <a class="nav-link active" href="interview-levels.html">Interview Levels</a>
+        <a class="nav-link" href="quiz.html">Quiz</a>
+        <a class="nav-link" href="roadmap.html">Roadmap</a>
+      </nav>
+
+      <header class="hero compact-hero">
+        <div class="hero-content">
+          <p class="eyebrow">Java Labs / Interview Levels</p>
+          <h1>Câu hỏi phỏng vấn theo cấp độ</h1>
+          <p class="hero-copy">
+            Portal này gom câu hỏi phỏng vấn theo level để bạn ôn tập đúng mặt bằng:
+            bắt đầu từ nền tảng, lên trung cấp, nâng cao và các câu hỏi mẹo hoặc tư duy hệ thống.
+          </p>
+        </div>
+        <aside class="hero-side stats-card">
+          <p class="side-label">Interview Stats</p>
+          <dl class="stat-list">
+            <div>
+              <dt>Tổng câu</dt>
+              <dd id="levelTotalQuestions">--</dd>
+            </div>
+            <div>
+              <dt>Số level</dt>
+              <dd id="levelGroupCount">--</dd>
+            </div>
+            <div>
+              <dt>Phạm vi</dt>
+              <dd>Core -> Senior</dd>
+            </div>
+          </dl>
+        </aside>
+      </header>
+
+      <main class="interview-layout">
+        <aside class="panel sidebar-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Levels</p>
+              <h2>Nhóm cấp độ</h2>
+            </div>
+          </div>
+          <div id="levelNav" class="topic-nav"></div>
+        </aside>
+
+        <section class="panel content-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Interview Bank</p>
+              <h2>Question Sets By Level</h2>
+            </div>
+          </div>
+          <div class="question-toolbar">
+            <label class="toolbar-field">
+              <span>Tìm kiếm</span>
+              <input id="levelSearch" type="search" placeholder="Ví dụ: JWT, transaction, Kafka..." />
+            </label>
+            <label class="toolbar-field">
+              <span>Track</span>
+              <select id="levelTrackFilter">
+                <option value="">Tất cả</option>
+              </select>
+            </label>
+            <label class="toolbar-field">
+              <span>Loại câu hỏi</span>
+              <select id="levelKindFilter">
+                <option value="">Tất cả</option>
+              </select>
+            </label>
+            <label class="toolbar-field">
+              <span>Sắp xếp</span>
+              <select id="levelSortFilter">
+                <option value="default">Mặc định</option>
+                <option value="questions-desc">Nhiều câu trước</option>
+                <option value="questions-asc">Ít câu trước</option>
+                <option value="title-asc">Tên level A-Z</option>
+              </select>
+            </label>
+          </div>
+          <div id="levelSections" class="question-sections"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

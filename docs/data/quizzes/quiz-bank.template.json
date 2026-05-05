@@ -1,0 +1,25 @@
+{
+  "title": "Java Labs Quiz Template",
+  "description": "Template de ban them cau trac nghiem sau nay.",
+  "quizzes": [
+    {
+      "id": "sample-java-core-quiz",
+      "topicId": "java-core-fundamentals",
+      "title": "Sample Java Core Quiz",
+      "questions": [
+        {
+          "id": "sample-1",
+          "type": "single-choice",
+          "prompt": "JDK bao gom thanh phan nao?",
+          "options": [
+            "Chi co JVM",
+            "JRE va cong cu phat trien",
+            "Chi co javac"
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "JDK bao gom JRE va cac cong cu phuc vu viec phat trien."
+        }
+      ]
+    }
+  ]
+}

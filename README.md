@@ -17,6 +17,32 @@ java-labs/
 └── notification-service/   # Extracted event consumer service
 ```
 
+## GitHub Pages Learning Site
+
+The repository now also includes a fully static learning portal under `docs/`:
+
+```text
+docs/
+├── index.html
+├── interview.html
+├── assets/
+│   ├── app.js
+│   └── styles.css
+└── data/
+    ├── content/question-bank.json
+    └── quizzes/quiz-bank.template.json
+```
+
+This site is designed for GitHub Pages:
+
+1. Push the repository to GitHub.
+2. Open repository `Settings` -> `Pages`.
+3. In `Build and deployment`, choose `Deploy from a branch`.
+4. Select your branch and folder `/docs`.
+5. Save, then open the generated GitHub Pages URL.
+
+The question bank is loaded from JSON, so you can keep expanding theory, practical questions, code samples, and later add static quiz pages without using a database.
+
 ## Getting Started
 
 ### 1. Basic Java module
