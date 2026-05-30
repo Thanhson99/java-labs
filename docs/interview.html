@@ -1,17 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Practice Java and Spring interview questions from JSON with search, filters, answers, code examples, and self-practice prompts."
+    />
+    <meta name="theme-color" content="#0F172A" />
+    <link rel="canonical" href="interview.html" />
+    <link rel="alternate" hreflang="en" href="interview.html?lang=en" />
+    <link rel="alternate" hreflang="vi" href="interview.html?lang=vi" />
+    <link rel="alternate" hreflang="x-default" href="interview.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Java Interview Practice" />
+    <meta
+      property="og:description"
+      content="Practice Java and Spring interview questions from JSON with search, filters, answers, code examples, and self-practice prompts."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Java Interview Practice" />
+    <meta
+      name="twitter:description"
+      content="Practice Java and Spring interview questions from JSON with search, filters, answers, code examples, and self-practice prompts."
+    />
     <title>Java Interview Practice</title>
-    <link rel="stylesheet" href="assets/styles.css" />
+    <script>
+      (() => {
+        try {
+          const key = "java-labs-theme";
+          const params = new URLSearchParams(window.location.search);
+          const queryLanguage = params.get("lang");
+          const queryTheme = params.get("theme");
+          const storedLanguage = localStorage.getItem("java-labs-language");
+          const storedTheme = localStorage.getItem(key);
+          const language = queryLanguage === "vi" || queryLanguage === "en" ? queryLanguage : storedLanguage || "en";
+          const theme = queryTheme === "dark" || queryTheme === "light" ? queryTheme : storedTheme || "dark";
+          if (language === "vi" || language === "en") {
+            document.documentElement.lang = language;
+          }
+          if (theme === "dark" || theme === "light") {
+            document.documentElement.dataset.theme = theme;
+            const color = document.querySelector('meta[name="theme-color"]');
+            if (color) {
+              color.setAttribute("content", theme === "dark" ? "#0F172A" : "#F89820");
+            }
+          }
+        } catch (_error) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body data-page="interview">
     <div class="page-shell">
       <div class="glow glow-left"></div>
       <div class="glow glow-right"></div>
 
-      <nav class="top-nav">
+      <nav class="top-nav" aria-label="Primary navigation">
         <a class="nav-link" href="index.html">Home</a>
         <a class="nav-link active" href="interview.html">Interview Prep</a>
         <a class="nav-link" href="interview-levels.html">Interview Levels</a>
@@ -22,11 +69,10 @@
       <header class="hero compact-hero">
         <div class="hero-content">
           <p class="eyebrow">Java Labs / Interview Practice</p>
-          <h1>Question Bank From JSON</h1>
+          <h1>Practice Java interviews by topic and level</h1>
           <p class="hero-copy">
-            The goal is a lean learning portal: topic list, questions,
-            solid answers, code examples, and self-practice tasks. Everything is rendered from
-            JSON so it works cleanly on GitHub Pages.
+            Search questions, filter by difficulty, compare explanations, and review code examples
+            without losing the learning context around each topic.
           </p>
         </div>
         <aside class="hero-side stats-card">
@@ -53,7 +99,7 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Topics</p>
-              <h2>Topic Catalog</h2>
+              <h2>Topic catalog</h2>
             </div>
           </div>
           <div id="topicNav" class="topic-nav"></div>
@@ -63,7 +109,7 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Content</p>
-              <h2>Questions And Answers</h2>
+              <h2>Questions and answers</h2>
             </div>
           </div>
           <div class="question-toolbar">
@@ -98,6 +144,19 @@
       </main>
     </div>
 
-    <script src="assets/app.js"></script>
+    <noscript>
+      <p class="noscript-message">JavaScript is required to load the question bank.</p>
+    </noscript>
+    <script src="assets/js/app/00-config.js"></script>
+    <script src="assets/js/app/10-bootstrap.js"></script>
+    <script src="assets/js/app/20-home.js"></script>
+    <script src="assets/js/app/30-core.js"></script>
+    <script src="assets/js/app/40-content-normalization.js"></script>
+    <script src="assets/js/app/50-interview.js"></script>
+    <script src="assets/js/app/55-interview-levels.js"></script>
+    <script src="assets/js/app/60-roadmap.js"></script>
+    <script src="assets/js/app/70-quiz.js"></script>
+    <script src="assets/js/app/80-question-components.js"></script>
   </body>
 </html>
+

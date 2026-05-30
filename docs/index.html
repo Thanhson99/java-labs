@@ -1,72 +1,254 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A JSON-powered Java learning platform with interview prep, quizzes, roadmap guidance, and English/Vietnamese language support."
+    />
+    <meta name="theme-color" content="#0F172A" />
+    <link rel="canonical" href="index.html" />
+    <link rel="alternate" hreflang="en" href="index.html?lang=en" />
+    <link rel="alternate" hreflang="vi" href="index.html?lang=vi" />
+    <link rel="alternate" hreflang="x-default" href="index.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Java Labs Learning Sites" />
+    <meta
+      property="og:description"
+      content="A JSON-powered Java learning platform with interview prep, quizzes, roadmap guidance, and English/Vietnamese language support."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Java Labs Learning Sites" />
+    <meta
+      name="twitter:description"
+      content="A JSON-powered Java learning platform with interview prep, quizzes, roadmap guidance, and English/Vietnamese language support."
+    />
     <title>Java Labs Learning Sites</title>
-    <link rel="stylesheet" href="assets/styles.css" />
+    <script>
+      (() => {
+        try {
+          const key = "java-labs-theme";
+          const params = new URLSearchParams(window.location.search);
+          const queryLanguage = params.get("lang");
+          const queryTheme = params.get("theme");
+          const storedLanguage = localStorage.getItem("java-labs-language");
+          const storedTheme = localStorage.getItem(key);
+          const language = queryLanguage === "vi" || queryLanguage === "en" ? queryLanguage : storedLanguage || "en";
+          const theme = queryTheme === "dark" || queryTheme === "light" ? queryTheme : storedTheme || "dark";
+          if (language === "vi" || language === "en") {
+            document.documentElement.lang = language;
+          }
+          if (theme === "dark" || theme === "light") {
+            document.documentElement.dataset.theme = theme;
+            const color = document.querySelector('meta[name="theme-color"]');
+            if (color) {
+              color.setAttribute("content", theme === "dark" ? "#0F172A" : "#F89820");
+            }
+          }
+        } catch (_error) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body data-page="home">
     <div class="page-shell">
-      <div class="glow glow-left"></div>
-      <div class="glow glow-right"></div>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a class="nav-link active" href="index.html">Home</a>
+        <a class="nav-link" href="interview.html">Interview Prep</a>
+        <a class="nav-link" href="interview-levels.html">Interview Levels</a>
+        <a class="nav-link" href="quiz.html">Quiz</a>
+        <a class="nav-link" href="roadmap.html">Roadmap</a>
+      </nav>
 
       <header class="hero landing-hero">
         <div class="hero-content">
           <p class="eyebrow">Java Labs</p>
-          <h1>Static Learning Portal</h1>
+          <h1>Learn Java backend with a clear study path</h1>
           <p class="hero-copy">
-            Study Java Core, Spring Boot, and backend architecture directly on GitHub Pages.
-            Content is loaded from JSON so you can learn topic by topic
-            from basic to advanced.
+            Move from Java Core to Spring Boot, interviews, quizzes, and roadmap milestones
+            with bilingual content that is organized for daily practice.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="interview.html">Open Interview Practice Site</a>
+            <a class="btn btn-primary" href="roadmap.html">Start with roadmap</a>
+            <a class="btn btn-secondary" href="interview.html">Practice interviews</a>
           </div>
         </div>
+        <aside class="hero-side home-focus-card">
+          <p class="side-label">Recommended flow</p>
+          <ol class="flow-list">
+            <li><strong>Plan</strong><span>Use the roadmap to choose the right milestone.</span></li>
+            <li><strong>Practice</strong><span>Review focused questions and compare explanations.</span></li>
+            <li><strong>Check</strong><span>Take quizzes to find weak areas before moving on.</span></li>
+          </ol>
+        </aside>
       </header>
 
       <main>
-        <section class="panel">
-          <h2>Learning Sites</h2>
-          <div class="cards two-cols">
-            <article class="service-card">
+        <section class="panel home-overview" aria-labelledby="overviewTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Platform overview</p>
+              <h2 id="overviewTitle">A guided Java backend workspace</h2>
+            </div>
+          </div>
+          <div id="homeStats" class="home-stats" aria-live="polite">
+            <article>
+              <span>Topics</span>
+              <strong>--</strong>
+            </article>
+            <article>
+              <span>Interview questions</span>
+              <strong>--</strong>
+            </article>
+            <article>
+              <span>Roadmap phases</span>
+              <strong>--</strong>
+            </article>
+            <article>
+              <span>Quiz sets</span>
+              <strong>--</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel home-paths" aria-labelledby="pathsTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Learning paths</p>
+              <h2 id="pathsTitle">Choose the next useful step</h2>
+            </div>
+          </div>
+          <div id="homePaths" class="cards three-cols">
+            <article class="learning-card">
+              <span class="path-kicker">01</span>
+              <h3>Build the foundation</h3>
+              <p>Start with Java syntax, OOP, collections, exceptions, testing, and code-reading habits.</p>
+              <a class="card-action" href="roadmap.html">Follow the roadmap</a>
+            </article>
+            <article class="learning-card">
+              <span class="path-kicker">02</span>
+              <h3>Practice interview answers</h3>
+              <p>Move from short definitions to practical explanations, trade-offs, and code examples.</p>
+              <a class="card-action" href="interview.html">Practice questions</a>
+            </article>
+            <article class="learning-card">
+              <span class="path-kicker">03</span>
+              <h3>Check your level</h3>
+              <p>Use complete quiz sets to find weak areas before deeper review.</p>
+              <a class="card-action" href="quiz.html">Take a quiz</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel home-preview" aria-labelledby="previewTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Content preview</p>
+              <h2 id="previewTitle">What you can study today</h2>
+            </div>
+          </div>
+          <div id="homePreviewGrid" class="home-preview-grid">
+            <article class="preview-card">
+              <span class="meta-pill">Interview</span>
+              <h3 id="featuredTopicTitle">Loading question bank...</h3>
+              <p id="featuredTopicSummary">The first available topic from JSON will appear here.</p>
+              <a class="btn btn-secondary" href="interview.html">Open interview prep</a>
+            </article>
+            <article class="preview-card">
+              <span class="meta-pill">Roadmap</span>
+              <h3 id="featuredRoadmapTitle">Loading roadmap...</h3>
+              <p id="featuredRoadmapSummary">A roadmap checkpoint from JSON will appear here.</p>
+              <a class="btn btn-secondary" href="roadmap.html">View roadmap</a>
+            </article>
+            <article class="preview-card">
+              <span class="meta-pill">Quiz</span>
+              <h3 id="featuredQuizTitle">Loading quiz sets...</h3>
+              <p id="featuredQuizSummary">The first quiz bundle from JSON will appear here.</p>
+              <a class="btn btn-secondary" href="quiz.html">Open quiz arena</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel home-dashboard">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Workspace</p>
+              <h2>Learning Sites</h2>
+            </div>
+          </div>
+          <div class="cards two-cols site-grid">
+            <a class="service-card site-card" href="interview.html">
+              <span class="site-index">01</span>
               <h3>Java and Spring question bank</h3>
               <p>
                 A topic-based question and answer system with theory, explanations,
                 code examples, and self-practice prompts.
               </p>
-              <p><a class="btn btn-primary" href="interview.html">Open study site</a></p>
-            </article>
-            <article class="service-card">
+              <span class="card-action">Open study site</span>
+            </a>
+            <a class="service-card site-card" href="interview-levels.html">
+              <span class="site-index">02</span>
               <h3>Interview site by level</h3>
               <p>
                 A curated interview portal grouped from basic to advanced,
                 with answers for level-based review.
               </p>
-              <p><a class="btn btn-primary" href="interview-levels.html">Open interview site</a></p>
-            </article>
-            <article class="service-card">
+              <span class="card-action">Open interview site</span>
+            </a>
+            <a class="service-card site-card" href="quiz.html">
+              <span class="site-index">03</span>
               <h3>Hands-on quiz for skill evaluation</h3>
               <p>
-                Take randomized 100-question sets across Fresher, Interview,
+                Take complete question sets across Fresher, Interview,
                 and Senior levels to assess your skills.
               </p>
-              <p><a class="btn btn-primary" href="quiz.html">Mở quiz</a></p>
-            </article>
-            <article class="service-card">
+              <span class="card-action">Open quiz</span>
+            </a>
+            <a class="service-card site-card" href="roadmap.html">
+              <span class="site-index">04</span>
               <h3>Java Backend roadmap</h3>
               <p>
                 A path from Java Core to Spring Boot, databases, messaging, testing,
                 operations, and advanced backend thinking.
               </p>
-              <p><a class="btn btn-primary" href="roadmap.html">Open roadmap</a></p>
-            </article>
+              <span class="card-action">Open roadmap</span>
+            </a>
           </div>
         </section>
       </main>
+
+      <footer class="site-footer" aria-labelledby="footerTitle">
+        <div>
+          <p class="eyebrow">Java Labs</p>
+          <h2 id="footerTitle">Keep learning with a clear path</h2>
+          <p class="footer-copy">
+            Use the roadmap for direction, the interview bank for depth, and quizzes for quick validation.
+          </p>
+        </div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="roadmap.html">Roadmap</a>
+          <a href="interview.html">Interview Prep</a>
+          <a href="quiz.html">Quiz</a>
+        </nav>
+      </footer>
     </div>
 
-    <script src="assets/app.js"></script>
+    <noscript>
+      <p class="noscript-message">JavaScript is required to load language switching and dynamic learning content.</p>
+    </noscript>
+    <script src="assets/js/app/00-config.js"></script>
+    <script src="assets/js/app/10-bootstrap.js"></script>
+    <script src="assets/js/app/20-home.js"></script>
+    <script src="assets/js/app/30-core.js"></script>
+    <script src="assets/js/app/40-content-normalization.js"></script>
+    <script src="assets/js/app/50-interview.js"></script>
+    <script src="assets/js/app/55-interview-levels.js"></script>
+    <script src="assets/js/app/60-roadmap.js"></script>
+    <script src="assets/js/app/70-quiz.js"></script>
+    <script src="assets/js/app/80-question-components.js"></script>
   </body>
 </html>
+

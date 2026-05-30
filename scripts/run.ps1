@@ -5,7 +5,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$RootDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RootDir = Split-Path -Parent $ScriptDir
 $DefaultPort = if ($env:PORT) { [int]$env:PORT } else { 8089 }
 $DesiredJavaVersion = if ($env:JAVA_VERSION) { $env:JAVA_VERSION } else { "17" }
 

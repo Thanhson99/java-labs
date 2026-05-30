@@ -1,0 +1,395 @@
+﻿.roadmap-toc {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  overflow: visible;
+  margin-bottom: 16px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+
+.roadmap-toc-link {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 2px 8px;
+  justify-content: stretch;
+  min-width: 0;
+  min-height: 58px;
+  text-align: left;
+  border-radius: 10px;
+  background: var(--surface-raised);
+}
+
+.roadmap-toc-link span {
+  grid-row: 1 / span 2;
+  width: 32px;
+  height: 32px;
+  align-self: center;
+}
+
+.roadmap-toc-link strong,
+.roadmap-toc-link small {
+  display: block;
+  grid-column: 2;
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.roadmap-toc-link strong {
+  display: -webkit-box;
+  grid-row: 2;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.roadmap-toc-link small {
+  grid-row: 1;
+  width: fit-content;
+  max-width: 100%;
+  padding: 2px 7px;
+  border: 1px solid color-mix(in srgb, var(--blue) 18%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--blue) 7%, var(--surface));
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roadmap-intro-grid,
+.roadmap-basics,
+.knowledge-tree,
+.practice-matrix,
+.roadmap-visual {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+body[data-page="roadmap"] .knowledge-tree {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.technology-map,
+.integration-flow,
+.roadmap-phase-list,
+.roadmap-pitfalls {
+  grid-template-columns: 1fr;
+}
+
+.roadmap-phase-list {
+  position: relative;
+  gap: 14px;
+}
+
+.roadmap-phase-list::before {
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 22px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 72%, transparent), color-mix(in srgb, var(--blue) 72%, transparent));
+  content: "";
+}
+
+.phase-card {
+  position: relative;
+  margin-left: 30px;
+  padding: clamp(15px, 1.9vw, 21px);
+  border-left: 3px solid color-mix(in srgb, var(--gold) 48%, var(--blue));
+  background: var(--surface-raised);
+}
+
+.phase-card::before {
+  position: absolute;
+  top: 22px;
+  left: -44px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--panel);
+  border-radius: 999px;
+  background: var(--gold);
+  box-shadow: 0 0 0 1px var(--line);
+  content: "";
+}
+
+.tree-branch,
+.integration-card,
+.visual-step-card {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+body[data-page="roadmap"] .tree-branch {
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  min-height: 100%;
+  align-content: start;
+}
+
+.tree-icon,
+.integration-index,
+.visual-step-index,
+.basic-step {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+body[data-page="roadmap"] .tree-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.tree-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.tree-chip-list a.tree-chip,
+.phase-topic-link {
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.tree-chip-list a.tree-chip:hover,
+.tree-chip-list a.tree-chip:focus-visible,
+.phase-topic-link:hover,
+.phase-topic-link:focus-visible {
+  border-color: color-mix(in srgb, var(--blue) 48%, var(--line));
+  background: color-mix(in srgb, var(--blue) 11%, var(--surface-raised));
+  color: var(--blue);
+  transform: translateY(-1px);
+}
+
+.phase-topic-link {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  border-radius: 8px;
+  color: var(--text);
+  font-weight: 720;
+}
+
+.phase-topic-link::after {
+  margin-left: 6px;
+  color: var(--blue);
+  content: "->";
+  font-size: 0.78rem;
+  opacity: 0.72;
+}
+
+.phase-head,
+.technology-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 16%, var(--line));
+}
+
+.phase-subgrid,
+.technology-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 12px;
+}
+
+.phase-block,
+.technology-block {
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--blue) 18%, var(--line));
+  border-radius: 11px;
+  background: var(--surface-soft);
+  min-width: 0;
+  min-height: 100%;
+}
+
+.phase-block h4,
+.technology-block h4 {
+  min-height: 2.5em;
+  margin-bottom: 8px;
+  color: color-mix(in srgb, var(--blue) 74%, var(--text));
+  line-height: 1.25;
+}
+
+.phase-card h3,
+.technology-card h3,
+.tree-branch h3,
+.integration-card h3,
+.practice-card h3,
+.pitfall-card h3,
+.visual-step-card h3 {
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.phase-card p,
+.technology-card p,
+.tree-body p,
+.integration-card p,
+.practice-card p,
+.pitfall-card p,
+.visual-step-card p {
+  margin-bottom: 0;
+  line-height: 1.68;
+  text-wrap: pretty;
+}
+
+body[data-page="roadmap"] .tree-body p {
+  min-height: 5em;
+}
+
+.phase-badge {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding-inline: 12px;
+  border-color: color-mix(in srgb, var(--gold) 44%, var(--line));
+  background: color-mix(in srgb, var(--gold) 14%, var(--surface-raised));
+  color: color-mix(in srgb, var(--gold) 76%, var(--text));
+}
+
+.phase-card,
+.technology-card,
+.integration-card,
+.practice-card,
+.pitfall-card,
+.visual-step-card {
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+body[data-page="roadmap"] .phase-list {
+  gap: 6px;
+  margin: 10px 0 0;
+}
+
+body[data-page="roadmap"] .phase-list li {
+  padding: 7px 4px 7px 26px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  line-height: 1.62;
+}
+
+body[data-page="roadmap"] .phase-list li::before {
+  top: 0.96rem;
+  left: 8px;
+  width: 7px;
+  height: 7px;
+}
+
+.phase-card:hover,
+.phase-card:focus-within,
+.technology-card:hover,
+.technology-card:focus-within,
+.integration-card:hover,
+.integration-card:focus-within,
+.practice-card:hover,
+.practice-card:focus-within,
+.pitfall-card:hover,
+.pitfall-card:focus-within,
+.visual-step-card:hover,
+.visual-step-card:focus-within {
+  border-color: color-mix(in srgb, var(--blue) 34%, var(--line));
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+}
+
+.back-to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 60;
+  min-width: 48px;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-raised);
+  color: var(--blue);
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  font-weight: 760;
+  box-shadow: var(--shadow-soft);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    background 150ms ease;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  background: color-mix(in srgb, var(--blue) 8%, var(--surface));
+  transform: translateY(-2px);
+}
+
+body.compact-reading .topic-block,
+body.compact-reading .question-card {
+  padding: 14px;
+}
+
+body.compact-reading .question-card {
+  gap: 10px;
+}
+
+body.compact-reading .qa-detail summary {
+  padding: 10px 12px;
+}
+
+body.compact-reading .answer-snapshot,
+body.compact-reading .quiz-question-card {
+  padding: 12px;
+}
+
+body.compact-reading .answer-list,
+body.compact-reading .phase-list,
+body.compact-reading .practice-block ul,
+body.compact-reading .code-sample,
+body.compact-reading .practice-block {
+  margin: 10px;
+}
+
+.error-state {
+  border-color: color-mix(in srgb, var(--rose) 35%, var(--line));
+}
+
+mark.search-highlight {
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--gold) 35%, transparent);
+  color: var(--text);
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

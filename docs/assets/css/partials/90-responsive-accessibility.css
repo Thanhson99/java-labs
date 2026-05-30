@@ -1,0 +1,665 @@
+﻿:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .landing-hero,
+  .compact-hero {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="roadmap"] .knowledge-tree {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roadmap-toc {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-focus-card {
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .question-toolbar {
+    position: static;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-stats,
+  .home-preview-grid,
+  .home-continue-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-stats {
+    gap: 0;
+  }
+
+  .home-stats article:nth-child(2) {
+    border-right: 0;
+  }
+
+  .home-stats article:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-card {
+    grid-template-areas:
+      "index title"
+      "index body"
+      "index action";
+    grid-template-columns: 50px minmax(0, 1fr);
+    align-items: start;
+    min-height: 0;
+  }
+
+  .site-card .card-action {
+    justify-self: start;
+    max-width: none;
+    white-space: normal;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-links {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-shell,
+  body[data-page="interview"] .page-shell,
+  body[data-page="interview-levels"] .page-shell,
+  body[data-page="quiz"] .page-shell,
+  body[data-page="roadmap"] .page-shell {
+    width: min(100% - 20px, var(--max-width));
+  }
+
+  .top-nav {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow: visible;
+    padding: 8px;
+  }
+
+  .site-brand {
+    flex: 1 1 190px;
+    min-width: 0;
+    padding-right: 8px;
+  }
+
+  .site-brand-copy {
+    min-width: 0;
+  }
+
+  .site-brand-text,
+  .site-brand-subtitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .language-switch {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+    margin-left: 0;
+  }
+
+  .nav-link {
+    flex: 1 1 calc(50% - 8px);
+    min-height: 36px;
+    padding: 8px 10px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .language-pill,
+  .theme-toggle {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+
+  .theme-toggle .theme-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .home-focus-card {
+    padding: 14px;
+  }
+
+  .flow-list {
+    gap: 8px;
+  }
+
+  .flow-list li {
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding: 10px;
+  }
+
+  .flow-list li::before {
+    width: 34px;
+    height: 34px;
+  }
+
+  .question-toolbar,
+  .site-grid,
+  .page-guide,
+  .quiz-bundles {
+    grid-template-columns: 1fr;
+  }
+
+  .site-card {
+    grid-template-areas:
+      "index title"
+      "index body"
+      "index action";
+    grid-template-columns: 46px minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .site-card .card-action {
+    justify-self: start;
+    max-width: none;
+    white-space: normal;
+  }
+
+  .learning-card,
+  .preview-card {
+    grid-template-rows: auto;
+  }
+
+  .learning-card h3,
+  .preview-card h3,
+  .learning-card p,
+  .preview-card p,
+  .phase-block h4,
+  .technology-block h4,
+  body[data-page="roadmap"] .tree-body p {
+    min-height: 0;
+  }
+
+  .toolbar-actions {
+    justify-content: flex-start;
+  }
+
+  .page-guide {
+    display: grid;
+    gap: 8px;
+  }
+
+  .guide-card {
+    flex-basis: auto;
+  }
+
+  .topic-nav {
+    grid-template-columns: 1fr;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  body[data-page="interview-levels"] .topic-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body[data-page="roadmap"] .knowledge-tree {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-toc {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="interview-levels"] .topic-link-body small {
+    white-space: normal;
+  }
+
+  .question-card-head,
+  .tree-branch,
+  .integration-card,
+  .visual-step-card,
+  .phase-head,
+  .technology-head {
+    grid-template-columns: 1fr;
+  }
+
+  .question-card-head {
+    grid-template-areas:
+      "index"
+      "meta"
+      "action"
+      "title";
+  }
+
+  .topic-link {
+    grid-template-columns: minmax(64px, auto) minmax(0, 1fr);
+  }
+
+  .question-toolbar .toolbar-field:first-child {
+    grid-column: auto;
+  }
+
+  .question-card {
+    padding: 14px;
+  }
+
+  .question-card-head,
+  .answer-snapshot {
+    padding: 12px;
+  }
+
+  .question-card-index {
+    width: fit-content;
+    min-width: 42px;
+    height: 34px;
+  }
+
+  .qa-detail summary {
+    padding: 12px;
+  }
+
+  .topic-count {
+    white-space: normal;
+  }
+
+  .stat-list {
+    grid-template-columns: 1fr;
+  }
+
+  .home-stats,
+  .home-preview-grid,
+  .home-continue-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .home-stats article,
+  .home-stats article:nth-child(2),
+  .home-stats article:nth-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .home-stats article:last-child {
+    border-bottom: 0;
+  }
+
+  .footer-links a {
+    flex: 1 1 auto;
+  }
+
+  .continue-card small {
+    white-space: normal;
+  }
+
+  .section-heading,
+  .topic-header,
+  .quiz-summary-head,
+  .quiz-bundle-head {
+    flex-direction: column;
+  }
+
+  .topic-header {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-total,
+  .bundle-status,
+  .phase-badge {
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .section-link-button {
+    width: 34px;
+    min-width: 34px;
+    align-self: flex-start;
+  }
+
+  .roadmap-phase-list::before {
+    left: 8px;
+  }
+
+  .phase-card {
+    margin-left: 15px;
+    padding: 14px;
+  }
+
+  .phase-card::before {
+    left: -26px;
+    width: 18px;
+    height: 18px;
+    border-width: 3px;
+  }
+
+  .phase-head,
+  .technology-head {
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .phase-block,
+  .technology-block {
+    padding: 11px;
+  }
+
+  .roadmap-toc {
+    padding: 6px;
+  }
+
+  .quiz-option {
+    min-height: 52px;
+    padding: 12px 12px 12px 42px;
+  }
+
+  .quiz-option::before {
+    top: 13px;
+    left: 12px;
+  }
+
+  .quiz-summary-card {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .quiz-jump-list {
+    gap: 7px;
+    padding: 10px;
+  }
+
+  .quiz-bundle-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-bundle-card {
+    grid-template-rows: auto;
+  }
+
+  .quiz-bundle-card h3,
+  .quiz-bundle-card > p,
+  .quiz-bundle-meta span {
+    min-height: 0;
+  }
+
+  .quiz-question-card {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .quiz-topic-score {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .quiz-topic-score em,
+  .topic-review-link {
+    justify-self: start;
+  }
+
+  .quiz-question-head {
+    grid-template-areas:
+      "number"
+      "topic"
+      "prompt";
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .question-number {
+    width: 38px;
+    height: 38px;
+  }
+
+  .answer-list li,
+  .phase-list li,
+  .practice-block li {
+    padding-right: 10px;
+  }
+
+  .code-sample {
+    margin-inline: 0;
+  }
+
+  .code-copy-button {
+    right: 8px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .loading-state::before {
+    animation: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  body,
+  .top-nav,
+  .hero,
+  .panel,
+  .site-footer,
+  .hero-side,
+  .stats-card,
+  .service-card,
+  .guide-card,
+  .question-card,
+  .topic-block,
+  .info-card,
+  .basic-card,
+  .tree-branch,
+  .technology-card,
+  .integration-card,
+  .phase-card,
+  .practice-card,
+  .pitfall-card,
+  .quiz-bundle-card,
+  .quiz-question-card,
+  .quiz-result-card,
+  .home-continue-panel,
+  .continue-card,
+  .empty-state,
+  .toolbar-field input,
+  .toolbar-field select,
+  .qa-detail,
+  .answer-snapshot,
+  .phase-block,
+  .technology-block,
+  .quiz-summary-card,
+  .quiz-option,
+  .quiz-review-group,
+  .quiz-topic-breakdown,
+  .quiz-topic-score,
+  .bundle-resume-note {
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+
+  .hero,
+  .panel,
+  .site-footer,
+  .top-nav,
+  .service-card,
+  .guide-card,
+  .question-card,
+  .topic-block,
+  .info-card,
+  .basic-card,
+  .tree-branch,
+  .technology-card,
+  .integration-card,
+  .phase-card,
+  .practice-card,
+  .pitfall-card,
+  .quiz-bundle-card,
+  .quiz-question-card,
+  .quiz-result-card,
+  .home-continue-panel,
+  .continue-card,
+  .empty-state,
+  .toolbar-field input,
+  .toolbar-field select,
+  .qa-detail,
+  .answer-snapshot,
+  .phase-block,
+  .technology-block,
+  .quiz-summary-card,
+  .quiz-option,
+  .quiz-review-group,
+  .quiz-topic-breakdown,
+  .quiz-topic-score,
+  .bundle-resume-note {
+    border-color: ButtonBorder;
+  }
+
+  .hero::before,
+  .site-footer::before,
+  .learning-card::before,
+  .preview-card::before,
+  .service-card::before,
+  .guide-card::before,
+  .home-stats article::after,
+  .roadmap-phase-list::before,
+  .phase-card::before,
+  .answer-list li::before,
+  .phase-list li::before,
+  .practice-block li::before,
+  .loading-state::before {
+    background: Highlight;
+  }
+
+  .site-brand-mark,
+  .site-index,
+  .guide-index,
+  .question-number,
+  .question-card-index,
+  .basic-step,
+  .integration-index,
+  .visual-step-index,
+  .roadmap-toc-link span,
+  .btn-primary,
+  .back-to-top,
+  .quiz-progress span,
+  .topic-score-meter span,
+  .reading-progress span {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .nav-link,
+  .btn,
+  .language-pill,
+  .theme-toggle,
+  .topic-link,
+  .tree-chip,
+  .phase-topic-link,
+  .topic-review-link,
+  .continue-card,
+  .roadmap-toc-link,
+  .footer-links a,
+  .quiz-jump-list a,
+  .quiz-review-group a,
+  .quiz-review-group span {
+    background: ButtonFace;
+    color: ButtonText;
+    border-color: ButtonBorder;
+  }
+
+  .nav-link.active,
+  .nav-link[aria-current="page"],
+  .language-pill.active,
+  .quiz-jump-list a.answered,
+  .quiz-jump-list a.active-jump {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+    border-color: Highlight;
+  }
+
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+}
+
+@media print {
+  .top-nav,
+  .language-switch,
+  .question-toolbar,
+  .sidebar-panel,
+  .reading-progress,
+  .back-to-top,
+  .roadmap-toc,
+  .page-guide,
+  .hero-actions,
+  .quiz-summary-card,
+  .quiz-bundles,
+  .code-copy-button,
+  .section-link-button {
+    display: none !important;
+  }
+
+  body {
+    color: #111827;
+    background: #ffffff;
+  }
+
+  .page-shell {
+    width: 100%;
+    padding: 0;
+  }
+
+  .hero,
+  .panel,
+  .question-card,
+  .topic-block,
+  .phase-card,
+  .practice-card,
+  .technology-card,
+  .integration-card,
+  .quiz-question-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+}

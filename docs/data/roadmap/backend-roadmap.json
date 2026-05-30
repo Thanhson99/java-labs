@@ -128,7 +128,7 @@
       "level": "Cốt lõi",
       "purpose": "Spring Boot giúp dựng ứng dụng web nhanh, tổ chức bean, controller, service, config và tích hợp nhiều thành phần backend.",
       "learnFor": [
-        "Tạo API và web flow rõ ràng",
+        "Tạo API và luồng web rõ ràng",
         "Tổ chức controller, service, repository",
         "Tận dụng dependency injection và auto-configuration"
       ],
@@ -512,7 +512,7 @@
     },
     {
       "stage": "Giai đoạn 2",
-      "title": "Học web flow với Spring Boot",
+      "title": "Học luồng web với Spring Boot",
       "duration": "2-3 tuần",
       "summary": "Bắt đầu từ controller, request, response, service và DTO.",
       "topics": [
@@ -524,7 +524,7 @@
       "actions": [
         "Đọc flow `controller -> service -> repository` trong module `spring/`",
         "Thử thêm một endpoint nhỏ",
-        "Viết test cho happy path và một case lỗi"
+        "Viết test cho luồng thành công và một trường hợp lỗi"
       ],
       "outcomes": [
         "Hiểu request đi vào app như thế nào",

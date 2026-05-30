@@ -288,19 +288,19 @@
           "minScore": 72,
           "label": "Good level",
           "grade": "Good",
-          "description": "Your foundation is good, but you should songthen advanced areas such as transactions, messaging, security, and performance."
+          "description": "Your foundation is good, but you should strengthen advanced areas such as transactions, messaging, security, and performance."
         },
         {
           "minScore": 55,
           "label": "Average level",
           "grade": "Average",
-          "description": "You know many concepts, but the links between add and your hands-on confidence are still not strong."
+          "description": "You know many concepts, but the links between them and your hands-on confidence are still not strong."
         },
         {
           "minScore": 0,
           "label": "Not solid enough",
           "grade": "Weak",
-          "description": "You should review the roadmap and do more interview prep before callng confidently into mixed interviews."
+          "description": "You should review the roadmap and do more interview prep before going confidently into mixed interviews."
         }
       ]
     },
@@ -480,7 +480,7 @@
     {
       "id": "q003",
       "topic": "Java Core",
-      "prompt": "In Java, `==` with objects uchangelly compare?",
+      "prompt": "In Java, what does `==` usually compare for objects?",
       "options": [
         "Reference",
         "Logical value",
@@ -516,7 +516,7 @@
     {
       "id": "q006",
       "topic": "Java Core",
-      "prompt": "Why StringBuilder is uchangelly better concatenating strings with `+` inside a long loop?",
+      "prompt": "Why is StringBuilder usually better than concatenating strings with `+` inside a long loop?",
       "options": [
         "Reduce intermediate object creation",
         "Automatically parallelize",
@@ -588,7 +588,7 @@
     {
       "id": "q012",
       "topic": "OOP",
-      "prompt": "What is a record in Java uchangelly good for?",
+      "prompt": "What is a record in Java usually good for?",
       "options": [
         "DTO immutable",
         "Connect to a database",
@@ -1192,7 +1192,7 @@
       "options": [
         "An object managed by the container",
         "File SQL",
-        "One loai endpoint",
+        "One endpoint type",
         "One kieu thread"
       ],
       "correctIndex": 0
@@ -1262,7 +1262,7 @@
       "topic": "Spring Web",
       "prompt": "What is MockMvc best used for?",
       "options": [
-        "Test HTTP behavior of controller",
+        "Test controller HTTP behavior",
         "Benchmark GC",
         "Manage RabbitMQ",
         "Write migrations"
@@ -1887,7 +1887,7 @@
       "prompt": "What is a good reliability principle?",
       "options": [
         "Assume the system will fail and prepare ways to detect and recover from it",
-        "Tin rang production luon on",
+        "Assume production is always fine",
         "Remove logs to keep things short",
         "No tests needed"
       ],

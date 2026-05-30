@@ -5,7 +5,7 @@
       "track": "Quiz",
       "title": "Fresher Java Backend",
       "level": "Từ cơ bản đến cận trung cấp",
-      "description": "Phù hợp để kiểm tra nền tảng Java, OOP, collection, SQL, Spring và web flow.",
+      "description": "Phù hợp để kiểm tra nền tảng Java, OOP, collection, SQL, Spring và luồng web.",
       "suggestedTime": "90-120 phút",
       "drawCount": 100,
       "questionIds": [
@@ -24,7 +24,7 @@
       "bands": [
         { "minScore": 90, "label": "Nền rất vững", "grade": "Giỏi", "description": "Bạn đã có nền khá chắc để bước vào bài phỏng vấn Fresher hoặc Junior với độ tự tin tốt." },
         { "minScore": 75, "label": "Khá ổn", "grade": "Khá", "description": "Bạn nắm được phần lớn nền tảng nhưng vẫn nên vá thêm vài lỗ hổng về data, Spring hoặc collection." },
-        { "minScore": 60, "label": "Đạt mức cơ bản", "grade": "Trung bình", "description": "Bạn có nền nhưng còn rời rạc. Nên quay lại Java Core, SQL và web flow để chắc hơn." },
+        { "minScore": 60, "label": "Đạt mức cơ bản", "grade": "Trung bình", "description": "Bạn có nền nhưng còn rời rạc. Nên quay lại Java Core, SQL và luồng web để chắc hơn." },
         { "minScore": 0, "label": "Cần củng cố lại", "grade": "Yếu", "description": "Bạn nên học lại theo roadmap từ Java Core rồi mới tiến vào phần framework và kiến trúc." }
       ]
     },
@@ -79,7 +79,7 @@
         "q121","q122","q123","q124","q125","q126","q127","q128","q129","q130"
       ],
       "bands": [
-        { "minScore": 90, "label": "Tư duy senior rất tốt", "grade": "Mạnh", "description": "Bạn không chỉ nhớ kiến thức mà còn hiểu rủi ro, integration flow và trade-off của backend thực chiến." },
+        { "minScore": 90, "label": "Tư duy senior rất tốt", "grade": "Mạnh", "description": "Bạn không chỉ nhớ kiến thức mà còn hiểu rủi ro, luồng tích hợp và trade-off của backend thực chiến." },
         { "minScore": 78, "label": "Mức khá nâng cao", "grade": "Khá", "description": "Bạn khá tốt ở phần kỹ thuật, nhưng vẫn nên luyện thêm observability, blast radius và system trade-off." },
         { "minScore": 62, "label": "Có nền nhưng chưa chín", "grade": "Trung bình khá", "description": "Bạn hiểu được nhiều khái niệm nhưng độ sâu thực chiến và kết nối các phần của hệ thống còn chưa đều." },
         { "minScore": 0, "label": "Chưa đủ cho bộ senior", "grade": "Cần học thêm", "description": "Bạn nên quay lại các mảng data, security, messaging và reliability trước khi đánh giá theo mức senior." }
@@ -132,7 +132,7 @@
     { "id": "q040", "topic": "Concurrency", "prompt": "ExecutorService tốt hơn new Thread tràn lan vì sao?", "options": ["Quản lý pool và lifecycle tốt hơn", "Tự sửa bug", "Không cần memory", "Không cần method"], "correctIndex": 0 },
 
     { "id": "q041", "topic": "Concurrency", "prompt": "Immutable object giúp code đa luồng ở điểm nào?", "options": ["Giảm nhu cầu đồng bộ state", "Tăng số thread", "Tạo DB nhanh hơn", "Bắt buộc parallel"], "correctIndex": 0 },
-    { "id": "q042", "topic": "Concurrency", "prompt": "Một dấu hiệu của future hell là gì?", "options": ["Async chain rối khó debug", "Loop bị thiếu break", "SQL thiếu index", "Class không có getter"], "correctIndex": 0 },
+    { "id": "q042", "topic": "Concurrency", "prompt": "Một dấu hiệu của future hell là gì?", "options": ["Chuỗi async rối và khó debug", "Loop bị thiếu break", "SQL thiếu index", "Class không có getter"], "correctIndex": 0 },
     { "id": "q043", "topic": "Performance", "prompt": "Heap dùng để lưu gì chủ yếu?", "options": ["Object cấp phát động", "Call stack từng method", "Tên package", "Bytecode source"], "correctIndex": 0 },
     { "id": "q044", "topic": "Performance", "prompt": "StackOverflowError thường do đâu?", "options": ["Đệ quy không có điểm dừng", "DB quá chậm", "JSON quá lớn", "List không generic"], "correctIndex": 0 },
     { "id": "q045", "topic": "Performance", "prompt": "Memory leak trong Java có thể xảy ra không?", "options": ["Có, nếu object còn bị tham chiếu", "Không bao giờ vì có GC", "Chỉ ở C/C++", "Chỉ khi không dùng Spring"], "correctIndex": 0 },
@@ -160,7 +160,7 @@
     { "id": "q065", "topic": "Spring Web", "prompt": "Repository pattern giúp gì?", "options": ["Gom logic truy cập dữ liệu", "Thay auth", "Tạo message broker", "Bỏ qua migration"], "correctIndex": 0 },
     { "id": "q066", "topic": "Spring Web", "prompt": "DTO nên tách khỏi entity vì sao?", "options": ["Bảo vệ boundary API và giảm coupling persistence", "Để code dài hơn", "Để bỏ validation", "Để không cần controller"], "correctIndex": 0 },
     { "id": "q067", "topic": "Spring Web", "prompt": "Validation request hữu ích ở đâu?", "options": ["Chặn input sai ngay từ cửa vào", "Thay database", "Tự tạo JWT", "Bỏ qua HTTP status"], "correctIndex": 0 },
-    { "id": "q068", "topic": "Spring Web", "prompt": "MockMvc dùng tốt nhất cho gì?", "options": ["Test HTTP behavior của controller", "Benchmark GC", "Quản lý RabbitMQ", "Viết migration"], "correctIndex": 0 },
+    { "id": "q068", "topic": "Spring Web", "prompt": "MockMvc dùng tốt nhất cho gì?", "options": ["Kiểm tra hành vi HTTP của controller", "Benchmark GC", "Quản lý RabbitMQ", "Viết migration"], "correctIndex": 0 },
     { "id": "q069", "topic": "Spring Boot", "prompt": "Auto-configuration là gì?", "options": ["Spring Boot tự cấu hình dựa trên classpath/config", "JVM tự xóa file", "Java tự viết test", "SQL tự thêm index"], "correctIndex": 0 },
     { "id": "q070", "topic": "Spring Web", "prompt": "Một controller đẹp nên có đặc điểm gì?", "options": ["Ngắn, rõ, chủ yếu mapping request và gọi service", "Chứa tất cả business logic", "Viết hết query vào đó", "Không trả response"], "correctIndex": 0 },
 

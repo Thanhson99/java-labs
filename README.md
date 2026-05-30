@@ -25,6 +25,10 @@ The learning portal currently includes:
 java-labs/
 ├── index.html              # Redirects to the portal inside docs
 ├── docs/                   # Static learning portal for GitHub Pages
+│   └── assets/
+│       ├── css/            # Shared styles for the static sites
+│       └── js/             # Shared JavaScript for rendering JSON content
+├── scripts/                # Helper scripts for running modules and checks
 ├── basic/                  # Java core practice
 ├── spring/                 # Spring Boot practice project
 └── notification-service/   # Event consumer service
@@ -80,7 +84,7 @@ Run tests:
 Or from the repository root:
 
 ```bash
-./run.sh basic
+./scripts/run.sh basic
 ```
 
 ### 2. Spring Boot module
@@ -93,14 +97,14 @@ cd spring
 Or from the repository root:
 
 ```bash
-./run.sh spring
+./scripts/run.sh spring
 ```
 
 Example:
 
 ```bash
-./run.sh spring
-JAVA_VERSION=17 PORT=8095 ./run.sh spring
+./scripts/run.sh spring
+JAVA_VERSION=17 PORT=8095 ./scripts/run.sh spring
 ```
 
 The Spring module currently includes:

@@ -570,7 +570,7 @@
       "actions": [
         "Read the `controller -> service -> repository` flow in the `spring/` module",
         "Try adding one small endpoint",
-        "Write a test for the happy path and one error case"
+        "Write a test for the main success path and one error case"
       ],
       "outcomes": [
         "Understand how requests enter the app in practice",

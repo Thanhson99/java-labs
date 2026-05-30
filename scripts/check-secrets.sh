@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cd "$ROOT_DIR"
 
@@ -26,7 +27,7 @@ if git grep -nI -E "$PATTERN" -- \
   ':(exclude)basic/mvnw.cmd' \
   ':(exclude).gitignore' \
   ':(exclude)**/.gitignore' \
-  ':(exclude)check-secrets.sh' \
+  ':(exclude)scripts/check-secrets.sh' \
   ':(exclude)spring/mvnw' \
   ':(exclude)spring/mvnw.cmd' \
   ':(exclude)**/src/test/**'; then

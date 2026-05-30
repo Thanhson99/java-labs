@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 DEFAULT_PORT=8089
 DEFAULT_JAVA_VERSION="${JAVA_VERSION:-17}"
 
@@ -23,13 +24,13 @@ load_env_file() {
 usage() {
   cat <<'EOF'
 Usage:
-  ./run.sh basic
-  ./run.sh spring
-  ./run.sh notification-service
+  ./scripts/run.sh basic
+  ./scripts/run.sh spring
+  ./scripts/run.sh notification-service
 
 Optional:
-  JAVA_VERSION=17 ./run.sh spring
-  PORT=8089 ./run.sh spring
+  JAVA_VERSION=17 ./scripts/run.sh spring
+  PORT=8089 ./scripts/run.sh spring
 EOF
 }
 

@@ -1,17 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Follow a JSON-powered Java backend roadmap from Java Core to Spring Boot, databases, testing, operations, and architecture."
+    />
+    <meta name="theme-color" content="#0F172A" />
+    <link rel="canonical" href="roadmap.html" />
+    <link rel="alternate" hreflang="en" href="roadmap.html?lang=en" />
+    <link rel="alternate" hreflang="vi" href="roadmap.html?lang=vi" />
+    <link rel="alternate" hreflang="x-default" href="roadmap.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Java Backend Roadmap" />
+    <meta
+      property="og:description"
+      content="Follow a JSON-powered Java backend roadmap from Java Core to Spring Boot, databases, testing, operations, and architecture."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Java Backend Roadmap" />
+    <meta
+      name="twitter:description"
+      content="Follow a JSON-powered Java backend roadmap from Java Core to Spring Boot, databases, testing, operations, and architecture."
+    />
     <title>Java Backend Roadmap</title>
-    <link rel="stylesheet" href="assets/styles.css" />
+    <script>
+      (() => {
+        try {
+          const key = "java-labs-theme";
+          const params = new URLSearchParams(window.location.search);
+          const queryLanguage = params.get("lang");
+          const queryTheme = params.get("theme");
+          const storedLanguage = localStorage.getItem("java-labs-language");
+          const storedTheme = localStorage.getItem(key);
+          const language = queryLanguage === "vi" || queryLanguage === "en" ? queryLanguage : storedLanguage || "en";
+          const theme = queryTheme === "dark" || queryTheme === "light" ? queryTheme : storedTheme || "dark";
+          if (language === "vi" || language === "en") {
+            document.documentElement.lang = language;
+          }
+          if (theme === "dark" || theme === "light") {
+            document.documentElement.dataset.theme = theme;
+            const color = document.querySelector('meta[name="theme-color"]');
+            if (color) {
+              color.setAttribute("content", theme === "dark" ? "#0F172A" : "#F89820");
+            }
+          }
+        } catch (_error) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body data-page="roadmap">
     <div class="page-shell">
       <div class="glow glow-left"></div>
       <div class="glow glow-right"></div>
 
-      <nav class="top-nav">
+      <nav class="top-nav" aria-label="Primary navigation">
         <a class="nav-link" href="index.html">Home</a>
         <a class="nav-link" href="interview.html">Interview Prep</a>
         <a class="nav-link" href="interview-levels.html">Interview Levels</a>
@@ -24,9 +71,8 @@
           <p class="eyebrow">Java Labs / Roadmap</p>
           <h1>Java Backend Roadmap</h1>
           <p class="hero-copy">
-            This page helps you see the full picture: where to start, what order to learn in,
-            what should come first, what counts as advanced, and how to connect
-            knowledge into a clear mental tree.
+            See what to learn first, what comes next, and how Java Core, Spring Boot,
+            databases, testing, operations, and architecture connect into one backend path.
           </p>
         </div>
         <aside class="hero-side stats-card">
@@ -42,7 +88,7 @@
             </div>
             <div>
               <dt>Goal</dt>
-              <dd>Core -> Senior</dd>
+              <dd>Core to Senior</dd>
             </div>
           </dl>
         </aside>
@@ -94,7 +140,7 @@
         <section class="panel">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Cây trí tuệ</p>
+              <p class="eyebrow">Cây tri thức</p>
               <h2>Knowledge Tree</h2>
             </div>
           </div>
@@ -135,7 +181,7 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Thực chiến</p>
-              <h2>Học phần nào thì làm phần nào</h2>
+              <h2>Học phần nào thì làm phần đó</h2>
             </div>
           </div>
           <div id="practiceMatrix" class="practice-matrix"></div>
@@ -163,6 +209,19 @@
       </main>
     </div>
 
-    <script src="assets/app.js"></script>
+    <noscript>
+      <p class="noscript-message">JavaScript is required to load roadmap data.</p>
+    </noscript>
+    <script src="assets/js/app/00-config.js"></script>
+    <script src="assets/js/app/10-bootstrap.js"></script>
+    <script src="assets/js/app/20-home.js"></script>
+    <script src="assets/js/app/30-core.js"></script>
+    <script src="assets/js/app/40-content-normalization.js"></script>
+    <script src="assets/js/app/50-interview.js"></script>
+    <script src="assets/js/app/55-interview-levels.js"></script>
+    <script src="assets/js/app/60-roadmap.js"></script>
+    <script src="assets/js/app/70-quiz.js"></script>
+    <script src="assets/js/app/80-question-components.js"></script>
   </body>
 </html>
+
