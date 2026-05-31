@@ -10,6 +10,9 @@ import java.util.List;
  */
 public final class FileReport {
 
+    /**
+     * Utility class; instances are not needed because all file helpers are static.
+     */
     private FileReport() {
     }
 
@@ -18,9 +21,13 @@ public final class FileReport {
      *
      * @param path the file path to read
      * @return non-blank lines in original order
+     * @throws IllegalArgumentException when {@code path} is {@code null}
      * @throws IOException when the file cannot be read
      */
     public static List<String> readNonBlankLines(Path path) throws IOException {
+        if (path == null) {
+            throw new IllegalArgumentException("path must not be null");
+        }
         return Files.readAllLines(path).stream()
                 .map(String::trim)
                 .filter(line -> !line.isEmpty())
@@ -32,9 +39,13 @@ public final class FileReport {
      *
      * @param path the file path to inspect
      * @return a summary containing the line count and file size
+     * @throws IllegalArgumentException when {@code path} is {@code null}
      * @throws IOException when the file cannot be read
      */
     public static String summarize(Path path) throws IOException {
+        if (path == null) {
+            throw new IllegalArgumentException("path must not be null");
+        }
         List<String> lines = Files.readAllLines(path);
         long size = Files.size(path);
         return "File '%s' has %d lines and %d bytes."

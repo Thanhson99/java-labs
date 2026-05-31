@@ -8,6 +8,11 @@ package com.example.javalabs.basic;
  */
 public record JdbcUserRecord(String userId, String email) {
 
+    /**
+     * Validates the generated record constructor.
+     *
+     * @throws IllegalArgumentException when user id or email is blank
+     */
     public JdbcUserRecord {
         if (userId == null || userId.isBlank()) {
             throw new IllegalArgumentException("userId must not be blank");

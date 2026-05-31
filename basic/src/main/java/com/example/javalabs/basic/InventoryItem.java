@@ -9,6 +9,11 @@ package com.example.javalabs.basic;
  */
 public record InventoryItem(String name, int quantity, String category) {
 
+    /**
+     * Validates the generated record constructor.
+     *
+     * @throws IllegalArgumentException when name/category is blank or quantity is negative
+     */
     public InventoryItem {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("name must not be blank");

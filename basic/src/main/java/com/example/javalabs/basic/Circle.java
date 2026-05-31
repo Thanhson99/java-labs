@@ -7,17 +7,28 @@ package com.example.javalabs.basic;
  */
 public record Circle(double radius) implements Shape {
 
+    /**
+     * Validates the generated record constructor.
+     *
+     * @throws IllegalArgumentException when {@code radius} is zero or negative
+     */
     public Circle {
         if (radius <= 0) {
             throw new IllegalArgumentException("radius must be positive");
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double area() {
         return Math.PI * radius * radius;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String describe() {
         return "Circle(radius=%s)".formatted(radius);

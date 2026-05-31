@@ -8,6 +8,9 @@ import java.util.List;
  */
 public final class StringToolkit {
 
+    /**
+     * Utility class; instances are not needed because every helper is static.
+     */
     private StringToolkit() {
     }
 
@@ -16,6 +19,7 @@ public final class StringToolkit {
      *
      * @param sentence a sentence split by whitespace
      * @return a new string with reversed word order
+     * @throws IllegalArgumentException when {@code sentence} is blank
      */
     public static String reverseWords(String sentence) {
         requireText(sentence, "sentence");
@@ -33,6 +37,7 @@ public final class StringToolkit {
      *
      * @param text the input text
      * @return the number of vowels in the text
+     * @throws IllegalArgumentException when {@code text} is blank
      */
     public static long countVowels(String text) {
         requireText(text, "text");
@@ -51,6 +56,7 @@ public final class StringToolkit {
      *
      * @param text the candidate text
      * @return {@code true} when the normalized text is a palindrome
+     * @throws IllegalArgumentException when {@code text} is blank
      */
     public static boolean isPalindrome(String text) {
         requireText(text, "text");
@@ -68,6 +74,13 @@ public final class StringToolkit {
         return true;
     }
 
+    /**
+     * Validates shared text preconditions for the string examples.
+     *
+     * @param text input text to validate
+     * @param name parameter name used in exception messages
+     * @throws IllegalArgumentException when {@code text} is {@code null}, empty, or whitespace only
+     */
     private static void requireText(String text, String name) {
         if (text == null || text.isBlank()) {
             throw new IllegalArgumentException(name + " must not be blank");

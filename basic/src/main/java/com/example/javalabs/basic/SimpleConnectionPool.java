@@ -23,6 +23,8 @@ public final class SimpleConnectionPool<T> {
      *
      * @param maxSize maximum number of connections that may exist at once
      * @param connectionFactory factory that creates a connection for a new numeric identifier
+     * @throws IllegalArgumentException when {@code maxSize} is not positive
+     * @throws NullPointerException when {@code connectionFactory} is {@code null}
      */
     public SimpleConnectionPool(int maxSize, IntFunction<T> connectionFactory) {
         if (maxSize <= 0) {
@@ -36,10 +38,12 @@ public final class SimpleConnectionPool<T> {
      * Borrows a connection from the pool.
      *
      * @return a pooled handle that must be closed when work is complete
+     * @throws IllegalStateException when all created connections are currently leased
      */
     public PooledConnection<T> borrow() {
         T connection;
         if (!availableConnections.isEmpty()) {
+            // Reuse an idle connection before creating a new one.
             connection = availableConnections.removeFirst();
         } else if (createdCount < maxSize) {
             createdCount++;
@@ -52,18 +56,32 @@ public final class SimpleConnectionPool<T> {
         return new PooledConnection<>(connection, this);
     }
 
+    /**
+     * @return number of connections ever created by the pool
+     */
     int createdCount() {
         return createdCount;
     }
 
+    /**
+     * @return number of currently leased connections
+     */
     int leasedCount() {
         return leasedCount;
     }
 
+    /**
+     * @return number of idle connections ready for reuse
+     */
     int availableCount() {
         return availableConnections.size();
     }
 
+    /**
+     * Returns a connection to the idle queue.
+     *
+     * @param connection connection being released
+     */
     private void release(T connection) {
         leasedCount--;
         availableConnections.addLast(connection);
@@ -79,15 +97,27 @@ public final class SimpleConnectionPool<T> {
         private final SimpleConnectionPool<T> owner;
         private boolean closed;
 
+        /**
+         * Creates a pooled connection handle.
+         *
+         * @param value underlying connection value
+         * @param owner pool that owns the connection
+         */
         private PooledConnection(T value, SimpleConnectionPool<T> owner) {
             this.value = value;
             this.owner = owner;
         }
 
+        /**
+         * @return underlying connection value
+         */
         public T value() {
             return value;
         }
 
+        /**
+         * Returns the connection to the pool once.
+         */
         @Override
         public void close() {
             if (!closed) {

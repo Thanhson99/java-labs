@@ -9,6 +9,11 @@ package com.example.javalabs.basic;
  */
 public record UserProfile(String userId, String email, Region region) {
 
+    /**
+     * Validates the generated record constructor.
+     *
+     * @throws IllegalArgumentException when user id, email, or region is invalid
+     */
     public UserProfile {
         if (userId == null || userId.isBlank()) {
             throw new IllegalArgumentException("userId must not be blank");

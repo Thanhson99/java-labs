@@ -5,6 +5,9 @@ package com.example.javalabs.basic;
  */
 public final class ControlFlowExamples {
 
+    /**
+     * Utility class; instances are not needed because every example method is static.
+     */
     private ControlFlowExamples() {
     }
 
@@ -29,6 +32,7 @@ public final class ControlFlowExamples {
      *
      * @param limit the upper bound, which must not be negative
      * @return the sum of all even numbers within the range
+     * @throws IllegalArgumentException when {@code limit} is negative
      */
     public static int sumEvenNumbers(int limit) {
         if (limit < 0) {
@@ -52,6 +56,7 @@ public final class ControlFlowExamples {
      *
      * @param number a number from 0 upward
      * @return the factorial of the input
+     * @throws IllegalArgumentException when {@code number} is negative
      */
     public static long factorial(int number) {
         if (number < 0) {

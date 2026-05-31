@@ -17,6 +17,9 @@ import java.util.List;
  */
 public final class JdbcExamples {
 
+    /**
+     * Utility class; instances are not needed because the JDBC examples are static.
+     */
     private JdbcExamples() {
     }
 
@@ -38,9 +41,13 @@ public final class JdbcExamples {
      * Creates the demo table when it does not exist yet.
      *
      * @param connection the open JDBC connection
+     * @throws IllegalArgumentException when {@code connection} is {@code null}
      * @throws SQLException when SQL execution fails
      */
     public static void createUserTable(Connection connection) throws SQLException {
+        if (connection == null) {
+            throw new IllegalArgumentException("connection must not be null");
+        }
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("""
                     create table if not exists jdbc_users (
@@ -56,9 +63,16 @@ public final class JdbcExamples {
      *
      * @param connection open JDBC connection
      * @param userRecord record to persist
+     * @throws IllegalArgumentException when arguments are {@code null}
      * @throws SQLException when insertion fails
      */
     public static void insertUser(Connection connection, JdbcUserRecord userRecord) throws SQLException {
+        if (connection == null) {
+            throw new IllegalArgumentException("connection must not be null");
+        }
+        if (userRecord == null) {
+            throw new IllegalArgumentException("userRecord must not be null");
+        }
         try (PreparedStatement statement = connection.prepareStatement(
                 "insert into jdbc_users(user_id, email) values (?, ?)")) {
             statement.setString(1, userRecord.userId());
@@ -72,9 +86,13 @@ public final class JdbcExamples {
      *
      * @param connection open JDBC connection
      * @return mapped user records
+     * @throws IllegalArgumentException when {@code connection} is {@code null}
      * @throws SQLException when the query fails
      */
     public static List<JdbcUserRecord> findAllUsers(Connection connection) throws SQLException {
+        if (connection == null) {
+            throw new IllegalArgumentException("connection must not be null");
+        }
         List<JdbcUserRecord> users = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(
                 "select user_id, email from jdbc_users order by user_id");
@@ -94,6 +112,7 @@ public final class JdbcExamples {
      *
      * @param connection open JDBC connection
      * @return a human-readable summary
+     * @throws IllegalArgumentException when {@code connection} is {@code null}
      * @throws SQLException when the query fails
      */
     public static String summarizeUsers(Connection connection) throws SQLException {

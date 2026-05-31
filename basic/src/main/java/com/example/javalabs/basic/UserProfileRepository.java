@@ -11,6 +11,7 @@ public interface UserProfileRepository {
      * Persists or replaces a user profile.
      *
      * @param userProfile the profile to save
+     * @throws IllegalArgumentException when {@code userProfile} is {@code null}
      */
     void save(UserProfile userProfile);
 
@@ -19,6 +20,7 @@ public interface UserProfileRepository {
      *
      * @param userId the user identifier
      * @return the profile when present
+     * @throws IllegalArgumentException when {@code userId} is blank
      */
     Optional<UserProfile> findById(String userId);
 }

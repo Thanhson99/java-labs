@@ -22,6 +22,7 @@ public final class FixedWindowRateLimiter {
      * @param maxRequestsPerWindow maximum number of requests allowed in one window
      * @param windowSizeMillis the window size in milliseconds
      * @param timeSource clock abstraction used for timing decisions
+     * @throws IllegalArgumentException when limits are not positive or {@code timeSource} is {@code null}
      */
     public FixedWindowRateLimiter(int maxRequestsPerWindow, long windowSizeMillis, TimeSource timeSource) {
         if (maxRequestsPerWindow <= 0) {
@@ -52,6 +53,7 @@ public final class FixedWindowRateLimiter {
         long now = timeSource.currentTimeMillis();
         WindowState state = states.computeIfAbsent(key, unused -> new WindowState(now, 0));
         if (now - state.windowStartMillis >= windowSizeMillis) {
+            // A new fixed window starts at the first request after the previous window expires.
             state.windowStartMillis = now;
             state.requestCount = 0;
         }
@@ -69,8 +71,12 @@ public final class FixedWindowRateLimiter {
      *
      * @param key the client key
      * @return remaining number of requests that can still be accepted
+     * @throws IllegalArgumentException when {@code key} is blank
      */
     public int remainingRequests(String key) {
+        if (key == null || key.isBlank()) {
+            throw new IllegalArgumentException("key must not be blank");
+        }
         WindowState state = states.get(key);
         if (state == null) {
             return maxRequestsPerWindow;
@@ -83,10 +89,19 @@ public final class FixedWindowRateLimiter {
         return Math.max(0, maxRequestsPerWindow - state.requestCount);
     }
 
+    /**
+     * Mutable counter state for one caller inside a fixed time window.
+     */
     private static final class WindowState {
         private long windowStartMillis;
         private int requestCount;
 
+        /**
+         * Creates a window counter.
+         *
+         * @param windowStartMillis timestamp when the current window started
+         * @param requestCount number of requests consumed in the current window
+         */
         private WindowState(long windowStartMillis, int requestCount) {
             this.windowStartMillis = windowStartMillis;
             this.requestCount = requestCount;

@@ -11,6 +11,16 @@ package com.example.javalabs.basic;
 public record Pair<L, R>(L left, R right) {
 
     /**
+     * Creates an immutable two-value container.
+     *
+     * <p>The values are allowed to be {@code null} because a generic pair should not assume domain
+     * validation rules. Domain objects should validate nullability before creating the pair if they
+     * require non-null values.</p>
+     */
+    public Pair {
+    }
+
+    /**
      * Factory method used when type inference makes code easier to read.
      *
      * @param left the left value
